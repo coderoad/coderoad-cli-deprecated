@@ -26,3 +26,12 @@ Continued explanation here.
 Page two description
 
 This should become an explanation on page two
+
+`<div>Some Code here</div>`
+
+```html
+<ul>
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>
+```
