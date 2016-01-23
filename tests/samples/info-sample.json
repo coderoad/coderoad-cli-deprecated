@@ -1,0 +1,15 @@
+{
+  "title": "Project Info",
+  "description": "Project info description",
+  "chapters": [{
+    "title": "Chapter One",
+    "description": "Chapter one description",
+    "pages": [{
+      "title": "Page One",
+      "description": "Page one description"
+    }, {
+      "title": "Page Two",
+      "description": "Page two description"
+    }]
+  }]
+}

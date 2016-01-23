@@ -1,0 +1,18 @@
+{
+  "name": "coderoad-builder",
+  "version": "1.0.0",
+  "description": "creates tutorial project files for the coderoad-viewer",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "mocha": "^2.3.4"
+  }
+}
