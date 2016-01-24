@@ -1,7 +1,7 @@
 // JSON.stringify
 
 function line(char, times) {
-  return new RegExp("^" + char + "{" + times + "}(.*?)$","g");
+  return new RegExp("^" + char + "{" + times + "}(?!#)(.*?)$","g");
 }
 
 var regex = {
@@ -10,7 +10,9 @@ var regex = {
   '###': line('#', 3)
 };
 
-
+function parseWithCode(code, content) {
+  return regex[code].exec(content)[1];
+}
 
 // #
 
