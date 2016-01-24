@@ -1,4 +1,5 @@
-var fs = require('fs');
+import * as fs from 'fs';
+const filePath = './src/README.md';
 // JSON.stringify
 
 function line(char: string, times: number) {
@@ -13,16 +14,15 @@ var regex = {
 };
 
 function parseWithCode(code: string, content: string) {
-  return regex[code].exec(content)[1];
-}
-
-fs.readFile('./src/README.md', 'utf8', function(err, data) {
-  if (err) {
-    console.log(err);
+  if (!content) {
+    return false;
   }
-  console.log(data);
-  // resolve(data.split('\n'));
-});
+  if (content.match(regex[code])) {
+    return regex[code].exec(content)[1];
+  } else {
+    return false;
+  }
+}
 
 function build() {
   var result = {
@@ -30,20 +30,40 @@ function build() {
     chapters: []
   };
 
-  // load data from file into array
+  var lines = fs.readFileSync(filePath, 'utf8');
+  var arrayOfLines = lines.split('\n');
+  var chapterCount = 0;
+  var pageCount = 0;
+
+  for (var i = 0; i < arrayOfLines.length; i++) {
+    var projectTitleMatch = parseWithCode('#', arrayOfLines[i])
+    if (projectTitleMatch) {
+      // project.title
+      result.project.title = projectTitleMatch;
+      result.project.description = '';
+      for (var j = i + 1; j < arrayOfLines.length; j++) {
+        var chapterTitleMatch = parseWithCode('##', arrayOfLines[j]);
+        if (!chapterTitleMatch) {
+          // project.description
+          result.project.description.concat(arrayOfLines[j]);
+        } else {
+          result.chapters.push({
+            title: chapterTitleMatch
+          });
+          
+        }
+      }
+    }
+  }
 
 
-  // data.forEach(function(line) {
-  //   console.log(line);
-  // })
-
-  // result.project.title = parseWithCode('#', content);
+  //  = parseWithCode('#', content);
   // result.project.description = '';
 
   return result;
 }
 
-build();
+console.log(build());
 
 // #
 
