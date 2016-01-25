@@ -1,6 +1,5 @@
 "use strict";
 var fs = require('fs');
-const filePath = './src/README.md';
 function line(char, times) {
     return new RegExp('^' + char + '{' + times + '}(?!#)(.*?)$', 'gm');
 }
@@ -35,8 +34,8 @@ function build(filePath) {
     return project(result, lines, index);
 }
 function project(result, lines, index) {
-    var matchedAt = null;
-    for (var i = 0; i < lines.length; i++) {
+    let matchedAt = null;
+    for (let i = 0; i < lines.length; i++) {
         var projectTitleMatch = parseWithCode('#', lines[i]);
         var chapterStart = parseWithCode('##', lines[i]);
         if (projectTitleMatch) {
@@ -45,18 +44,19 @@ function project(result, lines, index) {
         }
         else if (chapterStart) {
             result.project.description = lines.slice(matchedAt + 1, i).toString();
-            chapter(result, lines.slice(i), index);
+            return chapter(result, lines.slice(i), index);
         }
     }
     return result;
 }
 function chapter(result, lines, index) {
     var matchedAt = null;
-    for (var i = 0; i < lines.length; i++) {
-        var chapterTitleMatch = parseWithCode('##', lines[i]);
-        var pageStart = parseWithCode('###', lines[i]);
+    for (let i = 0; i < lines.length; i++) {
+        let chapterTitleMatch = parseWithCode('##', lines[i]);
+        let pageStart = parseWithCode('###', lines[i]);
         if (chapterTitleMatch && !matchedAt) {
             matchedAt = i;
+            index.page = 0;
             index.chapter += 1;
             result.chapters.push({
                 title: chapterTitleMatch,
@@ -76,30 +76,36 @@ function chapter(result, lines, index) {
     return result;
 }
 function page(result, lines, index) {
-    var matchedAt = null;
-    var firstBreak = null;
-    for (var i = 0; i < lines.length; i++) {
-        var pageTitleMatch = parseWithCode('###', lines[i]);
-        var nextChapterStart = parseWithCode('##', lines[i]);
+    let matchedAt = null;
+    let hasBreak = null;
+    for (let i = 0; i < lines.length; i++) {
+        let pageTitleMatch = parseWithCode('###', lines[i]);
+        let nextChapterStart = parseWithCode('##', lines[i]);
         if (pageTitleMatch && !matchedAt) {
             matchedAt = i;
-            index.page += 1;
             result.chapters[index.chapter].pages.push({
                 title: pageTitleMatch,
                 description: '',
-                explanation: ''
+                explanation: '',
+                tasks: []
             });
+            index.page += 1;
         }
-        else if (!firstBreak && lines[i].match(/\s*/)) {
-            firstBreak = i;
+        else if (!hasBreak && !lines[i].match(/\S/)) {
+            hasBreak = i;
         }
-        else if (nextChapterStart || pageTitleMatch) {
-            if (firstBreak) {
-                result.chapters[index.chapter].pages[index.page].description = lines.slice(matchedAt + 1, firstBreak).toString();
-                result.chapters[index.chapter].pages[index.page].explanation = lines.slice(firstBreak + 1, i).toString();
+        else if (pageTitleMatch || nextChapterStart) {
+            if (hasBreak) {
+                console.log('HERE!!!', hasBreak);
+                console.log(lines.slice(matchedAt, hasBreak).toString());
+                console.log(lines.slice(hasBreak, i).toString());
+                result.chapters[index.chapter].pages[index.page - 1].description = lines.slice(matchedAt + 1, hasBreak).toString();
+                result.chapters[index.chapter].pages[index.page - 1].explanation = lines.slice(hasBreak + 1, i).toString();
             }
             else {
-                result.chapters[index.chapter].pages[index.page].description = lines.slice(matchedAt + 1, i).toString();
+                console.log('DOWN HERE');
+                console.log(lines.slice(matchedAt + 1, i).toString());
+                result.chapters[index.chapter].pages[index.page - 1].description = lines.slice(matchedAt + 1, i).toString();
             }
             if (nextChapterStart) {
                 return chapter(result, lines.slice(i), index);
@@ -110,11 +116,11 @@ function page(result, lines, index) {
         }
     }
     console.log('*** Pages ***');
-    console.log(result.chapters[0].pages);
+    console.log(result.chapters[0].pages[0]);
     console.log('** Result ***');
     return result;
 }
 function task(result, lines, index) {
     return result;
 }
-console.log(build(filePath));
+console.log(build('./src/README.md'));

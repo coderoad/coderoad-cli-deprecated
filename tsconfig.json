@@ -9,7 +9,8 @@
     "src/**/*.ts"
   ],
   "files": [
-    "src/build.ts"
+    "src/build.ts",
+    "src/typings.d.ts"
   ],
   "exclude": [
     "node_modules"
