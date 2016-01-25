@@ -5,8 +5,13 @@ interface Index {
 }
 
 interface Result {
-  project: Object;
+  project: Project;
   chapters: Chapter[];
+}
+
+interface Project {
+  title: string;
+  description: string;
 }
 
 interface Chapter {
