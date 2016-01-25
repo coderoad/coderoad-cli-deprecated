@@ -157,7 +157,6 @@ function page(result: Result, lines: string[], index: Index) {
   }
 }
 
-
 // task
 // continue from matches(+)
 // matches(@) = capture action
@@ -180,18 +179,10 @@ function task(result: Result, lines: string[], index: Index) {
     let nextPage = parseWithCode('###', lines[i]);
     let nextChapter = parseWithCode('##', lines[i]);
     let nextTask = parseWithCode('+', lines[i]);
-    let isPossibleAction = lines[i].match(/^@/);
+    let isPossibleAction = lines[i].match(/^@action|test/);
 
-    if (!!nextPage || !!nextChapter || !!nextTask) {
-      result.chapters[index.chapter].pages[index.page].tasks[index.task].description = lines.slice(1, i).toString();
-    }
-    if (!!nextTask) {
-      return task(result, lines.slice(i), index);
-    } else if (!!nextPage) {
-      return page(result, lines.slice(i), index);
-    } else if (!!nextChapter) {
-      return chapter(result, lines.slice(i), index);
-    } else if (!!isPossibleAction) {
+    // add actions
+    if (!!isPossibleAction) {
       let action = lines[i].slice(1).split('(')[0];
       let target = /\((.*?)\)$/.exec(lines[i])[1];
       switch (action) {
@@ -204,12 +195,24 @@ function task(result: Result, lines: string[], index: Index) {
         default:
           console.log('Invalid task action');
       }
+    } else if (!!nextTask) {
+      return task(result, lines.slice(i), index);
+      // exit on page
+    } else if (!!nextPage) {
+      return page(result, lines.slice(i), index);
+      // exit on chapter
+    } else if (!!nextChapter) {
+      return chapter(result, lines.slice(i), index);
+      // test, action
+    } else {
+      result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i];
     }
   }
   return result;
 }
 
-// path to .md file
+// RUN
+// argv[2] = path to .md file
 if (process.argv[2]) {
   fs.writeFile('cr.json', JSON.stringify(build(process.argv[2])), 'utf8', function(err) {
     if (err)

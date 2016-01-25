@@ -129,20 +129,8 @@ function task(result, lines, index) {
         let nextPage = parseWithCode('###', lines[i]);
         let nextChapter = parseWithCode('##', lines[i]);
         let nextTask = parseWithCode('+', lines[i]);
-        let isPossibleAction = lines[i].match(/^@/);
-        if (!!nextPage || !!nextChapter || !!nextTask) {
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].description = lines.slice(1, i).toString();
-        }
-        if (!!nextTask) {
-            return task(result, lines.slice(i), index);
-        }
-        else if (!!nextPage) {
-            return page(result, lines.slice(i), index);
-        }
-        else if (!!nextChapter) {
-            return chapter(result, lines.slice(i), index);
-        }
-        else if (!!isPossibleAction) {
+        let isPossibleAction = lines[i].match(/^@action|test/);
+        if (!!isPossibleAction) {
             let action = lines[i].slice(1).split('(')[0];
             let target = /\((.*?)\)$/.exec(lines[i])[1];
             switch (action) {
@@ -155,6 +143,18 @@ function task(result, lines, index) {
                 default:
                     console.log('Invalid task action');
             }
+        }
+        else if (!!nextTask) {
+            return task(result, lines.slice(i), index);
+        }
+        else if (!!nextPage) {
+            return page(result, lines.slice(i), index);
+        }
+        else if (!!nextChapter) {
+            return chapter(result, lines.slice(i), index);
+        }
+        else {
+            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i];
         }
     }
     return result;
