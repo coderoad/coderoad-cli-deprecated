@@ -31,7 +31,10 @@ function parseWithCode(code: string, content: string) {
 
 function build(filePath: string) {
   var result = {
-    project: {},
+    project: {
+      title: '',
+      description: ''
+    },
     chapters: []
   },
     index = {
@@ -95,12 +98,13 @@ function chapter(result: Result, lines: string[], index: Index): Result {
       });
       // next page
     } else if (pageStart) {
-      result.chapters[index.chapter].description = lines.slice(matchedAt + 1, i).toString();
       return page(result, lines.slice(i), index);
       // next chapter
     } else if (chapterTitleMatch) {
-      result.chapters[index.chapter].description = lines.slice(matchedAt + 1, i).toString();
       return chapter(result, lines.slice(i), index);
+      // add to description
+    } else {
+      result.chapters[index.chapter].description += lines[i];
     }
   }
   return result;
@@ -134,27 +138,23 @@ function page(result: Result, lines: string[], index: Index) {
     if (!hasBreak && isEmpty(lines[i])) {
       hasBreak = i;
       // 3. exit on page title match again or next chapter
-    } else if (!!pageTitleMatch || !!nextChapter || !!nextTask) {
-
-      // add to result
-      if (hasBreak) {
-        result.chapters[index.chapter].pages[index.page].description = lines.slice(1, hasBreak).toString();
-        result.chapters[index.chapter].pages[index.page].explanation = lines.slice(hasBreak + 1, i).toString();
+    } else if (!!nextChapter) {
+      return chapter(result, lines.slice(i), index);
+      // next page
+    } else if (!!pageTitleMatch) {
+      return page(result, lines.slice(i), index);
+    } else if (!!nextTask) {
+      return task(result, lines.slice(i), index);
+    } else {
+      // description || explanation
+      if (!hasBreak) {
+        result.chapters[index.chapter].pages[index.page].description += lines[i];
       } else {
-        result.chapters[index.chapter].pages[index.page].description = lines.slice(1, i).toString();
+        result.chapters[index.chapter].pages[index.page].explanation += lines[i];
       }
-      // next chapter
-      if (!!nextChapter) {
-        return chapter(result, lines.slice(i), index);
-        // next page
-      } else if (!!pageTitleMatch) {
-        return page(result, lines.slice(i), index);
-      } else if (!!nextTask) {
-        return task(result, lines.slice(i), index);
-      }
-      return result;
     }
   }
+  return result;
 }
 
 // task
@@ -203,7 +203,7 @@ function task(result: Result, lines: string[], index: Index) {
       // exit on chapter
     } else if (!!nextChapter) {
       return chapter(result, lines.slice(i), index);
-      // test, action
+      // task description +
     } else {
       result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i];
     }
