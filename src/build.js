@@ -159,4 +159,13 @@ function task(result, lines, index) {
     }
     return result;
 }
-console.log(build('./src/README.md').chapters[0].pages[1]);
+if (process.argv[2]) {
+    fs.writeFile('cr.json', JSON.stringify(build(process.argv[2])), 'utf8', function (err) {
+        if (err)
+            return console.log(err);
+        console.log(process.argv[2] + ' > cr.json');
+    });
+}
+else {
+    console.log('Pass in path to .md file');
+}
