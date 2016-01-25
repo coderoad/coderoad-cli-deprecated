@@ -64,8 +64,9 @@ function project(result: Result, lines: string[], index: Index) {
       matchedAt = i;
       result.project.title = projectTitleMatch.trim();
     } else if (chapterStart) {
-      result.project.description = lines.slice(matchedAt + 1, i).toString();
       return chapter(result, lines.slice(i), index);
+    } else {
+      result.project.description += lines[i];
     }
   }
   return result;
