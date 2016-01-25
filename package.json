@@ -1,14 +1,14 @@
 {
   "name": "coderoad-builder",
-  "version": "1.0.0",
-  "description": "creates tutorial project files for the coderoad-viewer",
-  "main": "index.js",
+  "version": "0.1.0",
+  "description": "Generates tutorial project files for the coderoad-viewer",
+  "main": "build.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/build.js src/README.md"
+    "start": "node src/build.js src/README.md dist/cr.json"
   },
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
   "license": "ISC",

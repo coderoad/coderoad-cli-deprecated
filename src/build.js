@@ -162,13 +162,31 @@ function task(result, lines, index) {
     }
     return result;
 }
-if (process.argv[2]) {
-    fs.writeFile('cr.json', JSON.stringify(build(process.argv[2])), 'utf8', function (err) {
-        if (err)
-            return console.log(err);
-        console.log(process.argv[2] + ' > cr.json');
-    });
+function isValidJSON(text) {
+    if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
+        replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
+        replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+        return true;
+    }
+    else {
+        return false;
+    }
 }
-else {
-    console.log('Pass in path to .md file');
+var input = process.argv[2];
+if (!input) {
+    throw ('Pass in path to .md file');
 }
+var output = process.argv[3];
+if (!output) {
+    throw ('Pass in path to output cr.json file');
+}
+var result = JSON.stringify(build(input));
+if (!isValidJSON(result)) {
+    throw ('Invalid JSON output');
+}
+fs.writeFile(output, result), 'utf8', function (err) {
+    if (err)
+        return console.log(err);
+    console.log(input + ' > ' + output);
+};
+;
