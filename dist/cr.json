@@ -10,14 +10,14 @@
       "pages": [
         {
           "title": "Page one",
-          "description": "page one descriptionWith another line",
-          "explanation": "page one explanationAnd more explanation",
+          "description": "page one description\nWith another line",
+          "explanation": "page one explanation\nAnd more explanation",
           "tasks": []
         },
         {
           "title": "Page two",
           "description": "page two description",
-          "explanation": "page two explanation",
+          "explanation": "page two explanation\n\n```\nvar a = 'something';\n```",
           "tasks": [
             {
               "title": " Task One",

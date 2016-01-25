@@ -16,6 +16,10 @@ page two description
 
 page two explanation
 
+```
+var a = 'something';
+```
+
 + Task One
 task one description
 

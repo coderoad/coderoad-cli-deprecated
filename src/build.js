@@ -53,7 +53,7 @@ function project(result, lines, index) {
             return chapter(result, lines.slice(i), index);
         }
         else {
-            result.project.description += lines[i];
+            result.project.description += lines[i] + '\n';
         }
     }
     return result;
@@ -80,7 +80,7 @@ function chapter(result, lines, index) {
             return chapter(result, lines.slice(i), index);
         }
         else {
-            result.chapters[index.chapter].description += lines[i];
+            result.chapters[index.chapter].description += lines[i] + '\n';
         }
     }
     return result;
@@ -113,10 +113,10 @@ function page(result, lines, index) {
         }
         else {
             if (!hasBreak) {
-                result.chapters[index.chapter].pages[index.page].description += lines[i];
+                result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
             }
             else {
-                result.chapters[index.chapter].pages[index.page].explanation += lines[i];
+                result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
             }
         }
     }
@@ -159,10 +159,35 @@ function task(result, lines, index) {
             return chapter(result, lines.slice(i), index);
         }
         else {
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i];
+            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i] + '\n';
         }
     }
     return result;
+}
+function removeLineBreaks(text) {
+    if (text.slice(-2) === '\n') {
+        return removeLineBreaks(text.slice(0, -2));
+    }
+    else if (text.slice(0, 2) === '\n') {
+        return removeLineBreaks(text.slice(2));
+    }
+    else {
+        return text.trim();
+    }
+}
+function cleanup(result) {
+    result.project.description = removeLineBreaks(result.project.description);
+    result.chapters.map((chapter) => {
+        chapter.description = removeLineBreaks(chapter.description);
+        chapter.pages.map((page) => {
+            page.description = removeLineBreaks(page.description);
+            page.explanation = removeLineBreaks(page.explanation);
+            page.tasks.map((task) => {
+                task.description = removeLineBreaks(task.description);
+            });
+        });
+    });
+    return JSON.stringify(result, null, 2);
 }
 function isValidJSON(text) {
     if (/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
@@ -182,7 +207,7 @@ var output = process.argv[3];
 if (!output) {
     throw ('Pass in path to output cr.json file');
 }
-var result = JSON.stringify(build(input), null, 2);
+var result = cleanup(build(input));
 if (!isValidJSON(result)) {
     throw ('Invalid JSON output');
 }

@@ -66,7 +66,7 @@ function project(result: Result, lines: string[], index: Index) {
     } else if (chapterStart) {
       return chapter(result, lines.slice(i), index);
     } else {
-      result.project.description += lines[i];
+      result.project.description += lines[i] + '\n';
     }
   }
   return result;
@@ -105,7 +105,7 @@ function chapter(result: Result, lines: string[], index: Index): Result {
       return chapter(result, lines.slice(i), index);
       // add to description
     } else {
-      result.chapters[index.chapter].description += lines[i];
+      result.chapters[index.chapter].description += lines[i] + '\n';
     }
   }
   return result;
@@ -149,9 +149,9 @@ function page(result: Result, lines: string[], index: Index) {
     } else {
       // description || explanation
       if (!hasBreak) {
-        result.chapters[index.chapter].pages[index.page].description += lines[i];
+        result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
       } else {
-        result.chapters[index.chapter].pages[index.page].explanation += lines[i];
+        result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
       }
     }
   }
@@ -206,10 +206,35 @@ function task(result: Result, lines: string[], index: Index) {
       return chapter(result, lines.slice(i), index);
       // task description +
     } else {
-      result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i];
+      result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i] + '\n';
     }
   }
   return result;
+}
+
+function removeLineBreaks(text: string) {
+  if (text.slice(-2) === '\n') {
+    return removeLineBreaks(text.slice(0, -2));
+  } else if (text.slice(0, 2) === '\n') {
+    return removeLineBreaks(text.slice(2));
+  } else {
+    return text.trim();
+  }
+}
+
+function cleanup(result) {
+  result.project.description = removeLineBreaks(result.project.description);
+  result.chapters.map((chapter) => {
+    chapter.description = removeLineBreaks(chapter.description);
+    chapter.pages.map((page) => {
+      page.description = removeLineBreaks(page.description);
+      page.explanation = removeLineBreaks(page.explanation);
+      page.tasks.map((task) => {
+        task.description = removeLineBreaks(task.description);
+      });
+    });
+  });
+  return JSON.stringify(result, null, 2);
 }
 
 function isValidJSON(text: string) {
@@ -232,7 +257,7 @@ if (!output) {
 }
 
 // Build
-var result = JSON.stringify(build(input), null, 2);
+var result = cleanup(build(input));
 if (!isValidJSON(result)) {
   throw ('Invalid JSON output');
 }
