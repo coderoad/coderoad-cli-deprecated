@@ -134,7 +134,7 @@ function page(result: Result, lines: string[], index: Index) {
     if (!hasBreak && isEmpty(lines[i])) {
       hasBreak = i;
       // 3. exit on page title match again or next chapter
-    } else if (pageTitleMatch || nextChapter) {
+    } else if (!!pageTitleMatch || !!nextChapter || !!nextTask) {
 
       // add to result
       if (hasBreak) {
@@ -149,12 +149,12 @@ function page(result: Result, lines: string[], index: Index) {
         // next page
       } else if (!!pageTitleMatch) {
         return page(result, lines.slice(i), index);
+      } else if (!!nextTask) {
+        return task(result, lines.slice(i), index);
       }
-    } else if (!!nextTask) {
-      return task(result, lines.slice(i), index);
+      return result;
     }
   }
-  return result;
 }
 
 
@@ -209,5 +209,5 @@ function task(result: Result, lines: string[], index: Index) {
   return result;
 }
 
-console.log(build('./src/README.md').chapters[0].pages[1].tasks[1]);
+console.log(build('./src/README.md').chapters[0].pages[1]);
 // build('./src/README.md');

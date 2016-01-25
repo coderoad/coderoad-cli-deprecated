@@ -96,7 +96,7 @@ function page(result, lines, index) {
         if (!hasBreak && isEmpty(lines[i])) {
             hasBreak = i;
         }
-        else if (pageTitleMatch || nextChapter) {
+        else if (!!pageTitleMatch || !!nextChapter || !!nextTask) {
             if (hasBreak) {
                 result.chapters[index.chapter].pages[index.page].description = lines.slice(1, hasBreak).toString();
                 result.chapters[index.chapter].pages[index.page].explanation = lines.slice(hasBreak + 1, i).toString();
@@ -110,12 +110,12 @@ function page(result, lines, index) {
             else if (!!pageTitleMatch) {
                 return page(result, lines.slice(i), index);
             }
-        }
-        else if (!!nextTask) {
-            return task(result, lines.slice(i), index);
+            else if (!!nextTask) {
+                return task(result, lines.slice(i), index);
+            }
+            return result;
         }
     }
-    return result;
 }
 function task(result, lines, index) {
     result.chapters[index.chapter].pages[index.page].tasks.push({
@@ -159,4 +159,4 @@ function task(result, lines, index) {
     }
     return result;
 }
-console.log(build('./src/README.md').chapters[0].pages[1].tasks[1]);
+console.log(build('./src/README.md').chapters[0].pages[1]);
