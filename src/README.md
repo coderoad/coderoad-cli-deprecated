@@ -23,7 +23,7 @@ task one description
 task two description
 
 @test(test1.js)
-@action(open(file.js))
+@action(insert(some text))
 
 ## Chapter two
 some other chapter

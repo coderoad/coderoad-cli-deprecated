@@ -1,1 +1,48 @@
-{"project":{"title":"Test","description":"This is a test,"},"chapters":[{"title":"Chapter one","description":"Some chapter one content.","pages":[{"title":"Page one","description":"page one descriptionWith another line","explanation":"page one explanationAnd more explanation","tasks":[]},{"title":"Page two","description":"page two description","explanation":"page two explanation","tasks":[{"title":" Task One","description":"task one description","tests":[],"actions":[]},{"title":" Task Two","description":"task two description","tests":["test1.js"],"actions":["open(file.js)"]}]}]},{"title":"Chapter two","description":"some other chapter","pages":[]}]}
+{
+  "project": {
+    "title": "Test",
+    "description": "This is a test,"
+  },
+  "chapters": [
+    {
+      "title": "Chapter one",
+      "description": "Some chapter one content.",
+      "pages": [
+        {
+          "title": "Page one",
+          "description": "page one descriptionWith another line",
+          "explanation": "page one explanationAnd more explanation",
+          "tasks": []
+        },
+        {
+          "title": "Page two",
+          "description": "page two description",
+          "explanation": "page two explanation",
+          "tasks": [
+            {
+              "title": " Task One",
+              "description": "task one description",
+              "tests": [],
+              "actions": []
+            },
+            {
+              "title": " Task Two",
+              "description": "task two description",
+              "tests": [
+                "test1.js"
+              ],
+              "actions": [
+                "insert(some text)"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Chapter two",
+      "description": "some other chapter",
+      "pages": []
+    }
+  ]
+}

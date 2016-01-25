@@ -229,11 +229,14 @@ var output = process.argv[3];
 if (!output) {
   throw ('Pass in path to output cr.json file');
 }
-var result = JSON.stringify(build(input);
+
+// Build
+var result = JSON.stringify(build(input), null, 2);
 if (!isValidJSON(result)) {
   throw ('Invalid JSON output');
 }
 
+// Write
 fs.writeFile(output, result), 'utf8', function(err) {
   if (err)
     return console.log(err);

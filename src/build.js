@@ -180,7 +180,7 @@ var output = process.argv[3];
 if (!output) {
     throw ('Pass in path to output cr.json file');
 }
-var result = JSON.stringify(build(input));
+var result = JSON.stringify(build(input), null, 2);
 if (!isValidJSON(result)) {
     throw ('Invalid JSON output');
 }
