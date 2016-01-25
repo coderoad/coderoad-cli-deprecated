@@ -14,5 +14,13 @@ page two description
 
 page two explanation
 
++ Task One
+task one description
+
++ Task Two
+task two description
+@test(test1.js)
+@action(open(file.js))
+
 ## Chapter two
 some other chapter

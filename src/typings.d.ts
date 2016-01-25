@@ -2,6 +2,7 @@
 interface Index {
   chapter: number;
   page: number;
+  task: number;
 }
 
 interface Result {
@@ -30,4 +31,6 @@ interface Page {
 interface Task {
   title: string;
   description: string;
+  tests: string[];
+  actions: string[];
 }

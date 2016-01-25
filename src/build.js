@@ -30,7 +30,8 @@ function build(filePath) {
         chapters: []
     }, index = {
         chapter: -1,
-        page: -1
+        page: -1,
+        task: -1
     };
     var input = fs.readFileSync(filePath, 'utf8');
     var lines = input.split('\n');
@@ -79,9 +80,9 @@ function chapter(result, lines, index) {
     return result;
 }
 function page(result, lines, index) {
-    let matchedAt = null;
     let hasBreak = null;
     index.page += 1;
+    index.task = -1;
     result.chapters[index.chapter].pages.push({
         title: parseWithCode('###', lines[0]).trim(),
         description: '',
@@ -117,6 +118,45 @@ function page(result, lines, index) {
     return result;
 }
 function task(result, lines, index) {
+    result.chapters[index.chapter].pages[index.page].tasks.push({
+        title: parseWithCode('+', lines[0]),
+        description: '',
+        tests: [],
+        actions: []
+    });
+    index.task += 1;
+    for (let i = 1; i < lines.length; i++) {
+        let nextPage = parseWithCode('###', lines[i]);
+        let nextChapter = parseWithCode('##', lines[i]);
+        let nextTask = parseWithCode('+', lines[i]);
+        let isPossibleAction = lines[i].match(/^@/);
+        if (!!nextPage || !!nextChapter || !!nextTask) {
+            result.chapters[index.chapter].pages[index.page].tasks[index.task].description = lines.slice(1, i).toString();
+        }
+        if (!!nextTask) {
+            return task(result, lines.slice(i), index);
+        }
+        else if (!!nextPage) {
+            return page(result, lines.slice(i), index);
+        }
+        else if (!!nextChapter) {
+            return chapter(result, lines.slice(i), index);
+        }
+        else if (!!isPossibleAction) {
+            let action = lines[i].slice(1).split('(')[0];
+            let target = /\((.*?)\)$/.exec(lines[i])[1];
+            switch (action) {
+                case 'test':
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
+                    break;
+                case 'action':
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(target);
+                    break;
+                default:
+                    console.log('Invalid task action');
+            }
+        }
+    }
     return result;
 }
-console.log(build('./src/README.md').chapters[0].pages[1]);
+console.log(build('./src/README.md').chapters[0].pages[1].tasks[1]);
