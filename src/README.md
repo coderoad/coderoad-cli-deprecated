@@ -18,6 +18,10 @@ page two explanation
 
 ```
 var a = 'something';
+
+function someFunc() {
+  return 'some result';
+}
 ```
 
 + Task One

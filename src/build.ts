@@ -10,7 +10,8 @@ var regex = {
   '##': line('#', 2),
   '###': line('#', 3),
   '+': line('\\+', 1),
-  '@': line('@', 1)
+  '@': line('@', 1),
+  '```': line('`', 3)
 };
 
 
@@ -130,28 +131,37 @@ function page(result: Result, lines: string[], index: Index) {
     explanation: '',
     tasks: []
   });
+  let inCodeBlock = false;
   for (let i = 1; i < lines.length; i++) {
     // matches
     let pageTitleMatch = parseWithCode('###', lines[i]);
     let nextChapter = parseWithCode('##', lines[i]);
     let nextTask = parseWithCode('+', lines[i]);
-    // 1. page title
-    if (!hasBreak && isEmpty(lines[i])) {
-      hasBreak = i;
-      // 3. exit on page title match again or next chapter
-    } else if (!!nextChapter) {
-      return chapter(result, lines.slice(i), index);
-      // next page
-    } else if (!!pageTitleMatch) {
-      return page(result, lines.slice(i), index);
-    } else if (!!nextTask) {
-      return task(result, lines.slice(i), index);
-    } else {
-      // description || explanation
-      if (!hasBreak) {
-        result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
+    let codeBlock = parseWithCode('```', lines[i]);
+
+    if (!!codeBlock) {
+      inCodeBlock = !inCodeBlock;
+    }
+
+    if (!inCodeBlock) {
+      // 1. page title
+      if (!hasBreak && isEmpty(lines[i])) {
+        hasBreak = i;
+        // 3. exit on page title match again or next chapter
+      } else if (!!nextChapter) {
+        return chapter(result, lines.slice(i), index);
+        // next page
+      } else if (!!pageTitleMatch) {
+        return page(result, lines.slice(i), index);
+      } else if (!!nextTask) {
+        return task(result, lines.slice(i), index);
       } else {
-        result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
+        // description || explanation
+        if (!hasBreak) {
+          result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
+        } else {
+          result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
+        }
       }
     }
   }
@@ -175,38 +185,45 @@ function task(result: Result, lines: string[], index: Index) {
     actions: []
   });
   index.task += 1;
+  let inCodeBlock = false;
   for (let i = 1; i < lines.length; i++) {
     // matches
     let nextPage = parseWithCode('###', lines[i]);
     let nextChapter = parseWithCode('##', lines[i]);
     let nextTask = parseWithCode('+', lines[i]);
-    let isPossibleAction = lines[i].match(/^@action|test/);
+    let isPossibleAction = lines[i].match(/^@action|test|hint/);
+    let codeBlock = parseWithCode('```', lines[i]);
 
+    if (!!codeBlock) {
+      inCodeBlock = !inCodeBlock;
+    }
     // add actions
-    if (!!isPossibleAction) {
-      let action = lines[i].slice(1).split('(')[0];
-      let target = /\((.*?)\)$/.exec(lines[i])[1];
-      switch (action) {
-        case 'test':
-          result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
-          break;
-        case 'action':
-          result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(target);
-          break;
-        default:
-          console.log('Invalid task action');
+    if (!inCodeBlock) {
+      if (!!isPossibleAction) {
+        let action = lines[i].slice(1).split('(')[0];
+        let target = /\((.*?)\)$/.exec(lines[i])[1];
+        switch (action) {
+          case 'test':
+            result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
+            break;
+          case 'action':
+            result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(target);
+            break;
+          default:
+            console.log('Invalid task action');
+        }
+      } else if (!!nextTask) {
+        return task(result, lines.slice(i), index);
+        // exit on page
+      } else if (!!nextPage) {
+        return page(result, lines.slice(i), index);
+        // exit on chapter
+      } else if (!!nextChapter) {
+        return chapter(result, lines.slice(i), index);
+        // task description +
+      } else {
+        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i] + '\n';
       }
-    } else if (!!nextTask) {
-      return task(result, lines.slice(i), index);
-      // exit on page
-    } else if (!!nextPage) {
-      return page(result, lines.slice(i), index);
-      // exit on chapter
-    } else if (!!nextChapter) {
-      return chapter(result, lines.slice(i), index);
-      // task description +
-    } else {
-      result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i] + '\n';
     }
   }
   return result;

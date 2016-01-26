@@ -8,7 +8,8 @@ var regex = {
     '##': line('#', 2),
     '###': line('#', 3),
     '+': line('\\+', 1),
-    '@': line('@', 1)
+    '@': line('@', 1),
+    '```': line('`', 3)
 };
 function isEmpty(line) {
     return !line.length || !!line.match(/^\s+?[\n\r]/);
@@ -95,28 +96,35 @@ function page(result, lines, index) {
         explanation: '',
         tasks: []
     });
+    let inCodeBlock = false;
     for (let i = 1; i < lines.length; i++) {
         let pageTitleMatch = parseWithCode('###', lines[i]);
         let nextChapter = parseWithCode('##', lines[i]);
         let nextTask = parseWithCode('+', lines[i]);
-        if (!hasBreak && isEmpty(lines[i])) {
-            hasBreak = i;
+        let codeBlock = parseWithCode('```', lines[i]);
+        if (!!codeBlock) {
+            inCodeBlock = !inCodeBlock;
         }
-        else if (!!nextChapter) {
-            return chapter(result, lines.slice(i), index);
-        }
-        else if (!!pageTitleMatch) {
-            return page(result, lines.slice(i), index);
-        }
-        else if (!!nextTask) {
-            return task(result, lines.slice(i), index);
-        }
-        else {
-            if (!hasBreak) {
-                result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
+        if (!inCodeBlock) {
+            if (!hasBreak && isEmpty(lines[i])) {
+                hasBreak = i;
+            }
+            else if (!!nextChapter) {
+                return chapter(result, lines.slice(i), index);
+            }
+            else if (!!pageTitleMatch) {
+                return page(result, lines.slice(i), index);
+            }
+            else if (!!nextTask) {
+                return task(result, lines.slice(i), index);
             }
             else {
-                result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
+                if (!hasBreak) {
+                    result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
+                }
+                else {
+                    result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
+                }
             }
         }
     }
@@ -130,36 +138,43 @@ function task(result, lines, index) {
         actions: []
     });
     index.task += 1;
+    let inCodeBlock = false;
     for (let i = 1; i < lines.length; i++) {
         let nextPage = parseWithCode('###', lines[i]);
         let nextChapter = parseWithCode('##', lines[i]);
         let nextTask = parseWithCode('+', lines[i]);
-        let isPossibleAction = lines[i].match(/^@action|test/);
-        if (!!isPossibleAction) {
-            let action = lines[i].slice(1).split('(')[0];
-            let target = /\((.*?)\)$/.exec(lines[i])[1];
-            switch (action) {
-                case 'test':
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
-                    break;
-                case 'action':
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(target);
-                    break;
-                default:
-                    console.log('Invalid task action');
+        let isPossibleAction = lines[i].match(/^@action|test|hint/);
+        let codeBlock = parseWithCode('```', lines[i]);
+        if (!!codeBlock) {
+            inCodeBlock = !inCodeBlock;
+        }
+        if (!inCodeBlock) {
+            if (!!isPossibleAction) {
+                let action = lines[i].slice(1).split('(')[0];
+                let target = /\((.*?)\)$/.exec(lines[i])[1];
+                switch (action) {
+                    case 'test':
+                        result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
+                        break;
+                    case 'action':
+                        result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(target);
+                        break;
+                    default:
+                        console.log('Invalid task action');
+                }
             }
-        }
-        else if (!!nextTask) {
-            return task(result, lines.slice(i), index);
-        }
-        else if (!!nextPage) {
-            return page(result, lines.slice(i), index);
-        }
-        else if (!!nextChapter) {
-            return chapter(result, lines.slice(i), index);
-        }
-        else {
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i] + '\n';
+            else if (!!nextTask) {
+                return task(result, lines.slice(i), index);
+            }
+            else if (!!nextPage) {
+                return page(result, lines.slice(i), index);
+            }
+            else if (!!nextChapter) {
+                return chapter(result, lines.slice(i), index);
+            }
+            else {
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].description += lines[i] + '\n';
+            }
         }
     }
     return result;
