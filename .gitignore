@@ -6,3 +6,4 @@ src/build.ts
 src/typings.d.ts
 src/README.md
 dist/cr.json
+coderoad.json

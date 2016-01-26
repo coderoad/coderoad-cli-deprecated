@@ -214,13 +214,14 @@ function isValidJSON(text) {
         return false;
     }
 }
-var input = process.argv[2];
-if (!input) {
-    throw ('Pass in path to .md file');
-}
-var output = process.argv[3];
+console.log(process.argv);
+var output = process.argv[2];
 if (!output) {
     throw ('Pass in path to output cr.json file');
+}
+var input = process.argv[3];
+if (!input) {
+    throw ('Pass in path to .md file');
 }
 var result = cleanup(build(input));
 if (!isValidJSON(result)) {
