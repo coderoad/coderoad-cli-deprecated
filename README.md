@@ -1,3 +1,3 @@
-# Coderoad Builder
+# CodeRoad Builder
 
-Transform markdown tutorials into cr.JSON format.
+Transform markdown tutorials into `coderoad.json` format.
