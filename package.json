@@ -1,15 +1,21 @@
 {
-  "name": "coderoad-builder",
+  "name": "coderoad-cli",
   "version": "0.1.0",
-  "description": "Generates tutorial project files for the coderoad-viewer",
-  "main": "src/build.js",
+  "description": "Command line interface for CodeRoad. Build project files.",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./src/build.js coderoad.json"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Shawn McKay <shawn.j.mckay@gmail.com>",
-  "license": "ISC"
+  "license": "ISC",
+  "preferGlobal": true,
+  "bin": {
+    "coderoad": "cli.js"
+  },
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "commander": "^2.9.0"
+  }
 }

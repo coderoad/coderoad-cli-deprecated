@@ -25,7 +25,7 @@ function parseWithCode(code, content) {
         return false;
     }
 }
-function build(filePath) {
+function build(lines) {
     var result = {
         project: {
             title: '',
@@ -37,13 +37,11 @@ function build(filePath) {
         page: -1,
         task: -1
     };
-    var input = fs.readFileSync(filePath, 'utf8');
-    var lines = input.split('\n');
     return project(result, lines, index);
 }
 function project(result, lines, index) {
-    let matchedAt = null;
-    for (let i = 0; i < lines.length; i++) {
+    var matchedAt = null;
+    for (var i = 0; i < lines.length; i++) {
         var projectTitleMatch = parseWithCode('#', lines[i]);
         var chapterStart = parseWithCode('##', lines[i]);
         if (projectTitleMatch) {
@@ -61,9 +59,9 @@ function project(result, lines, index) {
 }
 function chapter(result, lines, index) {
     var matchedAt = null;
-    for (let i = 0; i < lines.length; i++) {
-        let chapterTitleMatch = parseWithCode('##', lines[i]);
-        let pageStart = parseWithCode('###', lines[i]);
+    for (var i = 0; i < lines.length; i++) {
+        var chapterTitleMatch = parseWithCode('##', lines[i]);
+        var pageStart = parseWithCode('###', lines[i]);
         if (chapterTitleMatch && !matchedAt) {
             matchedAt = i;
             index.page = -1;
@@ -87,7 +85,7 @@ function chapter(result, lines, index) {
     return result;
 }
 function page(result, lines, index) {
-    let hasBreak = null;
+    var hasBreak = null;
     index.page += 1;
     index.task = -1;
     result.chapters[index.chapter].pages.push({
@@ -96,12 +94,12 @@ function page(result, lines, index) {
         explanation: '',
         tasks: []
     });
-    let inCodeBlock = false;
-    for (let i = 1; i < lines.length; i++) {
-        let pageTitleMatch = parseWithCode('###', lines[i]);
-        let nextChapter = parseWithCode('##', lines[i]);
-        let nextTask = parseWithCode('+', lines[i]);
-        let codeBlock = parseWithCode('```', lines[i]);
+    var inCodeBlock = false;
+    for (var i = 1; i < lines.length; i++) {
+        var pageTitleMatch = parseWithCode('###', lines[i]);
+        var nextChapter = parseWithCode('##', lines[i]);
+        var nextTask = parseWithCode('+', lines[i]);
+        var codeBlock = parseWithCode('```', lines[i]);
         if (!!codeBlock) {
             inCodeBlock = !inCodeBlock;
         }
@@ -138,20 +136,20 @@ function task(result, lines, index) {
         actions: []
     });
     index.task += 1;
-    let inCodeBlock = false;
-    for (let i = 1; i < lines.length; i++) {
-        let nextPage = parseWithCode('###', lines[i]);
-        let nextChapter = parseWithCode('##', lines[i]);
-        let nextTask = parseWithCode('+', lines[i]);
-        let isPossibleAction = lines[i].match(/^@action|test|hint/);
-        let codeBlock = parseWithCode('```', lines[i]);
+    var inCodeBlock = false;
+    for (var i = 1; i < lines.length; i++) {
+        var nextPage = parseWithCode('###', lines[i]);
+        var nextChapter = parseWithCode('##', lines[i]);
+        var nextTask = parseWithCode('+', lines[i]);
+        var isPossibleAction = lines[i].match(/^@action|test|hint/);
+        var codeBlock = parseWithCode('```', lines[i]);
         if (!!codeBlock) {
             inCodeBlock = !inCodeBlock;
         }
         if (!inCodeBlock) {
             if (!!isPossibleAction) {
-                let action = lines[i].slice(1).split('(')[0];
-                let target = /\((.*?)\)$/.exec(lines[i])[1];
+                var action = lines[i].slice(1).split('(')[0];
+                var target = /\((.*?)\)$/.exec(lines[i])[1];
                 switch (action) {
                     case 'test':
                         result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
@@ -192,12 +190,12 @@ function removeLineBreaks(text) {
 }
 function cleanup(result) {
     result.project.description = removeLineBreaks(result.project.description);
-    result.chapters.map((chapter) => {
+    result.chapters.map(function (chapter) {
         chapter.description = removeLineBreaks(chapter.description);
-        chapter.pages.map((page) => {
+        chapter.pages.map(function (page) {
             page.description = removeLineBreaks(page.description);
             page.explanation = removeLineBreaks(page.explanation);
-            page.tasks.map((task) => {
+            page.tasks.map(function (task) {
                 task.description = removeLineBreaks(task.description);
             });
         });
@@ -214,25 +212,21 @@ function isValidJSON(text) {
         return false;
     }
 }
-var output = process.argv[2];
-if (!output) {
-    throw ('Pass in path to output cr.json file');
-}
-var input = process.argv[3];
-if (!input) {
-    input = './README.md';
-    console.log(`
-    Pass in a path to your .md file, otherwise it defaults to README.md
-    For example: npm start ./src/source.md
-    `);
-}
-var result = cleanup(build(input));
-if (!isValidJSON(result)) {
-    throw ('Invalid JSON output');
-}
-fs.writeFile(output, result), 'utf8', function (err) {
-    if (err)
-        return console.log(err);
-    console.log(input + ' > ' + output);
+module.exports = function (filePath, output) {
+    if (output === void 0) { output = './coderoad.json'; }
+    var lines = fs.readFileSync(filePath, 'utf8').split('\n');
+    var result = cleanup(build(lines));
+    if (!isValidJSON(result)) {
+        console.log('Invalid JSON output');
+        process.exit(0);
+    }
+    else {
+        try {
+            fs.writeFileSync(output, result, 'utf8');
+        }
+        catch (e) {
+            console.log(e);
+            process.exit(0);
+        }
+    }
 };
-;

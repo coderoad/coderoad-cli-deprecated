@@ -1,3 +1,3 @@
-# CodeRoad Builder
+# CodeRoad CLI
 
-Transform markdown tutorials into `coderoad.json` format.
+Coming soon.

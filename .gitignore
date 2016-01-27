@@ -7,3 +7,5 @@ src/typings.d.ts
 src/README.md
 dist/cr.json
 coderoad.json
+notes.md
+cli.ts
