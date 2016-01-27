@@ -4,6 +4,7 @@ var process = require('process');
 var chalk = require('chalk');
 var Match = require('./matchers');
 var validators_1 = require('./validators');
+var cleanup_1 = require('./cleanup');
 function build(lines) {
     var result = {
         project: {},
@@ -116,7 +117,7 @@ function task(result, lines, index) {
         if (!inCodeBlock) {
             if (!!Match.taskAction(line)) {
                 var action = line.slice(1).split('(')[0];
-                var target = /\((.*?)\)$/.exec(line)[1];
+                var target = cleanup_1.trimQuotes(/\((.*?)\)$/.exec(line)[1]);
                 switch (action) {
                     case 'test':
                         result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
@@ -144,31 +145,6 @@ function task(result, lines, index) {
     }
     return result;
 }
-function removeLineBreaks(text) {
-    if (text.slice(-2) === '\n') {
-        return removeLineBreaks(text.slice(0, -2));
-    }
-    else if (text.slice(0, 2) === '\n') {
-        return removeLineBreaks(text.slice(2));
-    }
-    else {
-        return text.trim();
-    }
-}
-function cleanup(result) {
-    result.project.description = removeLineBreaks(result.project.description);
-    result.chapters.map(function (chapter) {
-        chapter.description = removeLineBreaks(chapter.description);
-        chapter.pages.map(function (page) {
-            page.description = removeLineBreaks(page.description);
-            page.explanation = removeLineBreaks(page.explanation);
-            page.tasks.map(function (task) {
-                task.description = removeLineBreaks(task.description);
-            });
-        });
-    });
-    return JSON.stringify(result, null, 2);
-}
 module.exports = function (filePath, output) {
     if (output === void 0) { output = './coderoad.json'; }
     if (!filePath) {
@@ -176,7 +152,7 @@ module.exports = function (filePath, output) {
         process.exit(1);
     }
     var lines = fs.readFileSync(filePath, 'utf8').split('\n');
-    var result = cleanup(build(lines));
+    var result = cleanup_1.cleanup(build(lines));
     if (validators_1.default(result)) {
         fs.writeFileSync(output, result, 'utf8');
     }
