@@ -14,7 +14,7 @@ if (!program.args.length) {
     (function() {
       var tutorial = program.args[0];
       var output = 'coderoad.json';
-      var build = require('./src/build');
+      var build = require('./src/build/build');
       console.log(chalk.grey("building from " + tutorial + "..."));
       build(tutorial, output);
       process.exit(0);

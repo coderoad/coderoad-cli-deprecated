@@ -1,0 +1,37 @@
+"use strict";
+function match(char, times) {
+    return new RegExp('^' + char + '{' + times + '}(?!#)(.*?)$', 'gm');
+}
+var regex = {
+    '#': match('#', 1),
+    '##': match('#', 2),
+    '###': match('#', 3),
+    '+': match('\\+', 1),
+    '@': match('@', 1),
+    '```': match('`', 3)
+};
+function parseWithCode(code) {
+    return function (line) {
+        if (!line) {
+            return false;
+        }
+        if (line.match(regex[code])) {
+            return regex[code].exec(line)[1];
+        }
+        else {
+            return false;
+        }
+    };
+}
+function isEmpty(line) {
+    return !line.length || !!line.match(/^\s+?[\n\r]/);
+}
+exports.isEmpty = isEmpty;
+exports.project = parseWithCode('#');
+exports.chapter = parseWithCode('##');
+exports.page = parseWithCode('###');
+exports.task = parseWithCode('+');
+exports.codeBlock = parseWithCode('```');
+exports.taskAction = function (line) {
+    line.match(/^@action|test|hint/);
+};

@@ -2,8 +2,8 @@ node_modules
 tests
 tslint.json
 tsconfig.json
-src/build.ts
-src/typings.d.ts
+**/*.ts
+*.ts
 src/README.md
 dist/cr.json
 coderoad.json
