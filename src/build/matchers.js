@@ -7,7 +7,6 @@ var regex = {
     '##': match('#', 2),
     '###': match('#', 3),
     '+': match('\\+', 1),
-    '@': match('@', 1),
     '```': match('`', 3)
 };
 function parseWithCode(code) {
@@ -32,6 +31,14 @@ exports.chapter = parseWithCode('##');
 exports.page = parseWithCode('###');
 exports.task = parseWithCode('+');
 exports.codeBlock = parseWithCode('```');
-exports.taskAction = function (line) {
-    line.match(/^@action|test|hint/);
+exports.isArray = function (line) {
+    var isMatch = line.match(/^\[(.+)\]$/);
+    return isMatch ? isMatch[1] : false;
+};
+exports.isAction = function (line) {
+    var isMatch = line.match(/^@(action|test|hint)?/);
+    return isMatch ? isMatch[1] : false;
+};
+exports.isImport = function (line) {
+    return line.match(/^@import/);
 };

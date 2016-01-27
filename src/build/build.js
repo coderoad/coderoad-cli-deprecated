@@ -4,6 +4,7 @@ var process = require('process');
 var chalk = require('chalk');
 var Match = require('./matchers');
 var validators_1 = require('./validators');
+var actions_1 = require('./actions');
 var cleanup_1 = require('./cleanup');
 function build(lines) {
     var result = {
@@ -41,19 +42,23 @@ function chapter(result, lines, index) {
     index.page = -1;
     index.chapter += 1;
     result.chapters.push({
-        title: Match.chapter(lines[0]).trim(),
-        description: '',
-        pages: []
+        title: Match.chapter(lines[0]).trim()
     });
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         if (Match.page(line)) {
+            if (result.chapters[index.chapter].pages === undefined) {
+                result.chapters[index.chapter].pages = [];
+            }
             return page(result, lines.slice(i), index);
         }
         else if (Match.chapter(line) && i > 0) {
             return chapter(result, lines.slice(i), index);
         }
         else {
+            if (result.chapters[index.chapter].description === undefined) {
+                result.chapters[index.chapter].description = '';
+            }
             result.chapters[index.chapter].description += line + '\n';
         }
     }
@@ -64,10 +69,7 @@ function page(result, lines, index) {
     index.page += 1;
     index.task = -1;
     result.chapters[index.chapter].pages.push({
-        title: Match.page(lines[0]).trim(),
-        description: '',
-        explanation: '',
-        tasks: []
+        title: Match.page(lines[0]).trim()
     });
     var inCodeBlock = false;
     for (var i = 1; i < lines.length; i++) {
@@ -86,13 +88,22 @@ function page(result, lines, index) {
                 return page(result, lines.slice(i), index);
             }
             else if (!!Match.task(line)) {
+                if (result.chapters[index.chapter].pages[index.page].tasks === undefined) {
+                    result.chapters[index.chapter].pages[index.page].tasks = [];
+                }
                 return task(result, lines.slice(i), index);
             }
             else {
                 if (!hasBreak) {
+                    if (result.chapters[index.chapter].pages[index.page].description === undefined) {
+                        result.chapters[index.chapter].pages[index.page].description = '';
+                    }
                     result.chapters[index.chapter].pages[index.page].description += line + '\n';
                 }
                 else {
+                    if (result.chapters[index.chapter].pages[index.page].explanation === undefined) {
+                        result.chapters[index.chapter].pages[index.page].explanation = '';
+                    }
                     result.chapters[index.chapter].pages[index.page].explanation += line + '\n';
                 }
             }
@@ -102,10 +113,7 @@ function page(result, lines, index) {
 }
 function task(result, lines, index) {
     result.chapters[index.chapter].pages[index.page].tasks.push({
-        title: Match.task(lines[0]),
-        description: '',
-        tests: [],
-        actions: []
+        title: Match.task(lines[0])
     });
     index.task += 1;
     var inCodeBlock = false;
@@ -115,18 +123,16 @@ function task(result, lines, index) {
             inCodeBlock = !inCodeBlock;
         }
         if (!inCodeBlock) {
-            if (!!Match.taskAction(line)) {
-                var action = line.slice(1).split('(')[0];
-                var target = cleanup_1.trimQuotes(/\((.*?)\)$/.exec(line)[1]);
-                switch (action) {
-                    case 'test':
-                        result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(target);
-                        break;
-                    case 'action':
-                        result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(target);
-                        break;
-                    default:
-                        console.log('Invalid task action');
+            if (!!Match.isAction(line)) {
+                var isActionArray = Match.isArray(cleanup_1.trimQuotes(line));
+                if (!!isActionArray) {
+                    arrayOfActions = JSON.parse(isActionArray);
+                    arrayOfActions.forEach(function (line) {
+                        result = actions_1.default(result, line, index);
+                    });
+                }
+                else {
+                    result = actions_1.default(result, line, index);
                 }
             }
             else if (!!Match.task(line)) {
@@ -139,6 +145,9 @@ function task(result, lines, index) {
                 return chapter(result, lines.slice(i), index);
             }
             else {
+                if (result.chapters[index.chapter].pages[index.page].tasks[index.task].description === undefined) {
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].description = '';
+                }
                 result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line + '\n';
             }
         }

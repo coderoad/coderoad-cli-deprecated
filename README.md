@@ -15,6 +15,7 @@ Command line interface for CodeRoad. Coming soon.
 ### Roadmap
 
 * create
-* publish
-* find
+* publish [coderoad-name]
+* search [query]
+* list
 * run

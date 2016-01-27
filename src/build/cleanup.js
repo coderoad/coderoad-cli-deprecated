@@ -23,17 +23,33 @@ function trimQuotes(text) {
 }
 exports.trimQuotes = trimQuotes;
 function cleanup(result) {
-    result.project.description = removeLineBreaks(result.project.description);
-    result.chapters.map(function (chapter) {
-        chapter.description = removeLineBreaks(chapter.description);
-        chapter.pages.map(function (page) {
-            page.description = removeLineBreaks(page.description);
-            page.explanation = removeLineBreaks(page.explanation);
-            page.tasks.map(function (task) {
-                task.description = removeLineBreaks(task.description);
-            });
+    if (result.project.description) {
+        result.project.description = removeLineBreaks(result.project.description);
+    }
+    if (result.chapters) {
+        result.chapters.map(function (chapter) {
+            if (chapter.description) {
+                chapter.description = removeLineBreaks(chapter.description);
+            }
+            if (chapter.pages) {
+                chapter.pages.map(function (page) {
+                    if (page.description) {
+                        page.description = removeLineBreaks(page.description);
+                    }
+                    if (page.explanation) {
+                        page.explanation = removeLineBreaks(page.explanation);
+                    }
+                    if (page.tasks) {
+                        page.tasks.map(function (task) {
+                            if (task.description) {
+                                task.description = removeLineBreaks(task.description);
+                            }
+                        });
+                    }
+                });
+            }
         });
-    });
+    }
     return JSON.stringify(result, null, 2);
 }
 exports.cleanup = cleanup;
