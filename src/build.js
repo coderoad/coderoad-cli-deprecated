@@ -1,5 +1,6 @@
 "use strict";
 var fs = require('fs');
+var chalk = require('chalk');
 function line(char, times) {
     return new RegExp('^' + char + '{' + times + '}(?!#)(.*?)$', 'gm');
 }
@@ -212,21 +213,33 @@ function isValidJSON(text) {
         return false;
     }
 }
+function hasProjectInfo(text) {
+    var validTitle = text.project.title.length > 0, validDescription = text.project.description.length > 0;
+    return validTitle && validDescription;
+}
+function hasPage(text) {
+    return (text.chapters[0].pages.length > 0 && !!text.chapters[0].pages[0].title);
+}
 module.exports = function (filePath, output) {
     if (output === void 0) { output = './coderoad.json'; }
+    if (!filePath) {
+        console.log(chalk.red("\n    Pass in a path to your .md file\n    For example: coderoad build ./src/tutorial.md\n    "));
+        process.exit(1);
+    }
     var lines = fs.readFileSync(filePath, 'utf8').split('\n');
     var result = cleanup(build(lines));
     if (!isValidJSON(result)) {
-        console.log('Invalid JSON output');
-        process.exit(0);
+        console.log(chalk.red("\n      Something went wrong. There seems to be an error in " + filePath + ".\n      "));
+        process.exit(1);
     }
-    else {
-        try {
-            fs.writeFileSync(output, result, 'utf8');
-        }
-        catch (e) {
-            console.log(e);
-            process.exit(0);
-        }
+    var jsonObject = JSON.parse(result);
+    if (!hasProjectInfo(jsonObject)) {
+        console.log(chalk.red("\n      Your tutorial is missing basic project information. Check the project title & description.\n      "));
+        process.exit(1);
     }
+    else if (!hasPage(jsonObject)) {
+        console.log(chalk.red("\n      Your tutorial requires at least one page.\n      "));
+        process.exit(1);
+    }
+    fs.writeFileSync(output, result, 'utf8');
 };
