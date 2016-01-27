@@ -1,14 +1,20 @@
 "use strict";
 var chalk = require('chalk');
-function validate(text) {
+function filePath(filePath) {
+    if (!filePath) {
+        console.log(chalk.red("\n    Pass in a path to your .md file\n    For example: coderoad build ./src/tutorial.md\n    "));
+        process.exit(1);
+    }
+}
+exports.filePath = filePath;
+function result(text) {
     isValidJSON(text);
     var jsonObject = JSON.parse(text);
     hasProjectInfo(jsonObject);
     hasPage(jsonObject);
     return true;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = validate;
+exports.result = result;
 function isValidJSON(text) {
     if (!/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
         replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').

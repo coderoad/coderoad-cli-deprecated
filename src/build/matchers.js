@@ -32,13 +32,17 @@ exports.page = parseWithCode('###');
 exports.task = parseWithCode('+');
 exports.codeBlock = parseWithCode('```');
 exports.isArray = function (line) {
-    var isMatch = line.match(/^\[(.+)\]$/);
-    return isMatch ? isMatch[1] : false;
+    var isMatch = line.match(/^\[.+\]$/);
+    if (isMatch) {
+        return isMatch[0];
+    }
+    else {
+        return false;
+    }
 };
 exports.isAction = function (line) {
-    var isMatch = line.match(/^@(action|test|hint)?/);
-    return isMatch ? isMatch[1] : false;
+    return line.match(/^@(action|test|hint)\((.+)\)$/);
 };
 exports.isImport = function (line) {
-    return line.match(/^@import/);
+    return line.match(/^@import\((.+)\)$/);
 };

@@ -1,9 +1,7 @@
 "use strict";
 var fs = require('fs');
-var process = require('process');
-var chalk = require('chalk');
 var Match = require('./matchers');
-var validators_1 = require('./validators');
+var validate = require('./validators');
 var actions_1 = require('./actions');
 var cleanup_1 = require('./cleanup');
 function build(lines) {
@@ -123,16 +121,17 @@ function task(result, lines, index) {
             inCodeBlock = !inCodeBlock;
         }
         if (!inCodeBlock) {
-            if (!!Match.isAction(line)) {
-                var isActionArray = Match.isArray(cleanup_1.trimQuotes(line));
+            var isAction = Match.isAction(line);
+            if (!!isAction) {
+                var isActionArray = Match.isArray(cleanup_1.trimQuotes(isAction[2]));
                 if (!!isActionArray) {
-                    arrayOfActions = JSON.parse(isActionArray);
-                    arrayOfActions.forEach(function (line) {
-                        result = actions_1.default(result, line, index);
+                    var arrayOfActions = JSON.parse(isActionArray);
+                    arrayOfActions.forEach(function (action) {
+                        result = actions_1.addToTasks(result, "@action(" + action + ")", index);
                     });
                 }
                 else {
-                    result = actions_1.default(result, line, index);
+                    result = actions_1.addToTasks(result, line, index);
                 }
             }
             else if (!!Match.task(line)) {
@@ -156,13 +155,10 @@ function task(result, lines, index) {
 }
 module.exports = function (filePath, output) {
     if (output === void 0) { output = './coderoad.json'; }
-    if (!filePath) {
-        console.log(chalk.red("\n    Pass in a path to your .md file\n    For example: coderoad build ./src/tutorial.md\n    "));
-        process.exit(1);
-    }
+    validate.filePath(filePath);
     var lines = fs.readFileSync(filePath, 'utf8').split('\n');
     var result = cleanup_1.cleanup(build(lines));
-    if (validators_1.default(result)) {
+    if (validate.result(result)) {
         fs.writeFileSync(output, result, 'utf8');
     }
 };
