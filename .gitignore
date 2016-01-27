@@ -4,7 +4,7 @@ tslint.json
 tsconfig.json
 **/*.ts
 *.ts
-src/README.md
+src/*.md
 dist/cr.json
 coderoad.json
 notes.md
