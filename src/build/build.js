@@ -3,15 +3,13 @@ var fs = require('fs');
 var process = require('process');
 var chalk = require('chalk');
 var Match = require('./matchers');
-var Validator = require('./validators');
+var validators_1 = require('./validators');
 function build(lines) {
     var result = {
-        project: {
-            title: '',
-            description: ''
-        },
+        project: {},
         chapters: []
-    }, index = {
+    };
+    var index = {
         chapter: -1,
         page: -1,
         task: -1
@@ -19,16 +17,17 @@ function build(lines) {
     return project(result, lines, index);
 }
 function project(result, lines, index) {
-    var matchedAt = null;
+    result.project = {
+        title: '',
+        description: ''
+    };
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         var projectTitleMatch = Match.project(line);
-        var chapterStart = Match.chapter(line);
-        if (projectTitleMatch) {
-            matchedAt = i;
+        if (!!projectTitleMatch) {
             result.project.title = projectTitleMatch.trim();
         }
-        else if (chapterStart) {
+        else if (!!Match.chapter(line)) {
             return chapter(result, lines.slice(i), index);
         }
         else {
@@ -38,25 +37,19 @@ function project(result, lines, index) {
     return result;
 }
 function chapter(result, lines, index) {
-    var matchedAt = null;
+    index.page = -1;
+    index.chapter += 1;
+    result.chapters.push({
+        title: Match.chapter(lines[0]).trim(),
+        description: '',
+        pages: []
+    });
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
-        var chapterStart = Match.chapter(line);
-        var pageStart = Match.page(line);
-        if (chapterStart && !matchedAt) {
-            matchedAt = i;
-            index.page = -1;
-            index.chapter += 1;
-            result.chapters.push({
-                title: chapterStart.trim(),
-                description: '',
-                pages: []
-            });
-        }
-        else if (pageStart) {
+        if (Match.page(line)) {
             return page(result, lines.slice(i), index);
         }
-        else if (chapterStart) {
+        else if (Match.chapter(line) && i > 0) {
             return chapter(result, lines.slice(i), index);
         }
         else {
@@ -78,32 +71,28 @@ function page(result, lines, index) {
     var inCodeBlock = false;
     for (var i = 1; i < lines.length; i++) {
         var line = lines[i];
-        var pageStart = Match.page(line);
-        var chapterStart = Match.chapter(line);
-        var taskStart = Match.task(line);
-        var codeBlock = Match.codeBlock(line);
-        if (!!codeBlock) {
+        if (!!Match.codeBlock(line)) {
             inCodeBlock = !inCodeBlock;
         }
         if (!inCodeBlock) {
-            if (!hasBreak && Match.isEmpty(lines[i])) {
+            if (!hasBreak && Match.isEmpty(line)) {
                 hasBreak = i;
             }
-            else if (!!chapterStart) {
+            else if (!!Match.chapter(line)) {
                 return chapter(result, lines.slice(i), index);
             }
-            else if (!!pageStart) {
+            else if (!!Match.page(line)) {
                 return page(result, lines.slice(i), index);
             }
-            else if (!!taskStart) {
+            else if (!!Match.task(line)) {
                 return task(result, lines.slice(i), index);
             }
             else {
                 if (!hasBreak) {
-                    result.chapters[index.chapter].pages[index.page].description += lines[i] + '\n';
+                    result.chapters[index.chapter].pages[index.page].description += line + '\n';
                 }
                 else {
-                    result.chapters[index.chapter].pages[index.page].explanation += lines[i] + '\n';
+                    result.chapters[index.chapter].pages[index.page].explanation += line + '\n';
                 }
             }
         }
@@ -121,16 +110,11 @@ function task(result, lines, index) {
     var inCodeBlock = false;
     for (var i = 1; i < lines.length; i++) {
         var line = lines[i];
-        var pageStart = Match.page(line);
-        var chapterStart = Match.chapter(line);
-        var taskStart = Match.task(line);
-        var isAction = Match.taskAction(line);
-        var codeBlock = Match.codeBlock(line);
-        if (!!codeBlock) {
+        if (!!Match.codeBlock(line)) {
             inCodeBlock = !inCodeBlock;
         }
         if (!inCodeBlock) {
-            if (!!isAction) {
+            if (!!Match.taskAction(line)) {
                 var action = line.slice(1).split('(')[0];
                 var target = /\((.*?)\)$/.exec(line)[1];
                 switch (action) {
@@ -144,13 +128,13 @@ function task(result, lines, index) {
                         console.log('Invalid task action');
                 }
             }
-            else if (!!taskStart) {
+            else if (!!Match.task(line)) {
                 return task(result, lines.slice(i), index);
             }
-            else if (!!pageStart) {
+            else if (!!Match.page(line)) {
                 return page(result, lines.slice(i), index);
             }
-            else if (!!chapterStart) {
+            else if (!!Match.chapter(line)) {
                 return chapter(result, lines.slice(i), index);
             }
             else {
@@ -193,18 +177,7 @@ module.exports = function (filePath, output) {
     }
     var lines = fs.readFileSync(filePath, 'utf8').split('\n');
     var result = cleanup(build(lines));
-    if (!Validator.isValidJSON(result)) {
-        console.log(chalk.red("\n      Something went wrong. There seems to be an error in " + filePath + ".\n      "));
-        process.exit(1);
+    if (validators_1.default(result)) {
+        fs.writeFileSync(output, result, 'utf8');
     }
-    var jsonObject = JSON.parse(result);
-    if (!Validator.hasProjectInfo(jsonObject)) {
-        console.log(chalk.red("\n      Your tutorial is missing basic project information. Check the project title & description.\n      "));
-        process.exit(1);
-    }
-    else if (!Validator.hasPage(jsonObject)) {
-        console.log(chalk.red("\n      Your tutorial requires at least one page.\n      "));
-        process.exit(1);
-    }
-    fs.writeFileSync(output, result, 'utf8');
 };
