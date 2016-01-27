@@ -123,16 +123,7 @@ function task(result, lines, index) {
         if (!inCodeBlock) {
             var isAction = Match.isAction(line);
             if (!!isAction) {
-                var isActionArray = Match.isArray(cleanup_1.trimQuotes(isAction[2]));
-                if (!!isActionArray) {
-                    var arrayOfActions = JSON.parse(isActionArray);
-                    arrayOfActions.forEach(function (action) {
-                        result = actions_1.addToTasks(result, "@action(" + action + ")", index);
-                    });
-                }
-                else {
-                    result = actions_1.addToTasks(result, line, index);
-                }
+                result = actions_1.default(result, line, index);
             }
             else if (!!Match.task(line)) {
                 return task(result, lines.slice(i), index);

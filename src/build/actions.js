@@ -1,33 +1,62 @@
 "use strict";
 var cleanup_1 = require('./cleanup');
+var Match = require('./matchers');
 function addToTasks(result, line, index) {
     var action = line.slice(1).split('(')[0];
     var value = cleanup_1.trimQuotes(/\((.*?)\)$/.exec(line)[1]);
     var task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
+    var actionValue = Match.isAction(line)[2];
+    var isActionArray = Match.isArray(cleanup_1.trimQuotes(actionValue));
     switch (action) {
         case 'test':
             if (result.chapters[index.chapter].pages[index.page].tasks[index.task].tests === undefined) {
                 result.chapters[index.chapter].pages[index.page].tasks[index.task].tests = [];
             }
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(value);
+            if (!!isActionArray) {
+                var valueList = actionValue.slice(1, -1).split(',');
+                valueList.forEach(function (value) {
+                    value = cleanup_1.trimQuotes(value.trim());
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(value);
+                });
+            }
+            else {
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(value);
+            }
             break;
         case 'action':
-            var task_1 = result.chapters[index.chapter].pages[index.page].tasks[index.task];
-            if (task_1.actions === undefined) {
+            if (task.actions === undefined) {
                 result.chapters[index.chapter].pages[index.page].tasks[index.task].actions = [];
             }
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
+            if (!!isActionArray) {
+                var arrayOfActions = JSON.parse(isActionArray);
+                arrayOfActions.forEach(function (value) {
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
+                });
+            }
+            else {
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
+            }
             return result;
             break;
         case 'hint':
-            if (task_1.hints === undefined) {
+            if (task.hints === undefined) {
                 result.chapters[index.chapter].pages[index.page].tasks[index.task].hints = [];
             }
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(value);
+            if (!!isActionArray) {
+                var valueList = actionValue.slice(1, -1).split(',');
+                valueList.forEach(function (value) {
+                    value = cleanup_1.trimQuotes(value.trim());
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(value);
+                });
+            }
+            else {
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(value);
+            }
             break;
         default:
             console.log('Invalid task action');
     }
     return result;
 }
-exports.addToTasks = addToTasks;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = addToTasks;
