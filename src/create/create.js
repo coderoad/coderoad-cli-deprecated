@@ -16,7 +16,7 @@ function create(name) {
     validate_1.validatePackageName(name);
     console.log('Creating demo tutorial...');
     if (!fileExists('package.json')) {
-        fs.writeFileSync('package.json', package_json_1.default(name), 'utf8');
+        package_json_1.default(name);
     }
     if (!fileExists('tutorial.md')) {
         fs.writeFileSync('tutorial.md', fs.readFileSync('./setup/tutorial.md'), 'utf8');

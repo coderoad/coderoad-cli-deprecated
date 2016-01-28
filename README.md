@@ -9,12 +9,12 @@ Command line interface for CodeRoad. Coming soon.
 ### Commands
 
 * build
+* create
 * help
 
 
 ### Roadmap
 
-* create
 * publish [coderoad-name]
 * search [query]
 * list
