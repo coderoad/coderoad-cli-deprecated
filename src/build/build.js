@@ -40,14 +40,12 @@ function chapter(result, lines, index) {
     index.page = -1;
     index.chapter += 1;
     result.chapters.push({
-        title: Match.chapter(lines[0]).trim()
+        title: Match.chapter(lines[0]).trim(),
+        pages: []
     });
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         if (Match.page(line)) {
-            if (result.chapters[index.chapter].pages === undefined) {
-                result.chapters[index.chapter].pages = [];
-            }
             return page(result, lines.slice(i), index);
         }
         else if (Match.chapter(line) && i > 0) {
