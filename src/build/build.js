@@ -142,7 +142,7 @@ function task(result, lines, index) {
     }
     return result;
 }
-module.exports = function (filePath, output) {
+function default_1(filePath, output) {
     if (output === void 0) { output = './coderoad.json'; }
     validate.filePath(filePath);
     var lines = fs.readFileSync(filePath, 'utf8').split('\n');
@@ -150,4 +150,6 @@ module.exports = function (filePath, output) {
     if (validate.result(result)) {
         fs.writeFileSync(output, result, 'utf8');
     }
-};
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
