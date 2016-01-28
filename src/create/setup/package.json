@@ -1,0 +1,16 @@
+{
+  "name": "coderoad-package-name",
+  "version": "0.1.0",
+  "description": "Coderoad tutorial",
+  "author": "",
+  "contributers": [],
+  "main": "coderoad.json",
+  "keywords": ["coderoad"],
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "MIT",
+  "coderoadConfig": {
+    "testDir": "tests",
+    "testSuffix": ".spec.js"
+  }
+}
