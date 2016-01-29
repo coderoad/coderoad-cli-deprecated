@@ -9,7 +9,7 @@ Page one description.
 
 More about page one.
 
-@test('pageOne-01')
+@test('test-example-01')
 
 ### Page Two Title
 Page two description.
