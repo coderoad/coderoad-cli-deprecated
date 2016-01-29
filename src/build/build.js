@@ -43,12 +43,12 @@ function chapter(result, lines, index) {
         title: Match.chapter(lines[0]).trim(),
         pages: []
     });
-    for (var i = 0; i < lines.length; i++) {
+    for (var i = 1; i < lines.length; i++) {
         var line = lines[i];
         if (Match.page(line)) {
             return page(result, lines.slice(i), index);
         }
-        else if (Match.chapter(line) && i > 0) {
+        else if (Match.chapter(line)) {
             return chapter(result, lines.slice(i), index);
         }
         else {
