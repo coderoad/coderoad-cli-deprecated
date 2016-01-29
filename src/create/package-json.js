@@ -6,7 +6,6 @@ function createPackageJson(name) {
     var packageJson = JSON.parse(fs.readFileSync(pathToExample, 'utf8'));
     packageJson.name = 'coderoad-' + name;
     var packageJsonString = JSON.stringify(packageJson, null, 2);
-    console.log(packageJsonString);
     fs.writeFileSync('package.json', packageJsonString, 'utf8');
     return;
 }
