@@ -2,6 +2,7 @@
 var chalk = require('chalk');
 var validateNpm = require("validate-npm-package-name");
 var process = require('process');
+var _ = require('lodash');
 function validatePackageName(name) {
     var validated = validateNpm(name);
     if (!validated.validForNewPackages || !validated.validForOldPackages) {
@@ -16,7 +17,7 @@ function validatePackageName(name) {
             });
         }
         if (!validated.errors && !validated.warnings) {
-            console.log(chalk.red("\n        Invalid package name.\n        Try using kebab-case (for example: \"my-package-name\")\n        "));
+            console.log(chalk.red("\n        Invalid package name. Try using kebab-case.\n        > coderoad create " + _.kebabCase(name) + "\n        "));
         }
         process.exit(1);
     }

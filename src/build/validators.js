@@ -2,7 +2,7 @@
 var chalk = require('chalk');
 function filePath(filePath) {
     if (!filePath) {
-        console.log(chalk.red("\n    Pass in a path to your .md file\n    For example: coderoad build ./src/tutorial.md\n    "));
+        console.log(chalk.red("\n    Pass in a path to your .md file\n    > coderoad build \"./src/tutorial.md\"\n    "));
         process.exit(1);
     }
 }
