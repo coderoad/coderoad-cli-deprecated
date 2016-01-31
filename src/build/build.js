@@ -109,7 +109,7 @@ function page(result, lines, index) {
 }
 function task(result, lines, index) {
     result.chapters[index.chapter].pages[index.page].tasks.push({
-        title: Match.task(lines[0])
+        description: Match.task(lines[0])
     });
     index.task += 1;
     var inCodeBlock = false;
@@ -133,9 +133,6 @@ function task(result, lines, index) {
                 return chapter(result, lines.slice(i), index);
             }
             else {
-                if (result.chapters[index.chapter].pages[index.page].tasks[index.task].description === undefined) {
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].description = '';
-                }
                 result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line + '\n';
             }
         }

@@ -8,14 +8,9 @@ Command line interface for CodeRoad. Coming soon.
 
 ### Commands
 
-* build
-* create
-* help
-
-
-### Roadmap
-
-* publish [coderoad-name]
+* build [tutorial.md]
+* create [name]
+* publish [version]
+* tutorials
 * search [query]
-* list
-* run
+* help
