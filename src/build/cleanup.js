@@ -11,11 +11,14 @@ function removeLineBreaks(text) {
     }
 }
 function trimQuotes(text) {
+    if (!!text.match(/^ /)) {
+        return trimQuotes(text.slice(1));
+    }
     if (!!text.match(/^`{3}.+`{3}$/)) {
-        return text.slice(3, -3);
+        return trimQuotes(text.slice(3, -3));
     }
     else if (!!text.match(/^['"`].+['"`]$/)) {
-        return text.slice(1, -1);
+        return trimQuotes(text.slice(1, -1));
     }
     else {
         return text;
