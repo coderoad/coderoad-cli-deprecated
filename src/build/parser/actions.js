@@ -1,6 +1,7 @@
 "use strict";
+var cleanup_1 = require('../cleanup');
 var Match = require('./match');
-function actions(result, line, index) {
+function addToTasks(result, line, index) {
     var action = line.slice(1).split('(')[0];
     var value = cleanup_1.trimQuotes(/\((.*?)\)$/.exec(line)[1]);
     var task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
@@ -58,4 +59,4 @@ function actions(result, line, index) {
     return result;
 }
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = actions;
+exports.default = addToTasks;

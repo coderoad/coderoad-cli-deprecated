@@ -2,6 +2,7 @@
 var Match = require('./match');
 var chapter_1 = require('./chapter');
 var page_1 = require('./page');
+var actions_1 = require('./actions');
 function task(result, lines, index) {
     result.chapters[index.chapter].pages[index.page].tasks.push({
         description: Match.task(lines[0])
@@ -16,7 +17,7 @@ function task(result, lines, index) {
         if (!inCodeBlock) {
             var isAction = Match.isAction(line);
             if (!!isAction) {
-                result = addToTasks(result, line, index);
+                result = actions_1.default(result, line, index);
             }
             else if (!!Match.task(line)) {
                 return task(result, lines.slice(i), index);
