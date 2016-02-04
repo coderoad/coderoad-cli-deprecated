@@ -11,10 +11,13 @@ function removeLineBreaks(text) {
     }
 }
 function trimQuotes(text) {
-    if (!!text.match(/^ /)) {
+    if (!!text.match(/^\s/)) {
         return trimQuotes(text.slice(1));
     }
-    if (!!text.match(/^`{3}.+`{3}$/)) {
+    else if (!!text.match(/\s$/)) {
+        return trimQuotes(text.slice(0, -1));
+    }
+    else if (!!text.match(/^`{3}.+`{3}$/)) {
         return trimQuotes(text.slice(3, -3));
     }
     else if (!!text.match(/^['"`].+['"`]$/)) {
@@ -25,6 +28,15 @@ function trimQuotes(text) {
     }
 }
 exports.trimQuotes = trimQuotes;
+function trimLeadingSpace(text) {
+    if (!!text.match(/^\s/)) {
+        return text.slice(1);
+    }
+    else {
+        return text;
+    }
+}
+exports.trimLeadingSpace = trimLeadingSpace;
 function cleanup(result) {
     if (result.project.description) {
         result.project.description = removeLineBreaks(result.project.description);

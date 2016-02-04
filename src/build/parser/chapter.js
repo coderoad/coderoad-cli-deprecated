@@ -1,6 +1,5 @@
 "use strict";
 var Match = require('./match');
-var chapter_1 = require('./chapter');
 var page_1 = require('./page');
 function chapter(result, lines, index) {
     index.page = -1;
@@ -12,10 +11,10 @@ function chapter(result, lines, index) {
     for (var i = 0; i < lines.length; i++) {
         var line = lines[i];
         if (Match.page(line)) {
-            return page_1.default(result, lines.slice(i), index);
+            return page_1.page(result, lines.slice(i), index);
         }
         else if (Match.chapter(line) && i > 0) {
-            return chapter_1.default(result, lines.slice(i), index);
+            return chapter(result, lines.slice(i), index);
         }
         else {
             if (result.chapters[index.chapter].description === undefined) {
@@ -26,5 +25,4 @@ function chapter(result, lines, index) {
     }
     return result;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = chapter;
+exports.chapter = chapter;

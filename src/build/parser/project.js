@@ -13,7 +13,7 @@ function project(result, lines, index) {
             result.project.title = projectTitleMatch.trim();
         }
         else if (!!Match.chapter(line)) {
-            return chapter_1.default(result, lines.slice(i), index);
+            return chapter_1.chapter(result, lines.slice(i), index);
         }
         else {
             result.project.description += line + '\n';
@@ -21,5 +21,4 @@ function project(result, lines, index) {
     }
     return result;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = project;
+exports.project = project;

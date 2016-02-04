@@ -3,6 +3,7 @@ var Match = require('./match');
 var chapter_1 = require('./chapter');
 var page_1 = require('./page');
 var actions_1 = require('./actions');
+var cleanup_1 = require('../cleanup');
 function bracketTracker(line) {
     var l = (line.match(/\(/g) || []).length;
     var r = (line.match(/\)/g) || []).length;
@@ -10,7 +11,7 @@ function bracketTracker(line) {
 }
 function task(result, lines, index) {
     result.chapters[index.chapter].pages[index.page].tasks.push({
-        description: Match.task(lines[0])
+        description: cleanup_1.trimLeadingSpace(Match.task(lines[0]))
     });
     index.task += 1;
     var inCodeBlock = false;
@@ -25,7 +26,7 @@ function task(result, lines, index) {
         }
         else if (!!currentAction) {
             currentAction += line;
-            result = actions_1.default(result, currentAction, index);
+            result = actions_1.addToTasks(result, currentAction, index);
             currentAction = null;
             bracketCount = 0;
         }
@@ -39,7 +40,7 @@ function task(result, lines, index) {
                     currentAction = line;
                     bracketCount = bracketTracker(line);
                     if (bracketCount === 0) {
-                        result = actions_1.default(result, currentAction, index);
+                        result = actions_1.addToTasks(result, currentAction, index);
                         currentAction = null;
                     }
                 }
@@ -47,18 +48,20 @@ function task(result, lines, index) {
                     return task(result, lines.slice(i), index);
                 }
                 else if (!!Match.page(line)) {
-                    return page_1.default(result, lines.slice(i), index);
+                    return page_1.page(result, lines.slice(i), index);
                 }
                 else if (!!Match.chapter(line)) {
-                    return chapter_1.default(result, lines.slice(i), index);
+                    return chapter_1.chapter(result, lines.slice(i), index);
                 }
                 else {
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line + '\n';
+                    if (i > 0) {
+                        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+                    }
+                    result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
                 }
             }
         }
     }
     return result;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = task;
+exports.task = task;

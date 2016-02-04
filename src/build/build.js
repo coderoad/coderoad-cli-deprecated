@@ -13,7 +13,7 @@ function build(lines) {
         page: -1,
         task: -1
     };
-    return project_1.default(result, lines, index);
+    return project_1.project(result, lines, index);
 }
 function default_1(filePath, output) {
     if (output === void 0) { output = './coderoad.json'; }

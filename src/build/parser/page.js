@@ -1,7 +1,6 @@
 "use strict";
 var Match = require('./match');
 var chapter_1 = require('./chapter');
-var page_1 = require('./page');
 var task_1 = require('./task');
 function page(result, lines, index) {
     var hasBreak = null;
@@ -21,16 +20,16 @@ function page(result, lines, index) {
                 hasBreak = i;
             }
             else if (!!Match.chapter(line)) {
-                return chapter_1.default(result, lines.slice(i), index);
+                return chapter_1.chapter(result, lines.slice(i), index);
             }
             else if (!!Match.page(line)) {
-                return page_1.default(result, lines.slice(i), index);
+                return page(result, lines.slice(i), index);
             }
             else if (!!Match.task(line)) {
                 if (result.chapters[index.chapter].pages[index.page].tasks === undefined) {
                     result.chapters[index.chapter].pages[index.page].tasks = [];
                 }
-                return task_1.default(result, lines.slice(i), index);
+                return task_1.task(result, lines.slice(i), index);
             }
             else {
                 if (!hasBreak) {
@@ -50,5 +49,4 @@ function page(result, lines, index) {
     }
     return result;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = page;
+exports.page = page;

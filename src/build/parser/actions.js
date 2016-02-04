@@ -60,5 +60,4 @@ function addToTasks(result, line, index) {
     }
     return result;
 }
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = addToTasks;
+exports.addToTasks = addToTasks;
