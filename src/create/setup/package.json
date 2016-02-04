@@ -10,7 +10,7 @@
   "devDependencies": {},
   "license": "MIT",
   "coderoad": {
-    "testDir": "tests",
+    "testDir": "test",
     "testSuffix": ".spec.js"
   }
 }
