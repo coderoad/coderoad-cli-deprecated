@@ -33,13 +33,13 @@ function createPackageJson(name) {
 }
 exports.createPackageJson = createPackageJson;
 function createTestFiles() {
-    if (!fileExists('./tests')) {
-        fs.mkdirSync('./tests');
+    if (!fileExists('./test')) {
+        fs.mkdirSync('./test');
     }
-    if (!fileExists('./tests/test-example-01.spec.js')) {
-        var inputPath = path.join(__dirname, './setup/tests/test-example-01.spec.js');
+    if (!fileExists('./test/test-example-01.spec.js')) {
+        var inputPath = path.join(__dirname, './setup/test/test-example-01.spec.js');
         var test = fs.readFileSync(inputPath, 'utf8');
-        fs.writeFileSync('./tests/test-example-01.spec.js', test, 'utf8');
+        fs.writeFileSync('./test/test-example-01.spec.js', test, 'utf8');
     }
 }
 exports.createTestFiles = createTestFiles;
