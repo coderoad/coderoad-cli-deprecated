@@ -24,6 +24,7 @@ function task(result, lines, index) {
             bracketCount += bracketTracker(line);
         }
         else if (!!currentAction) {
+            currentAction += line;
             result = actions_1.default(result, currentAction, index);
             currentAction = null;
             bracketCount = 0;

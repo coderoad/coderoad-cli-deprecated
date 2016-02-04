@@ -2,10 +2,11 @@
 var cleanup_1 = require('../cleanup');
 var Match = require('./match');
 function addToTasks(result, line, index) {
-    var action = line.slice(1).split('(')[0];
-    var value = cleanup_1.trimQuotes(/\((.*?)\)$/.exec(line)[1]);
+    var match = Match.isAction(line);
+    var action = match.action;
     var task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
-    var actionValue = Match.isAction(line)[2];
+    var inBrackets = /^\((.*?)\)$/.exec(match.content)[1];
+    var actionValue = cleanup_1.trimQuotes(inBrackets);
     var isActionArray = Match.isArray(cleanup_1.trimQuotes(actionValue));
     switch (action) {
         case 'test':
@@ -15,12 +16,12 @@ function addToTasks(result, line, index) {
             if (!!isActionArray) {
                 var valueList = actionValue.slice(1, -1).split(',');
                 valueList.forEach(function (value) {
-                    value = cleanup_1.trimQuotes(value.trim());
+                    var value = cleanup_1.trimQuotes(value.trim());
                     result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(value);
                 });
             }
             else {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(value);
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(actionValue);
             }
             break;
         case 'action':
@@ -30,11 +31,12 @@ function addToTasks(result, line, index) {
             if (!!isActionArray) {
                 var arrayOfActions = JSON.parse(isActionArray);
                 arrayOfActions.forEach(function (value) {
+                    var value = cleanup_1.trimQuotes(value.trim());
                     result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
                 });
             }
             else {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(actionValue);
             }
             return result;
             break;
@@ -45,12 +47,12 @@ function addToTasks(result, line, index) {
             if (!!isActionArray) {
                 var valueList = actionValue.slice(1, -1).split(',');
                 valueList.forEach(function (value) {
-                    value = cleanup_1.trimQuotes(value.trim());
+                    var value = cleanup_1.trimQuotes(value.trim());
                     result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(value);
                 });
             }
             else {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(value);
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(actionValue);
             }
             break;
         default:
