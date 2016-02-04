@@ -1,6 +1,6 @@
 # CodeRoad CLI
 
-Command line interface for CodeRoad. Coming soon.
+Command line interface for [CodeRoad](http://coderoad.github.io). Coming soon.
 
 ### Setup
 
