@@ -2,6 +2,7 @@
 var Match = require('./match');
 var chapter_1 = require('./chapter');
 var task_1 = require('./task');
+var import_1 = require('./import');
 function page(result, lines, index) {
     var hasBreak = null;
     index.page += 1;
@@ -10,8 +11,16 @@ function page(result, lines, index) {
         title: Match.page(lines[0]).trim()
     });
     var inCodeBlock = false;
-    for (var i = 1; i < lines.length; i++) {
+    var i = 0;
+    while (i < lines.length - 1) {
+        i += 1;
         var line = lines[i];
+        var importFile = Match.isImport(line);
+        if (!!importFile) {
+            lines = import_1.loadImport(lines, importFile);
+            i++;
+            line = lines[i];
+        }
         if (!!Match.codeBlock(line)) {
             inCodeBlock = !inCodeBlock;
         }

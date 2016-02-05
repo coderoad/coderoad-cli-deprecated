@@ -4,6 +4,7 @@ var chapter_1 = require('./chapter');
 var page_1 = require('./page');
 var actions_1 = require('./actions');
 var cleanup_1 = require('../cleanup');
+var import_1 = require('./import');
 function bracketTracker(line) {
     var l = (line.match(/\(/g) || []).length;
     var r = (line.match(/\)/g) || []).length;
@@ -17,8 +18,16 @@ function task(result, lines, index) {
     var inCodeBlock = false;
     var currentAction = null;
     var bracketCount = 0;
-    for (var i = 1; i < lines.length; i++) {
+    var i = 0;
+    while (i < lines.length - 1) {
+        i += 1;
         var line = lines[i];
+        var importFile = Match.isImport(line);
+        if (!!importFile) {
+            lines = import_1.loadImport(lines, importFile);
+            i++;
+            line = lines[i];
+        }
         var finishedAction = (bracketTracker(line) + bracketCount) === 0;
         if (!!currentAction && !finishedAction) {
             currentAction += line;

@@ -1,6 +1,7 @@
 "use strict";
 var Match = require('./match');
 var page_1 = require('./page');
+var import_1 = require('./import');
 function chapter(result, lines, index) {
     index.page = -1;
     index.chapter += 1;
@@ -8,8 +9,16 @@ function chapter(result, lines, index) {
         title: Match.chapter(lines[0]).trim(),
         pages: []
     });
-    for (var i = 1; i < lines.length; i++) {
+    var i = 0;
+    while (i < lines.length - 1) {
+        i += 1;
         var line = lines[i];
+        var importFile = Match.isImport(line);
+        if (!!importFile) {
+            lines = import_1.loadImport(lines, importFile);
+            i++;
+            line = lines[i];
+        }
         if (Match.page(line)) {
             return page_1.page(result, lines.slice(i), index);
         }
