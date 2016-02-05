@@ -16,7 +16,10 @@ function project(result, lines, index) {
             return chapter_1.chapter(result, lines.slice(i), index);
         }
         else {
-            result.project.description += line + '\n';
+            if (i > 1) {
+                result.project.description += '\n';
+            }
+            result.project.description += line;
         }
     }
     return result;

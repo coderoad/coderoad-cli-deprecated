@@ -36,13 +36,19 @@ function page(result, lines, index) {
                     if (result.chapters[index.chapter].pages[index.page].description === undefined) {
                         result.chapters[index.chapter].pages[index.page].description = '';
                     }
-                    result.chapters[index.chapter].pages[index.page].description += line + '\n';
+                    if (i > 1) {
+                        result.chapters[index.chapter].pages[index.page].description += '\n';
+                    }
+                    result.chapters[index.chapter].pages[index.page].description += line;
                 }
                 else {
                     if (result.chapters[index.chapter].pages[index.page].explanation === undefined) {
                         result.chapters[index.chapter].pages[index.page].explanation = '';
                     }
-                    result.chapters[index.chapter].pages[index.page].explanation += line + '\n';
+                    if (i > 3) {
+                        result.chapters[index.chapter].pages[index.page].explanation += '\n';
+                    }
+                    result.chapters[index.chapter].pages[index.page].explanation += line;
                 }
             }
         }
