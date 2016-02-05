@@ -3,6 +3,7 @@ var fs = require('fs');
 var validate = require('./validators');
 var cleanup_1 = require('./cleanup');
 var project_1 = require('./parser/project');
+var readme_1 = require('./readme');
 function build(lines) {
     var result = {
         project: {},
@@ -23,6 +24,7 @@ function default_1(filePath, output) {
     if (validate.result(result)) {
         fs.writeFileSync(output, result, 'utf8');
     }
+    readme_1.createReadme();
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = default_1;
