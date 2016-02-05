@@ -1,7 +1,6 @@
 "use strict";
 var fs = require('fs');
 var validate = require('./validators');
-var cleanup_1 = require('./cleanup');
 var project_1 = require('./parser/project');
 var readme_1 = require('./readme');
 function build(lines) {
@@ -20,7 +19,7 @@ function default_1(filePath, output) {
     if (output === void 0) { output = './coderoad.json'; }
     validate.filePath(filePath);
     var lines = fs.readFileSync(filePath, 'utf8').split('\n');
-    var result = cleanup_1.cleanup(build(lines));
+    var result = JSON.stringify(build(lines), null, 2);
     if (validate.result(result)) {
         fs.writeFileSync(output, result, 'utf8');
     }

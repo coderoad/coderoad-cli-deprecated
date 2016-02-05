@@ -2,7 +2,7 @@
 var fs = require('fs');
 var path = require('path');
 var file_1 = require('../../tools/file');
-var cleanup_1 = require('../cleanup');
+var cleanup_1 = require('./cleanup');
 function loadImport(lines, pathToMd) {
     pathToMd = cleanup_1.trimQuotes(pathToMd);
     if (!pathToMd.match(/\.md$/)) {

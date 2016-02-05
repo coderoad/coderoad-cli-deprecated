@@ -1,5 +1,5 @@
 "use strict";
-var cleanup_1 = require('../cleanup');
+var cleanup_1 = require('./cleanup');
 var Match = require('./match');
 function trimCommandValue(text) {
     var value = text.substring(text.indexOf('(') + 1).slice(0, -1);

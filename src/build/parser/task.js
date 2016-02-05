@@ -3,7 +3,7 @@ var Match = require('./match');
 var chapter_1 = require('./chapter');
 var page_1 = require('./page');
 var actions_1 = require('./actions');
-var cleanup_1 = require('../cleanup');
+var cleanup_1 = require('./cleanup');
 var import_1 = require('./import');
 function bracketTracker(line) {
     var l = (line.match(/\(/g) || []).length;
@@ -25,48 +25,48 @@ function task(result, lines, index) {
         var importFile = Match.isImport(line);
         if (!!importFile) {
             lines = import_1.loadImport(lines, importFile);
-            i++;
-            line = lines[i];
-        }
-        var finishedAction = (bracketTracker(line) + bracketCount) === 0;
-        if (!!currentAction && !finishedAction) {
-            currentAction += line;
-            bracketCount += bracketTracker(line);
-        }
-        else if (!!currentAction) {
-            currentAction += line;
-            result = actions_1.addToTasks(result, currentAction, index);
-            currentAction = null;
-            bracketCount = 0;
         }
         else {
-            var isAction = Match.isAction(line);
-            if (!isAction && !!Match.codeBlock(line)) {
-                inCodeBlock = !inCodeBlock;
+            var finishedAction = (bracketTracker(line) + bracketCount) === 0;
+            if (!!currentAction && !finishedAction) {
+                currentAction += line;
+                bracketCount += bracketTracker(line);
             }
-            if (!inCodeBlock) {
-                if (!!isAction) {
-                    currentAction = line;
-                    bracketCount = bracketTracker(line);
-                    if (bracketCount === 0) {
-                        result = actions_1.addToTasks(result, currentAction, index);
-                        currentAction = null;
+            else if (!!currentAction) {
+                currentAction += line;
+                result = actions_1.addToTasks(result, currentAction, index);
+                currentAction = null;
+                bracketCount = 0;
+            }
+            else {
+                var isAction = Match.isAction(line);
+                if (!isAction && !!Match.codeBlock(line)) {
+                    inCodeBlock = !inCodeBlock;
+                }
+                if (!inCodeBlock) {
+                    if (!!isAction) {
+                        currentAction = line;
+                        bracketCount = bracketTracker(line);
+                        if (bracketCount === 0) {
+                            result = actions_1.addToTasks(result, currentAction, index);
+                            currentAction = null;
+                        }
                     }
-                }
-                else if (!!Match.task(line)) {
-                    return task(result, lines.slice(i), index);
-                }
-                else if (!!Match.page(line)) {
-                    return page_1.page(result, lines.slice(i), index);
-                }
-                else if (!!Match.chapter(line)) {
-                    return chapter_1.chapter(result, lines.slice(i), index);
-                }
-                else {
-                    if (i > 0) {
-                        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+                    else if (!!Match.task(line)) {
+                        return task(result, lines.slice(i), index);
                     }
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
+                    else if (!!Match.page(line)) {
+                        return page_1.page(result, lines.slice(i), index);
+                    }
+                    else if (!!Match.chapter(line)) {
+                        return chapter_1.chapter(result, lines.slice(i), index);
+                    }
+                    else {
+                        if (i > 0) {
+                            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+                        }
+                        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
+                    }
                 }
             }
         }

@@ -14,21 +14,21 @@ function project(result, lines, index) {
         var importFile = Match.isImport(line);
         if (!!importFile) {
             lines = import_1.loadImport(lines, importFile);
-            i++;
-            line = lines[i];
-        }
-        var projectTitleMatch = Match.project(line);
-        if (!!projectTitleMatch) {
-            result.project.title = projectTitleMatch.trim();
-        }
-        else if (!!Match.chapter(line)) {
-            return chapter_1.chapter(result, lines.slice(i), index);
         }
         else {
-            if (i > 1) {
-                result.project.description += '\n';
+            var projectTitleMatch = Match.project(line);
+            if (!!projectTitleMatch) {
+                result.project.title = projectTitleMatch.trim();
             }
-            result.project.description += line;
+            else if (!!Match.chapter(line)) {
+                return chapter_1.chapter(result, lines.slice(i), index);
+            }
+            else {
+                if (i > 1) {
+                    result.project.description += '\n';
+                }
+                result.project.description += line;
+            }
         }
     }
     return result;
