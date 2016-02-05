@@ -1,17 +1,9 @@
 "use strict";
 function trimLineBreaks(text) {
-    console.log(text);
-    if (text.slice(1).match(/[/r/n]/)) {
-        console.log('end', text);
-        return trimLineBreaks(text.slice(0, -1));
+    if (text.match(/^\s+|\s+$/)) {
+        text = text.replace(/^[\s\r\n]+|[\s\r\n]+$/g, '');
     }
-    else if (text.slice(-1).match(/[/r/n]/)) {
-        console.log('start', text);
-        return trimLineBreaks(text.slice(1));
-    }
-    else {
-        return text.trim();
-    }
+    return text;
 }
 exports.trimLineBreaks = trimLineBreaks;
 function trimQuotes(text) {
@@ -41,3 +33,35 @@ function trimLeadingSpaces(text) {
     }
 }
 exports.trimLeadingSpaces = trimLeadingSpaces;
+function cleanup(result) {
+    result = JSON.parse(JSON.stringify(result));
+    if (result.project.description) {
+        result.project.description = trimLineBreaks(result.project.description);
+    }
+    if (result.chapters) {
+        result.chapters.map(function (chapter) {
+            if (chapter.description) {
+                chapter.description = trimLineBreaks(chapter.description);
+            }
+            if (chapter.pages) {
+                chapter.pages.map(function (page) {
+                    if (page.description) {
+                        page.description = trimLineBreaks(page.description);
+                    }
+                    if (page.explanation) {
+                        page.explanation = trimLineBreaks(page.explanation);
+                    }
+                    if (page.tasks) {
+                        page.tasks.map(function (task) {
+                            if (task.description) {
+                                task.description = trimLineBreaks(task.description);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+    return JSON.stringify(result, null, 2);
+}
+exports.cleanup = cleanup;
