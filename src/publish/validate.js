@@ -2,20 +2,9 @@
 var fs = require('fs');
 var process = require('process');
 var chalk = require('chalk');
-function fileExists(path) {
-    try {
-        fs.accessSync(path, fs.R_OK | fs.W_OK);
-    }
-    catch (e) {
-        if (e) {
-            console.log(e);
-            return false;
-        }
-    }
-    return true;
-}
+var file_1 = require('../tools/file');
 function versionIsGreaterThanCurrent(version) {
-    if (!fileExists('package.json')) {
+    if (!file_1.fileExists('package.json')) {
         console.log(chalk.yellow("\n  No available package.json file.Create one.\n  > npm init\n  "));
         process.exit(1);
     }

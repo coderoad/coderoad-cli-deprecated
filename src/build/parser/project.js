@@ -1,13 +1,22 @@
 "use strict";
 var Match = require('./match');
 var chapter_1 = require('./chapter');
+var import_1 = require('./import');
 function project(result, lines, index) {
     result.project = {
         title: '',
         description: ''
     };
-    for (var i = 0; i < lines.length; i++) {
+    var i = -1;
+    while (i < lines.length - 1) {
+        i += 1;
         var line = lines[i];
+        var importFile = Match.isImport(line);
+        if (!!importFile) {
+            lines = import_1.loadImport(lines, importFile);
+            i++;
+            line = lines[i];
+        }
         var projectTitleMatch = Match.project(line);
         if (!!projectTitleMatch) {
             result.project.title = projectTitleMatch.trim();
