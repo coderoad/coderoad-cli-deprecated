@@ -27,6 +27,7 @@ else {
         var output = 'coderoad.json';
         console.log(chalk.grey("building from " + tutorial + "..."));
         build_1.default(tutorial, output);
+        console.log(chalk.grey("build complete: coderoad.json"));
     }
     if (program.create) {
         var packageName = program.args[0];

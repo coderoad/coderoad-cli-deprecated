@@ -7,7 +7,6 @@ function trimCommandValue(text) {
         action: text.substring(0, text.indexOf('(')),
         value: cleanup_1.trimLeadingSpaces(cleanup_1.trimQuotes(value))
     };
-    console.log(command);
     return command.action + '(\'' + command.value + '\')';
 }
 exports.trimCommandValue = trimCommandValue;
