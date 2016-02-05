@@ -11,7 +11,7 @@ function bracketTracker(line) {
 }
 function task(result, lines, index) {
     result.chapters[index.chapter].pages[index.page].tasks.push({
-        description: cleanup_1.trimLeadingSpace(Match.task(lines[0]))
+        description: cleanup_1.trimLeadingSpaces(Match.task(lines[0]))
     });
     index.task += 1;
     var inCodeBlock = false;

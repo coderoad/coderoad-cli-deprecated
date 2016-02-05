@@ -1,12 +1,26 @@
 "use strict";
 var cleanup_1 = require('../cleanup');
 var Match = require('./match');
+function trimCommandValue(text) {
+    var value = text.substring(text.indexOf('(') + 1).slice(0, -1);
+    var command = {
+        action: text.substring(0, text.indexOf('(')),
+        value: cleanup_1.trimLeadingSpaces(cleanup_1.trimQuotes(value))
+    };
+    console.log(command);
+    return command.action + '(\'' + command.value + '\')';
+}
+exports.trimCommandValue = trimCommandValue;
+function getContentInBrackets(text) {
+    return /^\((.*?)\)$/.exec(text)[1];
+}
 function addToTasks(result, line, index) {
     var match = Match.isAction(line);
     var action = match.action;
     var task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
-    var inBrackets = /^\((.*?)\)$/.exec(match.content)[1];
-    var actionValue = cleanup_1.trimQuotes(inBrackets);
+    var trimmedAction = getContentInBrackets(match.content);
+    var actionValue = cleanup_1.trimQuotes(trimmedAction);
+    3;
     var isActionArray = Match.isArray(cleanup_1.trimQuotes(actionValue));
     switch (action) {
         case 'test':
@@ -31,12 +45,13 @@ function addToTasks(result, line, index) {
             if (!!isActionArray) {
                 var arrayOfActions = JSON.parse(isActionArray);
                 arrayOfActions.forEach(function (value) {
-                    var value = cleanup_1.trimQuotes(value.trim());
+                    var value = trimCommandValue(cleanup_1.trimQuotes(value.trim()));
                     result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
                 });
             }
             else {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(actionValue);
+                var value = trimCommandValue(actionValue);
+                result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
             }
             return result;
             break;

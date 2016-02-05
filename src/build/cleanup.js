@@ -28,7 +28,7 @@ function trimQuotes(text) {
     }
 }
 exports.trimQuotes = trimQuotes;
-function trimLeadingSpace(text) {
+function trimLeadingSpaces(text) {
     if (!!text.match(/^\s/)) {
         return text.slice(1);
     }
@@ -36,7 +36,7 @@ function trimLeadingSpace(text) {
         return text;
     }
 }
-exports.trimLeadingSpace = trimLeadingSpace;
+exports.trimLeadingSpaces = trimLeadingSpaces;
 function cleanup(result) {
     if (result.project.description) {
         result.project.description = removeLineBreaks(result.project.description);
