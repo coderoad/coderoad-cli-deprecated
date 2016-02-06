@@ -9,21 +9,21 @@ var search_1 = require('./src/search/search');
 var tutorials_1 = require('./src/tutorials/tutorials');
 var publish_1 = require('./src/publish/publish');
 program
-    .version('0.3.2')
+    .version('0.3.3')
     .usage('[options] <keywords>')
-    .option('-b, --build [tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
+    .option('-b, --build [path/to/tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
     .option('-c, --create [name]', 'tutorial name')
     .option('-p, --publish [version]', 'publish tutorial to npm with new version number')
     .option('-t, --tutorials', 'list of tutorial packages')
     .option('-s, --search [query]', 'search for tutorial package')
     .option('-r, --run', 'run tutorial')
     .parse(process.argv);
-if (!program.args.length && !program.tutorials) {
+if (!program.args.length && !program.tutorials && !program.build) {
     program.help();
 }
 else {
     if (program.build) {
-        var tutorial = program.args[0];
+        var tutorial = program.args[0] || 'tutorial/tutorial.md';
         var output = 'coderoad.json';
         console.log(chalk.grey("building from " + tutorial + "..."));
         build_1.default(tutorial, output);

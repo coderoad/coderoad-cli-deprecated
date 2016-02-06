@@ -2,13 +2,26 @@
 var fs = require('fs');
 var path = require('path');
 var file_1 = require('../tools/file');
-function createTutorialMd() {
-    if (!file_1.fileExists('tutorial.md')) {
-        console.log('adding tutorial md');
-        var inputPath = path.join(__dirname, './setup/tutorial.md');
-        var tutorial = fs.readFileSync(inputPath, 'utf8');
-        fs.writeFileSync('tutorial.md', tutorial, 'utf8');
+function createFile(pathToFile) {
+    if (!file_1.fileExists(pathToFile)) {
+        var inputPath = path.join(__dirname, 'setup', pathToFile);
+        var test = fs.readFileSync(inputPath, 'utf8');
+        fs.writeFileSync(pathToFile, test, 'utf8');
     }
+}
+function createFolder(pathToFolder) {
+    if (!file_1.fileExists(pathToFolder)) {
+        fs.mkdirSync(pathToFolder);
+    }
+}
+function createTutorialMd() {
+    createFolder('tutorial');
+    createFile('tutorial/tutorial.md');
+    createFolder('tutorial/chapter-01');
+    createFolder('tutorial/chapter-01/page-01');
+    createFile('tutorial/chapter-01/page-01/page-one.md');
+    createFolder('tutorial/chapter-01/page-02');
+    createFile('tutorial/chapter-01/page-02/page-two.md');
 }
 exports.createTutorialMd = createTutorialMd;
 function createPackageJson(name) {
@@ -22,13 +35,9 @@ function createPackageJson(name) {
 }
 exports.createPackageJson = createPackageJson;
 function createTestFiles() {
-    if (!file_1.fileExists('./test')) {
-        fs.mkdirSync('./test');
-    }
-    if (!file_1.fileExists('./test/test-example-01.spec.js')) {
-        var inputPath = path.join(__dirname, './setup/test/test-example-01.spec.js');
-        var test = fs.readFileSync(inputPath, 'utf8');
-        fs.writeFileSync('./test/test-example-01.spec.js', test, 'utf8');
-    }
+    createFile('tutorial/chapter-01/page-01/task-01.spec.js');
+    createFile('tutorial/chapter-01/page-01/task-02.spec.js');
+    createFile('tutorial/chapter-01/page-02/task-01.spec.js');
+    createFile('tutorial/chapter-01/page-02/task-02.spec.js');
 }
 exports.createTestFiles = createTestFiles;
