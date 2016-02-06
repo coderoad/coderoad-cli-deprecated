@@ -9,7 +9,7 @@ var search_1 = require('./src/search/search');
 var tutorials_1 = require('./src/tutorials/tutorials');
 var publish_1 = require('./src/publish/publish');
 program
-    .version('0.3.3')
+    .version('0.3.4')
     .usage('[options] <keywords>')
     .option('-b, --build [path/to/tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
     .option('-c, --create [name]', 'tutorial name')
@@ -18,7 +18,7 @@ program
     .option('-s, --search [query]', 'search for tutorial package')
     .option('-r, --run', 'run tutorial')
     .parse(process.argv);
-if (!program.args.length && !program.tutorials && !program.build) {
+if (!program.args.length && !program.tutorials && !program.build && !program.search) {
     program.help();
 }
 else {
