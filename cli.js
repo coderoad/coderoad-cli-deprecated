@@ -9,7 +9,7 @@ var search_1 = require('./src/search/search');
 var tutorials_1 = require('./src/tutorials/tutorials');
 var publish_1 = require('./src/publish/publish');
 program
-    .version('0.3.4')
+    .version('0.3.5')
     .usage('[options] <keywords>')
     .option('-b, --build [path/to/tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
     .option('-c, --create [name]', 'tutorial name')

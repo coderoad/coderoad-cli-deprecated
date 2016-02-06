@@ -10,9 +10,9 @@ Command line interface for [CodeRoad](http://coderoad.github.io).
 ## Commands
 - create [name]
 - build [tutorial.md]
-- publish [version]   _coming soon_
+- publish [version]   _currently instructions only_
 - tutorials           _coming soon_
-- search [query]      _coming soon_
+- search [query]      _currently instructions only_
 - help
 
 ### Create
