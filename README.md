@@ -47,10 +47,11 @@ project related keywords.
 
 "build" compiles your markdown tutorial into a data file called `coderoad.json`.
 
-You must specify the path to your tutorial markdown file, normally `tutorial.md`.
+"build" defaults to `tutorial/tutorial.md`. Optionally specify the path to your tutorial markdown file.
 
 ```
-> coderoad build $tutorial.md$
+> coderoad build
+> coderoad build $path/to/tutorial.md$
 ```
 
 "build" also generates a `README.md` with an outline of your chapters & pages
