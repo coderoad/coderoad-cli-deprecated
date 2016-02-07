@@ -13,6 +13,7 @@ Command line interface for [CodeRoad](http://coderoad.github.io).
 - publish [version]   _currently instructions only_
 - tutorials           _coming soon_
 - search [query]      _currently instructions only_
+- docs
 - help
 
 ### Create
