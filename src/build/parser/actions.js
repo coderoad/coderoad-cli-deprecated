@@ -11,7 +11,10 @@ function trimCommandValue(text) {
 }
 exports.trimCommandValue = trimCommandValue;
 function getContentInBrackets(text) {
-    return /^\((.*?)\)$/.exec(text)[1];
+    if (text.charAt(0) === '(' && text.charAt(text.length - 1) === ')') {
+        return text.slice(1, text.length - 1);
+    }
+    return '';
 }
 function addToTasks(result, line, index) {
     var match = Match.isAction(line);
