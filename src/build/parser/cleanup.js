@@ -6,18 +6,19 @@ function trimLineBreaks(text) {
     return text;
 }
 exports.trimLineBreaks = trimLineBreaks;
+var quotes = ['\'', '"', '`'];
 function trimQuotes(text) {
     if (!!text.match(/^\s/)) {
         return trimQuotes(text.slice(1));
     }
-    else if (!!text.match(/\s$/)) {
-        return trimQuotes(text.slice(0, -1));
+    else if (!!text.match(/\s$/m)) {
+        return trimQuotes(text.slice(0, text.length - 1));
     }
-    else if (!!text.match(/^`{3}.+`{3}$/)) {
-        return trimQuotes(text.slice(3, -3));
+    else if (!!text.match(/^`{3}.+`{3}$/m)) {
+        return trimQuotes(text.slice(3, text.length - 3));
     }
-    else if (!!text.match(/^['"`].+['"`]$/)) {
-        return trimQuotes(text.slice(1, -1));
+    else if (quotes.indexOf(text.charAt(0)) > -1 && quotes.indexOf(text.charAt(text.length - 1)) > -1) {
+        return trimQuotes(text.slice(1, text.length - 1));
     }
     else {
         return text;

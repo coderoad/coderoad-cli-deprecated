@@ -36,7 +36,7 @@ exports.isArray = function (line) {
     return isMatch ? isMatch[0] : false;
 };
 exports.isAction = function (line) {
-    var match = line.match(/^@(action|test|hint)(.+)$/);
+    var match = line.match(/^@(action|test|hint)/);
     return !!match ? {
         action: match[1],
         content: match[2]

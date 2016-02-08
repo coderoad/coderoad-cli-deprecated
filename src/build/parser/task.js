@@ -15,7 +15,7 @@ function task(result, lines, index) {
         description: cleanup_1.trimLeadingSpaces(Match.task(lines[0]))
     });
     index.task += 1;
-    var inCodeBlock = false;
+    var inExpCodeBlock = false;
     var currentAction = null;
     var bracketCount = 0;
     var i = 0;
@@ -27,23 +27,25 @@ function task(result, lines, index) {
             lines = import_1.loadImport(lines, importFile);
         }
         else {
-            var finishedAction = (bracketTracker(line) + bracketCount) === 0;
-            if (!!currentAction && !finishedAction) {
-                currentAction += line;
-                bracketCount += bracketTracker(line);
-            }
-            else if (!!currentAction) {
-                currentAction += line;
-                result = actions_1.addToTasks(result, currentAction, index);
-                currentAction = null;
-                bracketCount = 0;
+            if (!!currentAction) {
+                var finishedAction = (bracketTracker(line) + bracketCount) === 0;
+                if (!finishedAction) {
+                    currentAction += line + '\n';
+                    bracketCount += bracketTracker(line);
+                }
+                else {
+                    currentAction += line;
+                    result = actions_1.addToTasks(result, currentAction, index);
+                    currentAction = null;
+                    bracketCount = 0;
+                }
             }
             else {
                 var isAction = Match.isAction(line);
                 if (!isAction && !!Match.codeBlock(line)) {
-                    inCodeBlock = !inCodeBlock;
+                    inExpCodeBlock = !inExpCodeBlock;
                 }
-                if (!inCodeBlock) {
+                if (!inExpCodeBlock) {
                     if (!!isAction) {
                         currentAction = line;
                         bracketCount = bracketTracker(line);

@@ -10,19 +10,12 @@ function trimCommandValue(text) {
     return command.action + '(\'' + command.value + '\')';
 }
 exports.trimCommandValue = trimCommandValue;
-function getContentInBrackets(text) {
-    if (text.charAt(0) === '(' && text.charAt(text.length - 1) === ')') {
-        return text.slice(1, text.length - 1);
-    }
-    return '';
-}
 function addToTasks(result, line, index) {
     var match = Match.isAction(line);
     var action = match.action;
     var task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
-    var trimmedAction = getContentInBrackets(match.content);
+    var trimmedAction = line.slice(action.length + 2, line.length - 1);
     var actionValue = cleanup_1.trimQuotes(trimmedAction);
-    3;
     var isActionArray = Match.isArray(cleanup_1.trimQuotes(actionValue));
     switch (action) {
         case 'test':

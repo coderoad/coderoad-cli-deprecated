@@ -31,7 +31,7 @@ Command line interface for [CodeRoad](http://coderoad.github.io).
 ```
   "name": "coderoad-$my-tutorial-name$",
   "main": "coderoad.json",
-  "keywords": ["coderoad"],
+  "keywords": ["coderoad", "tutorial"],
   "coderoad": {
       "testDir": "test",
       "testSuffix": ".spec.js"
