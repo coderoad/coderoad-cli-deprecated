@@ -29,7 +29,7 @@ Command line interface for [CodeRoad](http://coderoad.github.io).
 * a `package.json` configuration with the following settings:
 
 ```
-  "name": "coderoad-$my-tutorial-name$",
+  "name": "coderoad-$TUTORIAL-NAME$",
   "main": "coderoad.json",
   "keywords": ["coderoad", "tutorial"],
   "coderoad": {

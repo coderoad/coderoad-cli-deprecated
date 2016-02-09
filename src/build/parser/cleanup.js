@@ -8,10 +8,13 @@ function trimLineBreaks(text) {
 exports.trimLineBreaks = trimLineBreaks;
 var quotes = ['\'', '"', '`'];
 function trimQuotes(text) {
-    if (!!text.match(/^\s/)) {
+    if (!!text.match(/^[\r\n]/)) {
+        return text;
+    }
+    else if (!!text.match(/^\s/)) {
         return trimQuotes(text.slice(1));
     }
-    else if (!!text.match(/\s$/m)) {
+    else if (!!text.match(/\s$/)) {
         return trimQuotes(text.slice(0, text.length - 1));
     }
     else if (!!text.match(/^`{3}.+`{3}$/m)) {

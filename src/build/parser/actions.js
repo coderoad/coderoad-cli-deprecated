@@ -10,28 +10,35 @@ function trimCommandValue(text) {
     return command.action + '(\'' + command.value + '\')';
 }
 exports.trimCommandValue = trimCommandValue;
+function doAction(type, isArray, actionValue, result, line, index) {
+    if (result.chapters[index.chapter].pages[index.page].tasks[index.task][type] === undefined) {
+        result.chapters[index.chapter].pages[index.page].tasks[index.task][type] = [];
+    }
+    if (!!isArray) {
+        var valueList = actionValue.slice(1, -1).split(',');
+        valueList.forEach(function (value) {
+            var value = cleanup_1.trimQuotes(value.trim());
+            result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(value);
+        });
+    }
+    else {
+        result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(actionValue);
+    }
+    return result;
+}
 function addToTasks(result, line, index) {
     var match = Match.isAction(line);
     var action = match.action;
     var task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
-    var trimmedAction = line.slice(action.length + 2, line.length - 1);
-    var actionValue = cleanup_1.trimQuotes(trimmedAction);
+    var trimmedContent = line.slice(action.length + 2, line.length - 1);
+    var actionValue = cleanup_1.trimQuotes(trimmedContent);
     var isActionArray = Match.isArray(cleanup_1.trimQuotes(actionValue));
     switch (action) {
         case 'test':
-            if (result.chapters[index.chapter].pages[index.page].tasks[index.task].tests === undefined) {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].tests = [];
-            }
-            if (!!isActionArray) {
-                var valueList = actionValue.slice(1, -1).split(',');
-                valueList.forEach(function (value) {
-                    var value = cleanup_1.trimQuotes(value.trim());
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(value);
-                });
-            }
-            else {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].tests.push(actionValue);
-            }
+            result = doAction('tests', isActionArray, actionValue, result, line, index);
+            break;
+        case 'hint':
+            result = doAction('hints', isActionArray, actionValue, result, line, index);
             break;
         case 'action':
             if (task.actions === undefined) {
@@ -49,21 +56,6 @@ function addToTasks(result, line, index) {
                 result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
             }
             return result;
-            break;
-        case 'hint':
-            if (task.hints === undefined) {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].hints = [];
-            }
-            if (!!isActionArray) {
-                var valueList = actionValue.slice(1, -1).split(',');
-                valueList.forEach(function (value) {
-                    var value = cleanup_1.trimQuotes(value.trim());
-                    result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(value);
-                });
-            }
-            else {
-                result.chapters[index.chapter].pages[index.page].tasks[index.task].hints.push(actionValue);
-            }
             break;
         default:
             console.log('Invalid task action');

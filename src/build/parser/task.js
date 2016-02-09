@@ -28,8 +28,10 @@ function task(result, lines, index) {
         }
         else {
             if (!!currentAction) {
-                var finishedAction = (bracketTracker(line) + bracketCount) === 0;
-                if (!finishedAction) {
+                if (line.length === 0) {
+                    currentAction += '\n';
+                }
+                else if ((bracketTracker(line) + bracketCount) !== 0) {
                     currentAction += line + '\n';
                     bracketCount += bracketTracker(line);
                 }

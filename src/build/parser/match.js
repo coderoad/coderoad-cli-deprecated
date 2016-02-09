@@ -38,8 +38,7 @@ exports.isArray = function (line) {
 exports.isAction = function (line) {
     var match = line.match(/^@(action|test|hint)/);
     return !!match ? {
-        action: match[1],
-        content: match[2]
+        action: match[1]
     } : false;
 };
 exports.isImport = function (line) {
