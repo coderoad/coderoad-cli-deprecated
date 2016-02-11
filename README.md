@@ -15,10 +15,19 @@ Command line interface for [CodeRoad](http://coderoad.github.io).
 * Run `> npm link` to create a symbolic link to your project
 * Update changes to your tutorial by running `> coderoad build`
 
-##### Trying your Tutorial
+##### Viewing/Testing your Tutorial
 
-* Use another empty directory to test your tutorial. Run `> npm link coderoad-$NAME$` & `> npm install`. This will install your development tutorial package link as a node module.
-* Open `atom-coderoad` to view the tutorial. Your package should appear as a loaded package.
+* Open a new directory and run `> npm init`
+* Add your package name to the `dependencies` in `package.json`:
+
+```
+"dependencies": {
+    "coderoad-$NAME$": "^0.1.0"
+  }
+```
+
+* Run `> npm link coderoad-$NAME$` & `> npm install`. This will install a package link pointing at your development tutorial.
+* Open [atom-coderoad](https://github.com/coderoad/atom-coderoad) to view your tutorial. Your package should appear as a loaded package.
 
 
 ## Commands
