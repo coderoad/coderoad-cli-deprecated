@@ -1,4 +1,5 @@
 #! /usr/bin/env node
+
 "use strict";
 var program = require('commander');
 var chalk = require('chalk');
@@ -9,7 +10,7 @@ var tutorials_1 = require('./src/tutorials/tutorials');
 var publish_1 = require('./src/publish/publish');
 var docs_1 = require('./src/docs/docs');
 program
-    .version('0.3.10')
+    .version('0.3.11')
     .usage('[options] <keywords>')
     .option('-b, --build [path/to/tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
     .option('-c, --create [name]', 'tutorial name')
