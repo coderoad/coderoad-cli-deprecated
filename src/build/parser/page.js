@@ -21,6 +21,10 @@ function page(result, lines, index) {
         }
         else {
             if (!!Match.codeBlock(line)) {
+                if (line.length > 3) {
+                    result = addToDescriptionOrExplanation(hasBreak, i, result, line, index);
+                    continue;
+                }
                 inCodeBlock = !inCodeBlock;
             }
             if (!inCodeBlock) {
@@ -40,24 +44,7 @@ function page(result, lines, index) {
                     return task_1.task(result, lines.slice(i), index);
                 }
                 else {
-                    if (!hasBreak) {
-                        if (result.chapters[index.chapter].pages[index.page].description === undefined) {
-                            result.chapters[index.chapter].pages[index.page].description = '';
-                        }
-                        if (i > 1) {
-                            result.chapters[index.chapter].pages[index.page].description += '\n';
-                        }
-                        result.chapters[index.chapter].pages[index.page].description += line;
-                    }
-                    else {
-                        if (result.chapters[index.chapter].pages[index.page].explanation === undefined) {
-                            result.chapters[index.chapter].pages[index.page].explanation = '';
-                        }
-                        if (i > 3) {
-                            result.chapters[index.chapter].pages[index.page].explanation += '\n';
-                        }
-                        result.chapters[index.chapter].pages[index.page].explanation += line;
-                    }
+                    result = addToDescriptionOrExplanation(hasBreak, i, result, line, index);
                 }
             }
         }
@@ -65,3 +52,24 @@ function page(result, lines, index) {
     return result;
 }
 exports.page = page;
+function addToDescriptionOrExplanation(hasBreak, i, result, line, index) {
+    if (!hasBreak) {
+        if (result.chapters[index.chapter].pages[index.page].description === undefined) {
+            result.chapters[index.chapter].pages[index.page].description = '';
+        }
+        if (i > 1) {
+            result.chapters[index.chapter].pages[index.page].description += '\n';
+        }
+        result.chapters[index.chapter].pages[index.page].description += line;
+    }
+    else {
+        if (result.chapters[index.chapter].pages[index.page].explanation === undefined) {
+            result.chapters[index.chapter].pages[index.page].explanation = '';
+        }
+        if (i > 3) {
+            result.chapters[index.chapter].pages[index.page].explanation += '\n';
+        }
+        result.chapters[index.chapter].pages[index.page].explanation += line;
+    }
+    return result;
+}
