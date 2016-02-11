@@ -7,6 +7,7 @@ function project(result, lines, index) {
         title: '',
         description: ''
     };
+    var inCodeBlock = false;
     var i = -1;
     while (i < lines.length - 1) {
         i += 1;
@@ -14,8 +15,16 @@ function project(result, lines, index) {
         var importFile = Match.isImport(line);
         if (!!importFile) {
             lines = import_1.loadImport(lines, importFile);
+            continue;
         }
-        else {
+        if (!!Match.codeBlock(line)) {
+            if (line.length > 3) {
+                result = addToDescription(i, result, line);
+                continue;
+            }
+            inCodeBlock = !inCodeBlock;
+        }
+        if (!inCodeBlock) {
             var projectTitleMatch = Match.project(line);
             if (!!projectTitleMatch) {
                 result.project.title = projectTitleMatch.trim();
@@ -24,13 +33,17 @@ function project(result, lines, index) {
                 return chapter_1.chapter(result, lines.slice(i), index);
             }
             else {
-                if (i > 1) {
-                    result.project.description += '\n';
-                }
-                result.project.description += line;
+                result = addToDescription(i, result, line);
             }
         }
     }
     return result;
 }
 exports.project = project;
+function addToDescription(i, result, line) {
+    if (i > 1) {
+        result.project.description += '\n';
+    }
+    result.project.description += line;
+    return result;
+}

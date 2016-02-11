@@ -18,34 +18,33 @@ function page(result, lines, index) {
         var importFile = Match.isImport(line);
         if (!!importFile) {
             lines = import_1.loadImport(lines, importFile);
+            continue;
         }
-        else {
-            if (!!Match.codeBlock(line)) {
-                if (line.length > 3) {
-                    result = addToDescriptionOrExplanation(hasBreak, i, result, line, index);
-                    continue;
-                }
-                inCodeBlock = !inCodeBlock;
+        if (!!Match.codeBlock(line)) {
+            if (line.length > 3) {
+                result = addToDescriptionOrExplanation(hasBreak, i, result, line, index);
+                continue;
             }
-            if (!inCodeBlock) {
-                if (!hasBreak && Match.isEmpty(line)) {
-                    hasBreak = i;
+            inCodeBlock = !inCodeBlock;
+        }
+        if (!inCodeBlock) {
+            if (!hasBreak && Match.isEmpty(line)) {
+                hasBreak = i;
+            }
+            else if (!!Match.chapter(line)) {
+                return chapter_1.chapter(result, lines.slice(i), index);
+            }
+            else if (!!Match.page(line)) {
+                return page(result, lines.slice(i), index);
+            }
+            else if (!!Match.task(line)) {
+                if (result.chapters[index.chapter].pages[index.page].tasks === undefined) {
+                    result.chapters[index.chapter].pages[index.page].tasks = [];
                 }
-                else if (!!Match.chapter(line)) {
-                    return chapter_1.chapter(result, lines.slice(i), index);
-                }
-                else if (!!Match.page(line)) {
-                    return page(result, lines.slice(i), index);
-                }
-                else if (!!Match.task(line)) {
-                    if (result.chapters[index.chapter].pages[index.page].tasks === undefined) {
-                        result.chapters[index.chapter].pages[index.page].tasks = [];
-                    }
-                    return task_1.task(result, lines.slice(i), index);
-                }
-                else {
-                    result = addToDescriptionOrExplanation(hasBreak, i, result, line, index);
-                }
+                return task_1.task(result, lines.slice(i), index);
+            }
+            else {
+                result = addToDescriptionOrExplanation(hasBreak, i, result, line, index);
             }
         }
     }

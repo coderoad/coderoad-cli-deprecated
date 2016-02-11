@@ -41,36 +41,36 @@ function task(result, lines, index) {
                     currentAction = null;
                     bracketCount = 0;
                 }
+                continue;
             }
-            else {
-                var isAction = Match.isAction(line);
-                if (!isAction && !!Match.codeBlock(line)) {
-                    inExpCodeBlock = !inExpCodeBlock;
+            var isAction = Match.isAction(line);
+            if (!isAction && !!Match.codeBlock(line)) {
+                if (line.length > 3) {
+                    result = addToDescription(i, result, line, index);
+                    continue;
                 }
-                if (!inExpCodeBlock) {
-                    if (!!isAction) {
-                        currentAction = line;
-                        bracketCount = bracketTracker(line);
-                        if (bracketCount === 0) {
-                            result = actions_1.addToTasks(result, currentAction, index);
-                            currentAction = null;
-                        }
+                inExpCodeBlock = !inExpCodeBlock;
+            }
+            if (!inExpCodeBlock) {
+                if (!!isAction) {
+                    currentAction = line;
+                    bracketCount = bracketTracker(line);
+                    if (bracketCount === 0) {
+                        result = actions_1.addToTasks(result, currentAction, index);
+                        currentAction = null;
                     }
-                    else if (!!Match.task(line)) {
-                        return task(result, lines.slice(i), index);
-                    }
-                    else if (!!Match.page(line)) {
-                        return page_1.page(result, lines.slice(i), index);
-                    }
-                    else if (!!Match.chapter(line)) {
-                        return chapter_1.chapter(result, lines.slice(i), index);
-                    }
-                    else {
-                        if (i > 0) {
-                            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
-                        }
-                        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
-                    }
+                }
+                else if (!!Match.task(line)) {
+                    return task(result, lines.slice(i), index);
+                }
+                else if (!!Match.page(line)) {
+                    return page_1.page(result, lines.slice(i), index);
+                }
+                else if (!!Match.chapter(line)) {
+                    return chapter_1.chapter(result, lines.slice(i), index);
+                }
+                else {
+                    result = addToDescription(i, result, line, index);
                 }
             }
         }
@@ -78,3 +78,10 @@ function task(result, lines, index) {
     return result;
 }
 exports.task = task;
+function addToDescription(i, result, line, index) {
+    if (i > 0) {
+        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+    }
+    result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
+    return result;
+}
