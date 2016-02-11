@@ -28,7 +28,7 @@ Command line interface for [CodeRoad](http://coderoad.github.io).
 
 * Run `> npm link coderoad-$NAME$` & `> npm install`. This will install a package link pointing at your development tutorial.
 * Open [atom-coderoad](https://github.com/coderoad/atom-coderoad) to view your tutorial. Your package should appear as a loaded package.
-
+* Reload Atom if necessary (cmd + shift + P, type "reload", enter)
 
 ## Commands
 - create [name]
