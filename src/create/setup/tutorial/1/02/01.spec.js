@@ -1,15 +1,17 @@
 var expect = require('chai').expect;
-var context = require('test-context');
-context('../../../example.js');
 
-describe('divideOne', function() {
+var loadJS = require('./common/loadJS').default;
+loadJS('page-02.js')
+
+
+describe('01 divideOne', function() {
 
   it('doesn\'t exist', function () {
     expect(divideOne).to.not.be.undefined;
   });
 
-  it('doesn\'t take any parameters', function() {
-    expect(divideOne.length).to.be.above(0);
+  it('should take a parameter', function() {
+    expect(divideOne).to.have.length(1);
   });
 
   it('doesn\'t output a number', function () {

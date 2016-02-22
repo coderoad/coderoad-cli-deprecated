@@ -17,11 +17,11 @@ function createFolder(pathToFolder) {
 function createTutorialMd() {
     createFolder('tutorial');
     createFile('tutorial/tutorial.md');
-    createFolder('tutorial/chapter-01');
-    createFolder('tutorial/chapter-01/page-01');
-    createFile('tutorial/chapter-01/page-01/page-one.md');
-    createFolder('tutorial/chapter-01/page-02');
-    createFile('tutorial/chapter-01/page-02/page-two.md');
+    createFolder('tutorial/1');
+    createFolder('tutorial/1/01');
+    createFile('tutorial/1/01/page-one.md');
+    createFolder('tutorial/1/02');
+    createFile('tutorial/1/02/page-two.md');
 }
 exports.createTutorialMd = createTutorialMd;
 function createPackageJson(name) {
@@ -35,9 +35,9 @@ function createPackageJson(name) {
 }
 exports.createPackageJson = createPackageJson;
 function createTestFiles() {
-    createFile('tutorial/chapter-01/page-01/task-01.spec.js');
-    createFile('tutorial/chapter-01/page-01/task-02.spec.js');
-    createFile('tutorial/chapter-01/page-02/task-01.spec.js');
-    createFile('tutorial/chapter-01/page-02/task-02.spec.js');
+    createFile('tutorial/1/01/01.spec.js');
+    createFile('tutorial/1/01/02.spec.js');
+    createFile('tutorial/1/02/01.spec.js');
+    createFile('tutorial/1/02/02.spec.js');
 }
 exports.createTestFiles = createTestFiles;

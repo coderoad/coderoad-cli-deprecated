@@ -1,23 +1,23 @@
 var expect = require('chai').expect;
-var context = require('test-context');
-var filePath = '../../../example.js';
-context(filePath);
 
-describe('addOne', function() {
+var loadJS = require('./common/loadJS').default;
+loadJS('page-01.js')
+
+describe('01 addOne', function() {
 
   it('doesn\'t exist', function() {
     expect(addOne).to.not.be.undefined;
   });
 
-  it('doesn\'t take any parameters', function() {
-    expect(addOne.length).to.be.above(0);
+  it('should take a parameter', function() {
+    expect(addOne).to.have.length(1);
   });
 
   it('doesn\'t return anything', function() {
     expect(addOne(1)).to.exist;
   });
 
-  it('doesn\'t output a number', function() {
+  it('should output a number', function() {
     expect(addOne(1)).to.be.a('number');
   });
 

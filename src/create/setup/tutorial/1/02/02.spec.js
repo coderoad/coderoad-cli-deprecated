@@ -1,18 +1,14 @@
-var expect = require('chai').expect;
-var context = require('test-context');
-context('../../../example.js');
-
-describe('multiplyOne', function() {
+describe('02 multiplyOne', function() {
 
   it('doesn\'t exist', function () {
     expect(multiplyOne).to.not.be.undefined;
   });
 
-  it('doesn\'t take any parameters', function() {
-    expect(multiplyOne.length).to.be.above(0);
+  it('should take a parameter', function() {
+    expect(multiplyOne).to.have.length(1);
   });
 
-  it('doesn\'t output a number', function () {
+  it('should output a number', function () {
     expect(multiplyOne(1)).to.be.a('number');
   });
 

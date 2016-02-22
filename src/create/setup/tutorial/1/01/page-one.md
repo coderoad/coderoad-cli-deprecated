@@ -16,7 +16,19 @@ function doSomething(parameter) {
 Try making your own basic functions.
 
 + write a function `addOne` that adds one to a number
-@test('chapter-01/page-01/task-01')
+@test('1/01/01')
+@action(open('page-01.js'))
+@action(set(
+```
+// addOne
+```  
+))
 
 + write a function `subtractOne` that subtracts one from a number
-@test('chapter-01/page-01/task-02')
+@test('1/01/02')
+@action(insert(
+```
+
+// subtractOne
+```  
+))
