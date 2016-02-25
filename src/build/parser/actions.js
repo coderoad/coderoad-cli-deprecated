@@ -17,7 +17,7 @@ function doAction(type, isArray, actionValue, result, line, index) {
     if (!!isArray) {
         var valueList = actionValue.slice(1, -1).split(',');
         valueList.forEach(function (value) {
-            var value = cleanup_1.trimQuotes(value.trim());
+            var value = cleanup_1.trimQuotes(value.trim(), true);
             result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(value);
         });
     }

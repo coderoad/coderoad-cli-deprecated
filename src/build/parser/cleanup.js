@@ -6,22 +6,29 @@ function trimLineBreaks(text) {
     return text;
 }
 exports.trimLineBreaks = trimLineBreaks;
-var quotes = ['\'', '"', '`'];
-function trimQuotes(text) {
+var quotes = ['\'', '"'];
+function trimQuotes(text, quotesOnly) {
     if (!!text.match(/^[\r\n]/)) {
         return text;
     }
     else if (!!text.match(/^\s/)) {
-        return trimQuotes(text.slice(1));
+        return trimQuotes(text.slice(1), quotesOnly);
     }
     else if (!!text.match(/\s$/)) {
-        return trimQuotes(text.slice(0, text.length - 1));
+        return trimQuotes(text.slice(0, text.length - 1), quotesOnly);
     }
-    else if (!!text.match(/^`{3}.+`{3}$/m)) {
-        return trimQuotes(text.slice(3, text.length - 3));
+    else if (quotes.indexOf(text.charAt(0)) > -1 &&
+        quotes.indexOf(text.charAt(text.length - 1)) > -1) {
+        return trimQuotes(text.slice(1, text.length - 1), quotesOnly);
     }
-    else if (quotes.indexOf(text.charAt(0)) > -1 && quotes.indexOf(text.charAt(text.length - 1)) > -1) {
-        return trimQuotes(text.slice(1, text.length - 1));
+    else if (!quotesOnly &&
+        !!text.match(/^`{3}.+`{3}$/m)) {
+        return trimQuotes(text.slice(3, text.length - 3), quotesOnly);
+    }
+    else if (!quotesOnly &&
+        text.charAt(0) === '`' &&
+        text.charAt(text.length - 1) === '`') {
+        return trimQuotes(text.slice(1, text.length - 1), quotesOnly);
     }
     else {
         return text;
