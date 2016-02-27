@@ -7,7 +7,7 @@ Use [CodeRoad CLI](https://github.com/coderoad/coderoad-cli) to setup and build 
 
 * Install *CodeRoad-CLI*. Make sure [NodeJS](nodejs.org) is already installed
 
-      > npm install -g coderoad-cli
+      `> npm install -g coderoad-cli`
 
 
 ### Create
@@ -16,7 +16,7 @@ Get setup quickly with CodeRoad: either [clone a tutorial repo](https://git-scm.
 
 In your development directory, run **create** with your new package name.
 
-    > coderoad create $YOUR-PACKAGE-NAME$
+    `> coderoad create $YOUR-PACKAGE-NAME$`
 
 Running **create** generates:
 
@@ -47,13 +47,13 @@ We'll learn more about these configurations when it's time to [publish](#publish
 
 Update changes to your tutorial by running **build**. This will generate a *coderoad.json* data file used by *atom-coderoad*.
 
-    > coderoad build
+    `> coderoad build`
 
 ### Demo Your Tutorial
 
 Open a new directory for demoing your tutorial. Setup a new NPM project file.
 
-    > npm init
+    `> npm init`
 
 Add your package name to the `dependencies` in `package.json`:
 
@@ -73,19 +73,19 @@ Normally you would use `npm install` to install the package, but your package is
 
 Inside of your tutorial root directory, run link.
 
-    > npm link
+    `> npm link`
 
 Inside of your demo root directory, connect the link.
 
-    > npm link coderoad-$YOUR-PACKAGE-NAME$
-    > npm install
+    `> npm link coderoad-$YOUR-PACKAGE-NAME$`
+    `> npm install`
 
 
 ### Using Atom
 
 Open *Atom-Coderoad* to view your tutorial. Your package should appear as a loaded package. Click on it.
 
-![CodeRoad Loaded Packages](/img/docs/loaded-packages.png)
+![CodeRoad Loaded Packages](https://coderoad.github.io/img/docs/loaded-packages.png)
 
 Reload *Atom* to view changes. You can use the Atom [command-palette](https://atom.io/docs/latest/getting-started-atom-basics#command-palette) to find "reload" or simply use the reload hot-key.
 
