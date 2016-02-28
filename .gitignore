@@ -1,9 +1,6 @@
 node_modules
-test
 tslint.json
 tsconfig.json
-**/*.ts
-*.ts
 src/*.md
 dist/cr.json
 coderoad.json
