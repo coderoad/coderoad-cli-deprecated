@@ -4,15 +4,6 @@ import {project} from './parser/project';
 import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 
-// function loadImport(result, index, line: string) {
-//   let pathToFile = trimQuotes(Match.project(line));
-//   console.log('import called', pathToFile);
-//   let lines = fs.readFileSync(pathToFile, 'utf8').split('\n');
-//   let resultImport = chapter(result, lines, index);
-//   console.log(resultImport)
-//   return result;
-// }
-
 function build(lines: string[]) {
   let result = {
     project: {},

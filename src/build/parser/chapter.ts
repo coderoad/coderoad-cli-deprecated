@@ -17,7 +17,7 @@ export function chapter(result: Result, lines: string[], index: Index): Result {
 
     let line = lines[i];
     // import
-    let importFile = Match.isImport(line);
+    let importFile = Match.isImport(line); // return import path || false
     if (!!importFile) {
       lines = loadImport(lines, importFile);
       continue;

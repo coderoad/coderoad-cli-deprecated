@@ -1,10 +1,2 @@
 node_modules
-tslint.json
-tsconfig.json
-src/*.md
-dist/cr.json
-coderoad.json
-notes.md
-cli.ts
-tscompiler-fix.js
 npm-debug.log

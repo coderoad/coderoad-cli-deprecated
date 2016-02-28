@@ -44,7 +44,7 @@ export const isAction = function(line: string) {
     // content: match[2]
   } : false;
 }
-export const isImport = function(line: string) {
+export const isImport = function(line: string): string|boolean {
   let isMatch = line.match(/^@import\((.+)\)$/);
   return isMatch ? isMatch[1] : false;
 }

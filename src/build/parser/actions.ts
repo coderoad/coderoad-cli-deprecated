@@ -29,7 +29,7 @@ function doAction(type: 'tests' | 'hints', isArray, actionValue, result, line, i
 
 export function addToTasks(result, line, index) {
   let match = Match.isAction(line);
-  let action = match.action; // action|test|hint|answer
+  let action = match.action; //: 'action'|'test'|'hint'
   let task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
   let trimmedContent = line.slice(action.length + 2, line.length - 1); // content between brackets
   let actionValue: string = trimQuotes(trimmedContent);

@@ -17,7 +17,7 @@ export function page(result: Result, lines: string[], index: Index) {
     i += 1;
     let line = lines[i];
 
-    let importFile = Match.isImport(line);
+    let importFile = Match.isImport(line); // returns string path || boolean
     if (!!importFile) {
       lines = loadImport(lines, importFile);
       continue;
