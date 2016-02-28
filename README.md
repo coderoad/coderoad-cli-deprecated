@@ -7,7 +7,7 @@ Use [CodeRoad CLI](https://github.com/coderoad/coderoad-cli) to setup and build 
 
 Install *CodeRoad-CLI*. Make sure [NodeJS](nodejs.org) is already installed
 
-      > npm install -g coderoad-cli
+    > npm install -g coderoad-cli
 
 
 ### Create

@@ -1,6 +1,6 @@
 {
   "name": "coderoad-cli",
-  "version": "0.3.14",
+  "version": "0.3.15",
   "description": "Command line interface for CodeRoad. Build project files.",
   "keywords": [
     "coderoad"
@@ -21,7 +21,8 @@
     "chalk": "1.1.1",
     "commander": "2.9.0",
     "lodash": "4.5.1",
-    "prompt": "1.0.0"
+    "prompt": "1.0.0",
+    "validate-npm-package-name": "2.2.2"
   },
   "devDependencies": {
     "chai": "3.5.0",
