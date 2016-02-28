@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as process from 'process';
 import * as chalk from 'chalk';
 import {validateQuery} from './validate';
 import {exec} from 'child_process';

@@ -1,5 +1,4 @@
 ∫import * as fs from 'fs';
-import * as process from 'process';
 import {validatePackageName} from './validate';
 import {createPackageJson, createTutorialMd, createTestFiles} from './write-demo';
 import {createReadme} from '../build/readme';

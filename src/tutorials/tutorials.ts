@@ -1,4 +1,3 @@
-import * as process from 'process';
 import * as path from 'path';
 import * as chalk from 'chalk';
 import * as fs from 'fs';

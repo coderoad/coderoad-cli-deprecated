@@ -1,6 +1,5 @@
 import {trimQuotes, trimLeadingSpaces} from './cleanup';
 import * as Match from './match';
-import {brackets} from './brackets';
 
 export function trimCommandValue(text: string): string {
   let value = text.substring(text.indexOf('(') + 1).slice(0, -1);
@@ -11,7 +10,7 @@ export function trimCommandValue(text: string): string {
   return command.action + '(\'' + command.value + '\')';
 }
 
-function doAction(type: 'test' | 'hint', isArray, actionValue, result, line, index) {
+function doAction(type: 'tests' | 'hints', isArray, actionValue, result, line, index) {
   // set to array
   if (result.chapters[index.chapter].pages[index.page].tasks[index.task][type] === undefined) {
     result.chapters[index.chapter].pages[index.page].tasks[index.task][type] = [];
@@ -28,7 +27,7 @@ function doAction(type: 'test' | 'hint', isArray, actionValue, result, line, ind
   return result;
 }
 
-export function addToTasks(result, line, index): result {
+export function addToTasks(result, line, index) {
   let match = Match.isAction(line);
   let action = match.action; // action|test|hint|answer
   let task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
@@ -49,7 +48,7 @@ export function addToTasks(result, line, index): result {
       if (!!isActionArray) {
         var arrayOfActions = JSON.parse(isActionArray);
         arrayOfActions.forEach(function(value) {
-          let value = trimCommandValue(trimQuotes(value.trim()));
+          value = trimCommandValue(trimQuotes(value.trim()));
           result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
         });
       }
@@ -58,7 +57,6 @@ export function addToTasks(result, line, index): result {
         result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
       }
       return result;
-      break;
 
     default:
       console.log('Invalid task action');

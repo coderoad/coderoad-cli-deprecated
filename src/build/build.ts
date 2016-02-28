@@ -1,5 +1,4 @@
 import * as fs from 'fs';
-import * as process from 'process';
 import * as validate from './validators';
 import {project} from './parser/project';
 import {createReadme} from './readme';

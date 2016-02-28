@@ -1,4 +1,3 @@
-import * as process from 'process';
 import * as chalk from 'chalk';
 import validateVersion from './validate';
 
