@@ -21,6 +21,9 @@ Try making your own basic functions.
 @action(set(
 ```
 // addOne
+function addOne(x) {
+  return;
+}
 ```  
 ))
 
@@ -30,5 +33,8 @@ Try making your own basic functions.
 ```
 
 // subtractOne
+function subtractOne(x) {
+  return;
+}
 ```  
 ))

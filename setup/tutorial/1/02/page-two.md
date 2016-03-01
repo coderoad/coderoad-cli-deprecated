@@ -9,6 +9,9 @@ We'll write two more basic functions, this time without any help.
 @action(set(
 ```
 // divideOne
+function divideOne(x) {
+  return;
+}
 ```  
 ))
 
@@ -18,5 +21,8 @@ We'll write two more basic functions, this time without any help.
 ```
 
 // multiplyOne
+function multiplyOne(x) {
+  return;
+}
 ```  
 ))
