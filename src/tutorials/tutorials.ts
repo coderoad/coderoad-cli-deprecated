@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as chalk from 'chalk';
 import * as fs from 'fs';
 
-export default function tutorials() {
+export default function tutorials(): void {
   console.log(`List of tutorial packages in this directory...\n`);
   console.log(chalk.yellow('This feature is not yet implemented'));
   // getTutorials();
@@ -21,7 +21,7 @@ function fileExists(path: string): boolean {
   return true;
 }
 
-function loadRootPackageJson() {
+function loadRootPackageJson(): PackageJson {
   let pathToPackageJson = path.join(process.cwd(), './package.json');
   if (fileExists(pathToPackageJson)) {
     return JSON.parse(fs.readFileSync(pathToPackageJson, 'utf8'));
@@ -31,7 +31,7 @@ function loadRootPackageJson() {
   }
 }
 
-function isTutorial(name): boolean {
+function isTutorial(name: string): boolean {
   let pathToTutorialPackageJson = path.join(process.cwd(), 'node_modules', name, 'package.json');
   if (fileExists(pathToTutorialPackageJson)) {
     // has package.json
@@ -58,15 +58,15 @@ function searchForTutorials(location): string[] {
 }
 
 function getTutorials(): string[] {
-  let packageJson = loadRootPackageJson();
-  let tutorials = []
+  let packageJson: PackageJson = loadRootPackageJson();
+  let tutorials: string[] = []
     .concat(searchForTutorials(packageJson.dependencies))
     .concat(searchForTutorials(packageJson.devDependencies));
   if (tutorials.length) {
     console.log('Available tutorials: ')
-      tutorials.forEach((tutorial) => {
-        console.log('  - ' + tutorial);
-      })
+    tutorials.forEach((tutorial: string) => {
+      console.log('  - ' + tutorial);
+    });
   }
   console.log('No tutorials available');
 }

@@ -1,9 +1,16 @@
 import * as chalk from 'chalk';
-import * as validateNpm from "validate-npm-package-name";
+import * as validateNpm from 'validate-npm-package-name';
 const _ = require('lodash');
 
+interface Validated {
+  validForNewPackages: boolean;
+  validForOldPackages: boolean;
+  errors: string[];
+  warnings: string[];
+}
+
 export function validatePackageName(name: string): void {
-  let validated = validateNpm(name);
+  let validated: Validated = validateNpm(name);
   if (!validated.validForNewPackages || !validated.validForOldPackages) {
     if (validated.errors) {
       validated.errors.forEach((error) => {

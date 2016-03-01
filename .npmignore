@@ -1,6 +1,5 @@
 src
 test
-typings
 tsd.json
 tsconfig.json
 tslint.json

@@ -1,7 +1,7 @@
 import * as chalk from 'chalk';
 import validateVersion from './validate';
 
-export default function publish(version: string) {
+export default function publish(version: string): void {
   validateVersion(version);
   console.log(`Publishing package version "${version}"...`);
   console.log(chalk.yellow('Publish feature not implemented yet.\n'));

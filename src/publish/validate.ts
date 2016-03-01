@@ -2,7 +2,15 @@ import * as fs from 'fs';
 import * as chalk from 'chalk';
 import {fileExists} from '../tools/file';
 
-function versionIsGreaterThanCurrent(version) {
+
+function incrementVersion(version: string): string {
+  let finalDot = version.lastIndexOf('.');
+  let start = version.substring(0, finalDot + 1);
+  let patch = parseInt(version.substring(finalDot + 1, version.length)) + 1;
+  return start + patch;
+}
+
+function versionIsGreaterThanCurrent(version: string): void {
   if (!fileExists('package.json')) {
     console.log(chalk.yellow(`
   No available package.json file.Create one.
@@ -11,13 +19,12 @@ function versionIsGreaterThanCurrent(version) {
     process.exit(1);
   }
 
-  let currentVersion = fs.readFileSync('package.json', 'utf8').version;
+  let currentVersion: string = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
   if (parseInt(version) <= parseInt(currentVersion)) {
-    let incrementedVersion = parseInt(currentVersion) + 0.0.1;
     console.log(chalk.yellow(`
       Published version is not larger than current version.
       Current: "${currentVersion}"
-      > coderoad publish "${incrementedVersion}"
+      > coderoad publish "${incrementVersion(currentVersion)}"
   `));
     process.exit(1);
   }
@@ -25,8 +32,8 @@ function versionIsGreaterThanCurrent(version) {
 
 const semverRegex = /\b^(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)$\b/i;
 
-function isValidVersion(version) {
-  if (!version.match(semverRegex) {
+function isValidVersion(version: string): void {
+  if (!version.match(semverRegex)) {
     console.log(chalk.yellow(`
   Not a valid semver version
   > coderoad publish "0.1.0"

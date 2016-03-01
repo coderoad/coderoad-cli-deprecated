@@ -3,12 +3,13 @@ import {chapter} from './chapter';
 import {task} from './task';
 import {loadImport} from './import';
 
-export function page(result: Result, lines: string[], index: Index) {
+export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   let hasBreak: number = null;
   index.page += 1;
   index.task = -1;
   result.chapters[index.chapter].pages.push({
-    title: Match.page(lines[0]).trim()
+    title: Match.page(lines[0]).trim(),
+    description: ''
   });
   let inCodeBlock = false;
 
@@ -17,7 +18,7 @@ export function page(result: Result, lines: string[], index: Index) {
     i += 1;
     let line = lines[i];
 
-    let importFile = Match.isImport(line); // returns string path || boolean
+    let importFile: string = Match.isImport(line); // returns string path || boolean
     if (!!importFile) {
       lines = loadImport(lines, importFile);
       continue;
@@ -57,9 +58,6 @@ export function page(result: Result, lines: string[], index: Index) {
 
 function addToDescriptionOrExplanation(hasBreak, i, result, line, index) {
   if (!hasBreak) {
-    if (result.chapters[index.chapter].pages[index.page].description === undefined) {
-      result.chapters[index.chapter].pages[index.page].description = '';
-    }
     if (i > 1) {
       result.chapters[index.chapter].pages[index.page].description += '\n';
     }

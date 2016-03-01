@@ -11,7 +11,7 @@ function bracketTracker(line: string): number {
   return l - r;
 }
 
-export function task(result: Result, lines: string[], index: Index) {
+export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   result.chapters[index.chapter].pages[index.page].tasks.push({
     description: trimLeadingSpaces(Match.task(lines[0]))
   });
@@ -24,9 +24,9 @@ export function task(result: Result, lines: string[], index: Index) {
   while (i < lines.length - 1) {
     i += 1;
 
-    let line = lines[i];
+    let line: string = lines[i];
     // @import
-    let importFile = Match.isImport(line);
+    let importFile: string = Match.isImport(line);
     if (!!importFile) {
       lines = loadImport(lines, importFile);
     } else {
@@ -51,7 +51,7 @@ export function task(result: Result, lines: string[], index: Index) {
 
       // not @action multiline
 
-      let isAction = Match.isAction(line);
+      let isAction: string = Match.isAction(line);
       // not in action, may be in Explanation code block
       if (!isAction && !!Match.codeBlock(line)) {
         if (line.length > 3) {
@@ -92,7 +92,7 @@ export function task(result: Result, lines: string[], index: Index) {
   return result;
 }
 
-function addToDescription(i, result, line, index) {
+function addToDescription(i: number, result: CR.Output, line: string, index: CR.Index): CR.Output {
   if (i > 0) {
     result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
   }

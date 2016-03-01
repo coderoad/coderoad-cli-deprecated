@@ -1,6 +1,6 @@
 import * as chalk from 'chalk';
 
-export function filePath(filePath: string) {
+export function filePath(filePath: string): void {
   if (!filePath) {
     console.log(chalk.red(`
     Pass in a path to your .md file
@@ -11,7 +11,7 @@ export function filePath(filePath: string) {
   // regex .md
 }
 
-export function result(text: string) {
+export function result(text: string): boolean {
   isValidJSON(text);
 
   let jsonObject = JSON.parse(text);
@@ -20,7 +20,7 @@ export function result(text: string) {
   return true;
 }
 
-function isValidJSON(text: string) {
+function isValidJSON(text: string): void {
   if (!/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
     replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
     replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
@@ -31,7 +31,7 @@ function isValidJSON(text: string) {
   }
 }
 
-function hasProjectInfo(json: Result): boolean {
+function hasProjectInfo(json: CR.Output): void {
   let validTitle = json.project.title.length > 0,
     validDescription = json.project.description.length > 0;
   if (!(validTitle && validDescription)) {
@@ -42,12 +42,11 @@ function hasProjectInfo(json: Result): boolean {
   }
 }
 
-function hasPage(json: Result): boolean {
+function hasPage(json: CR.Output): void {
   if (!(json.chapters[0].pages.length > 0 && !!json.chapters[0].pages[0].title)) {
     console.log(chalk.red(`
       Your tutorial requires at least one page.
       `));
     process.exit(1); // fail
   }
-}
 }

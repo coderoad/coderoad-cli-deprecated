@@ -7,7 +7,7 @@ export function trimLineBreaks(text: string) {
 
 let quotes = ['\'', '"'];
 
-export function trimQuotes(text: string, quotesOnly?: boolean) {
+export function trimQuotes(text: string, quotesOnly?: boolean): string {
   if (!!text.match(/^[\r\n]/)) {
     return text;
   } else if (!!text.match(/^\s/)) {
@@ -33,7 +33,7 @@ export function trimQuotes(text: string, quotesOnly?: boolean) {
   }
 }
 
-export function trimLeadingSpaces(text: string) {
+export function trimLeadingSpaces(text: string): string {
   if (!!text.match(/^\s/)) {
     return text.slice(1);
   } else {
@@ -41,7 +41,7 @@ export function trimLeadingSpaces(text: string) {
   }
 }
 
-export function cleanup(result: Result) {
+export function cleanup(result: CR.Output): string {
   result = JSON.parse(JSON.stringify(result));
   if (result.project.description) {
     result.project.description = trimLineBreaks(result.project.description);

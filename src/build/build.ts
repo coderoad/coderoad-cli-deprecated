@@ -4,9 +4,12 @@ import {project} from './parser/project';
 import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 
-function build(lines: string[]) {
+function build(lines: string[]): CR.Output {
   let result = {
-    project: {},
+    project: {
+      title: '',
+      description: ''
+    },
     chapters: []
   }
   let index = {
@@ -17,7 +20,7 @@ function build(lines: string[]) {
   return project(result, lines, index);
 }
 
-export default function(filePath: string, output = './coderoad.json') {
+export default function(filePath: string, output = './coderoad.json'): void {
   // VALIDATE: path name
   validate.filePath(filePath);
 

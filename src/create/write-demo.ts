@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as prompt from 'prompt';
 import {fileExists} from '../tools/file';
 
-function createFile(pathToFile: string) {
+function createFile(pathToFile: string): void {
   if (!fileExists(pathToFile)) {
     let inputPath = path.join(__dirname, 'setup', pathToFile);
     let test = fs.readFileSync(inputPath, 'utf8');
@@ -11,13 +11,13 @@ function createFile(pathToFile: string) {
   }
 }
 
-function createFolder(pathToFolder: string) {
+function createFolder(pathToFolder: string): void {
   if (!fileExists(pathToFolder)) {
     fs.mkdirSync(pathToFolder);
   }
 }
 
-export function createTutorialMd() {
+export function createTutorialMd(): void {
   createFolder('tutorial');
   createFile('tutorial/tutorial.md');
   createFolder('tutorial/1');
@@ -27,7 +27,7 @@ export function createTutorialMd() {
   createFile('tutorial/1/02/page-two.md');
 }
 
-export function createPackageJson(name: string) {
+export function createPackageJson(name: string): void {
   if (!fileExists('package.json')) {
     let inputPath = path.join(__dirname, './setup/package.json');
     let packageJson = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
@@ -37,7 +37,7 @@ export function createPackageJson(name: string) {
   }
 }
 
-export function createTestFiles() {
+export function createTestFiles():void {
   createFile('tutorial/1/01/01.spec.js');
   createFile('tutorial/1/01/02.spec.js');
   createFile('tutorial/1/02/01.spec.js');

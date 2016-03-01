@@ -3,11 +3,12 @@ import {page} from './page';
 import {loadImport} from './import';
 import {trimLineBreaks} from './cleanup';
 
-export function chapter(result: Result, lines: string[], index: Index): Result {
+export function chapter(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   index.page = -1;
   index.chapter += 1;
   result.chapters.push({
     title: Match.chapter(lines[0]).trim(),
+    description: '',
     pages: []
   });
   let inCodeBlock = false;
@@ -45,9 +46,6 @@ export function chapter(result: Result, lines: string[], index: Index): Result {
 }
 
 function addToDescription(i, result, line, index) {
-  if (result.chapters[index.chapter].description === undefined) {
-    result.chapters[index.chapter].description = '';
-  }
   if (i > 1) {
     result.chapters[index.chapter].description += '\n';
   }

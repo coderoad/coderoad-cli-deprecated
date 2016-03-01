@@ -8,12 +8,12 @@ export function loadImport(lines: string[], pathToMd: string): string[] {
   if (!pathToMd.match(/\.md$/)) {
     pathToMd = pathToMd.concat('.md');
   }
-  let realPath = path.join(process.cwd(), pathToMd);
+  let realPath: string = path.join(process.cwd(), pathToMd);
   if (!fileExists(pathToMd)) {
     console.log('Invalid path to markdown file', realPath);
     return;
   }
   let importLines: string = fs.readFileSync(realPath, 'utf8');
-  let splitLines = importLines.split('\n');
+  let splitLines: string[] = importLines.split('\n');
   return lines.concat(splitLines);
 }

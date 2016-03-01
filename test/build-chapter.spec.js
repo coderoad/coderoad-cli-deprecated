@@ -64,7 +64,8 @@ describe('chapter', function() {
       title: 'Chapter One',
       description: 'chapter description',
       pages: [{
-        title: 'Page One'
+        title: 'Page One',
+        description: ''
       }]
     });
   });
@@ -91,7 +92,8 @@ describe('chapter', function() {
       title: 'Chapter One',
       description: 'chapter description',
       pages: [{
-        title: 'Page One'
+        title: 'Page One',
+        description: ''
       }]
     });
   });

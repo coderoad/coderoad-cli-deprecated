@@ -3,11 +3,7 @@ import {chapter} from './chapter';
 import {loadImport} from './import';
 import {trimLineBreaks} from './cleanup';
 
-export function project(result: Result, lines: string[], index: Index) {
-  result.project = {
-    title: '',
-    description: ''
-  };
+export function project(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
 
   let inCodeBlock = false;
   let i = -1;
@@ -16,7 +12,7 @@ export function project(result: Result, lines: string[], index: Index) {
     let line = lines[i];
 
     // import
-    let importFile = Match.isImport(line);
+    let importFile: string = Match.isImport(line);
     if (!!importFile) {
       lines = loadImport(lines, importFile);
       continue;
@@ -32,7 +28,7 @@ export function project(result: Result, lines: string[], index: Index) {
 
     if (!inCodeBlock) {
 
-      let projectTitleMatch = Match.project(line);
+      let projectTitleMatch: string = Match.project(line);
       if (!!projectTitleMatch) {
         result.project.title = projectTitleMatch.trim();
       } else if (!!Match.chapter(line)) {
@@ -46,7 +42,7 @@ export function project(result: Result, lines: string[], index: Index) {
   return result;
 }
 
-function addToDescription(i, result, line) {
+function addToDescription(i: number, result: CR.Output, line: string): CR.Output {
   if (i > 1) {
     result.project.description += '\n';
   }

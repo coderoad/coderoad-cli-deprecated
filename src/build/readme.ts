@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import {fileExists} from '../tools/file';
 
-export function createReadme() {
+export function createReadme(): void {
   if (!fileExists('./README.md')) {
     // prompt.start();
     // prompt.get(['overwriteReadme'], function (err, result) {
@@ -11,18 +11,18 @@ export function createReadme() {
   if (!fileExists('./coderoad.json')) {
     console.log('No coderoad.json file found');
     return;
-  });
+  }
   if (!fileExists('./package.json')) {
     console.log('No package.json file found');
     return;
-  });
-  let data = JSON.parse(fs.readFileSync('coderoad.json', 'utf8'));
-  let packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-  let content = generateReadme(data, packageJson);
+  }
+  let data: CR.Output = JSON.parse(fs.readFileSync('coderoad.json', 'utf8'));
+  let packageJson: PackageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  let content: string = generateReadme(data, packageJson);
   fs.writeFileSync('README.md', content, 'utf8');
 }
 
-function generateReadme(data, packageJson): string {
+function generateReadme(data: CR.Output, packageJson: PackageJson): string {
   let readme = [];
   readme.push();
   // title

@@ -11,14 +11,14 @@ var regex = {
 };
 
 function parseWithCode(code: string) {
-  return function(line: string) {
+  return function(line: string): string {
     if (!line) {
-      return false;
+      return null;
     }
     if (line.match(regex[code])) {
       return regex[code].exec(line)[1];
     } else {
-      return false;
+      return null;
     }
   };
 }
@@ -32,19 +32,16 @@ export const chapter = parseWithCode('##');
 export const page = parseWithCode('###');
 export const task = parseWithCode('+');
 export const codeBlock = parseWithCode('```');
-export const isArray = function(line: string) {
+export const isArray = function(line: string): string {
   let isMatch = line.match(/^\[.+\]$/);
-  return isMatch ? isMatch[0] : false;
+  return isMatch ? isMatch[0] : null;
 }
-export const isAction = function(line: string) {
+export const isAction = function(line: string): string {
   // returns [0]: full, [1]: action, [2]: target
-  let match = line.match(/^@(action|test|hint)/);
-  return !!match ? {
-    action: match[1]
-    // content: match[2]
-  } : false;
+  let match: string[] = line.match(/^@(action|test|hint|continue)/);
+  return !!match ? match[1] : null;
 }
-export const isImport = function(line: string): string|boolean {
+export const isImport = function(line: string): string {
   let isMatch = line.match(/^@import\((.+)\)$/);
-  return isMatch ? isMatch[1] : false;
+  return isMatch ? isMatch[1] : null;
 }
