@@ -15,7 +15,7 @@ declare namespace CR {
     title: string;
     description: string;
     tasks?: Task[];
-    onComplete?: string;
+    onPageComplete?: string;
   }
   interface Task {
     description: string;

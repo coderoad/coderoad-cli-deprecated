@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var page = require('../lib/build/parser/page').page;
 var task = require('../lib/build/parser/task').task;
 
-describe('@onComplete', function() {
+describe('@onPageComplete', function() {
 
   var result = function() {
     return {
@@ -39,40 +39,40 @@ describe('@onComplete', function() {
     };
   };
 
-  it('should add @onComplete string to the page', function() {
-    var lines = ['### Page One', 'page description', 'more page description', '@onComplete("next page")'];
+  it('should add @onPageComplete string to the page', function() {
+    var lines = ['### Page One', 'page description', 'more page description', '@onPageComplete("next page")'];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
     expect(nextPage).to.deep.equal({
       title: 'Page One',
       description: 'page description\nmore page description',
-      onComplete: 'next page'
+      onPageComplete: 'next page'
     });
   });
 
   it('should handle multi-line codeblocks', function() {
     var lines = ['### Page One', 'page description', 'more page description',
-      '@onComplete("next page', '```', 'var a = 42;', '```', '")'
+      '@onPageComplete("next page', '```', 'var a = 42;', '```', '")'
     ];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
     expect(nextPage).to.deep.equal({
       title: 'Page One',
       description: 'page description\nmore page description',
-      onComplete: 'next page\n```\nvar a = 42;\n```'
+      onPageComplete: 'next page\n```\nvar a = 42;\n```'
     });
   });
 
   it('should handle string literals', function() {
     var lines = ['### Page One', 'page description', 'more page description',
-      '@onComplete("next page', '`var a = 42;`', '")'
+      '@onPageComplete("next page', '`var a = 42;`', '")'
     ];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
     expect(nextPage).to.deep.equal({
       title: 'Page One',
       description: 'page description\nmore page description',
-      onComplete: 'next page\n`var a = 42;`'
+      onPageComplete: 'next page\n`var a = 42;`'
     });
   });
 

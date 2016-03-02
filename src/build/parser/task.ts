@@ -2,7 +2,7 @@ import * as Match from './match';
 import {chapter} from './chapter';
 import {page} from './page';
 import {addToTasks} from './actions';
-import {trimLeadingSpaces, bracketTracker} from './cleanup';
+import {trimLeadingSpaces, bracketTracker, trimValue} from './cleanup';
 import {loadImport} from './import';
 
 
@@ -13,6 +13,7 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
   });
   index.task += 1;
   let inCodeBlock = false;
+  let currentPageComplete = null;
   let currentAction = null;
   let bracketCount = 0;
 
@@ -26,6 +27,17 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
       // @import
       case !!Match.isImport(line):
         lines = loadImport(lines, Match.isImport(line));
+        continue;
+
+      // @onComplete
+      case (!!Match.isPageComplete(line) || !!currentPageComplete):
+        currentPageComplete = !!currentPageComplete ? currentPageComplete += '\n' + line : Match.isPageComplete(line);
+        bracketCount = bracketTracker(currentPageComplete);
+        // complete
+        if (bracketCount === 0) {
+          result.chapters[index.chapter].pages[index.page].onPageComplete = trimValue(currentPageComplete);
+          currentPageComplete = null;
+        }
         continue;
 
       // @action multiline

@@ -9,7 +9,7 @@ import tutorials from './tutorials/tutorials';
 import publish from './publish/publish';
 
 program
-  .version('0.3.23')
+  .version('0.3.24')
   .usage('[options] <keywords>')
   .option('-b, --build [path/to/tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
   .option('-c, --create [name]', 'tutorial name')

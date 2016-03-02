@@ -12,7 +12,7 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
     description: ''
   });
   let inCodeBlock = false;
-  let currentComplete = null;
+  let currentPageComplete = null;
   let bracketCount = 0;
 
   let i = 0;
@@ -28,13 +28,13 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
         continue;
 
       // @onComplete
-      case (!!Match.isComplete(line) || !!currentComplete):
-        currentComplete = !!currentComplete ? currentComplete += '\n' + line : Match.isComplete(line);
-        bracketCount = bracketTracker(currentComplete);
+      case (!!Match.isPageComplete(line) || !!currentPageComplete):
+        currentPageComplete = !!currentPageComplete ? currentPageComplete += '\n' + line : Match.isPageComplete(line);
+        bracketCount = bracketTracker(currentPageComplete);
         // complete
         if (bracketCount === 0) {
-          result.chapters[index.chapter].pages[index.page].onComplete = trimValue(currentComplete);
-          currentComplete = null;
+          result.chapters[index.chapter].pages[index.page].onPageComplete = trimValue(currentPageComplete);
+          currentPageComplete = null;
         }
         continue;
 
