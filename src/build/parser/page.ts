@@ -2,7 +2,7 @@ import * as Match from './match';
 import {chapter} from './chapter';
 import {task} from './task';
 import {loadImport} from './import';
-import {bracketTracker} from './cleanup';
+import {bracketTracker, trimValue} from './cleanup';
 
 export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   index.page += 1;
@@ -27,6 +27,17 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
         lines = loadImport(lines, Match.isImport(line));
         continue;
 
+      // @onComplete
+      case (!!Match.isComplete(line) || !!currentComplete):
+        currentComplete = !!currentComplete ? currentComplete += '\n' + line : Match.isComplete(line);
+        bracketCount = bracketTracker(currentComplete);
+        // complete
+        if (bracketCount === 0) {
+          result.chapters[index.chapter].pages[index.page].onComplete = trimValue(currentComplete);
+          currentComplete = null;
+        }
+        continue;
+
       // ``` `
       case !!Match.codeBlock(line):
         if (line.length > 3) {
@@ -38,16 +49,6 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
       case inCodeBlock:
         continue;
 
-      // @onComplete
-      case !!Match.isComplete(line) || !!currentComplete:
-        currentComplete = currentComplete ? currentComplete += line : Match.isComplete(line);
-        bracketCount = bracketTracker(line);
-        // complete
-        if (bracketCount === 0) {
-          result.chapters[index.chapter].pages[index.page].onComplete = currentComplete;
-          currentComplete = null;
-        }
-        continue;
 
       // ##
       case !!Match.chapter(line):

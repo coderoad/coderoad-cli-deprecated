@@ -1,6 +1,6 @@
 var expect = require('chai').expect;
 var task = require('../lib/build/parser/task').task;
-var trim = require('../lib/build/parser/actions').trimCommandValue;
+var trimCommandValue = require('../lib/build/parser/cleanup').trimCommandValue;
 
 var result = function() {
   return {
@@ -19,14 +19,14 @@ var index = function() {
   };
 };
 
-describe('trimCommandValue', function () {
+describe('trimCommandValue', function() {
 
-  it('should not effect a normal command', function () {
-    expect(trim("do('something')")).to.equal("do('something')");
+  it('should not effect a normal command', function() {
+    expect(trimCommandValue("do('something')")).to.equal("do('something')");
   });
 
-  it('should trim leading spaces', function () {
-    expect(trim("do(    'something')")).to.equal("do('something')");
+  it('should trim leading spaces', function() {
+    expect(trimCommandValue("do(    'something')")).to.equal("do('something')");
   });
 
 });
@@ -77,31 +77,32 @@ describe('task', function() {
 
   it('should accept multpile import lines in task', function() {
     var lines = ['+ Task description', '',
-    "@import('./test/imports/chapter-sample')", "@import('./test/imports/chapter-sample')"]
+      "@import('./test/imports/chapter-sample')", "@import('./test/imports/chapter-sample')"
+    ]
     var next = task(result(), lines, index());
     var nextChapter = next.chapters[2];
     expect(nextChapter.title).to.equal('Chapter Sample');
   });
 
-    it('should add codeblock languages', function() {
-      var lines = ['+ Task One', '```js', 'var a = 42;', '```'];
-      var next = task(result(), lines, index());
-      var nextTask = next.chapters[0].pages[0].tasks[0];
-      expect(nextTask.description).to.equal('Task One\n```js\nvar a = 42;\n```');
-    });
+  it('should add codeblock languages', function() {
+    var lines = ['+ Task One', '```js', 'var a = 42;', '```'];
+    var next = task(result(), lines, index());
+    var nextTask = next.chapters[0].pages[0].tasks[0];
+    expect(nextTask.description).to.equal('Task One\n```js\nvar a = 42;\n```');
+  });
 
-    it('should add single line codeblocks', function () {
-      var lines = ['+ Task One', '```var a = 42;```'];
+  it('should add single line codeblocks', function() {
+    var lines = ['+ Task One', '```var a = 42;```'];
     var next = task(result(), lines, index());
     var nextTask = next.chapters[0].pages[0].tasks[0];
     expect(nextTask.description).to.equal('Task One\n```var a = 42;```');
-    });
+  });
 
-    it('should handle strangely formatted codeblocks', function () {
-      var lines = ['+ Task One', '```var a = 42;', '```'];
-      var next = task(result(), lines, index());
-      var nextTask = next.chapters[0].pages[0].tasks[0];
-      expect(nextTask.description).to.equal('Task One\n```var a = 42;\n```');
-    });
+  it('should handle strangely formatted codeblocks', function() {
+    var lines = ['+ Task One', '```var a = 42;', '```'];
+    var next = task(result(), lines, index());
+    var nextTask = next.chapters[0].pages[0].tasks[0];
+    expect(nextTask.description).to.equal('Task One\n```var a = 42;\n```');
+  });
 
 }); // task

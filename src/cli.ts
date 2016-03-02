@@ -29,9 +29,9 @@ if (!program.args.length &&
   if (program.build) {
     const tutorial = program.args[0] || 'tutorial/tutorial.md';
     const output = 'coderoad.json';
-    console.log(chalk.grey(`building from ${tutorial}...`))
+    console.log(chalk.grey(`building from ${tutorial}...`));
     build(tutorial, output);
-    console.log(chalk.grey(`build complete: coderoad.json`))
+    console.log(chalk.grey(`build complete: coderoad.json`));
   }
 
   // create

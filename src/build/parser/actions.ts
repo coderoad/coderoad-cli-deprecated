@@ -1,14 +1,5 @@
-import {trimQuotes, trimLeadingSpaces} from './cleanup';
+import {trimQuotes, trimCommandValue} from './cleanup';
 import * as Match from './match';
-
-export function trimCommandValue(text: string): string {
-  let value = text.substring(text.indexOf('(') + 1).slice(0, -1);
-  let command = {
-    action: text.substring(0, text.indexOf('(')),
-    value: trimLeadingSpaces(trimQuotes(value))
-  };
-  return command.action + '(\'' + command.value + '\')';
-}
 
 function doAction(type: CR.OutputAction, isArray, actionValue, result, line, index) {
   // set to array

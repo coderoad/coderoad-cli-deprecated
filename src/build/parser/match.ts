@@ -12,7 +12,7 @@ var regex = {
   '```': match('`', 3),
   'action': /^@(action|test|hint|continue)/,
   'import': /^@import\((.+)\)$/,
-  'onComplete': /^@onComplete\((.+)\)$/
+  'onComplete': /^(@onComplete.+)/
 };
 
 function parseWithCode(code: string) {

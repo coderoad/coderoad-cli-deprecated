@@ -47,6 +47,20 @@ export function trimLeadingSpaces(text: string): string {
   }
 }
 
+export function trimCommandValue(text: string): string {
+  let value = text.substring(text.indexOf('(') + 1).slice(0, -1);
+  let command = {
+    action: text.substring(0, text.indexOf('(')),
+    value: trimLeadingSpaces(trimQuotes(value))
+  };
+  return command.action + '(\'' + command.value + '\')';
+}
+
+export function trimValue(text: string): string {
+  let value = text.substring(text.indexOf('(') + 1).slice(0, -1);
+  return trimLeadingSpaces(trimQuotes(value, true));
+}
+
 export function cleanup(result: CR.Output): string {
   result = JSON.parse(JSON.stringify(result));
   if (result.project.description) {
