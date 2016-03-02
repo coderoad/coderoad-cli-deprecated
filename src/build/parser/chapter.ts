@@ -1,7 +1,6 @@
 import * as Match from './match';
 import {page} from './page';
 import {loadImport} from './import';
-import {trimLineBreaks} from './cleanup';
 
 export function chapter(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   index.page = -1;
@@ -31,7 +30,6 @@ export function chapter(result: CR.Output, lines: string[], index: CR.Index): CR
           continue;
         }
         inCodeBlock = !inCodeBlock;
-      case inCodeBlock:
         continue;
 
       // ###

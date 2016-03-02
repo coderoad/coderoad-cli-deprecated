@@ -6,7 +6,7 @@ import {fileExists} from '../tools/file';
 function incrementVersion(version: string): string {
   let finalDot = version.lastIndexOf('.');
   let start = version.substring(0, finalDot + 1);
-  let patch = parseInt(version.substring(finalDot + 1, version.length)) + 1;
+  let patch = parseInt(version.substring(finalDot + 1, version.length), 10) + 1;
   return start + patch;
 }
 
@@ -20,7 +20,7 @@ function versionIsGreaterThanCurrent(version: string): void {
   }
 
   let currentVersion: string = JSON.parse(fs.readFileSync('package.json', 'utf8')).version;
-  if (parseInt(version) <= parseInt(currentVersion)) {
+  if (parseInt(version, 10) <= parseInt(currentVersion, 10)) {
     console.log(chalk.yellow(`
       Published version is not larger than current version.
       Current: "${currentVersion}"

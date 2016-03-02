@@ -1,7 +1,5 @@
-import * as fs from 'fs';
 import * as chalk from 'chalk';
 import {validateQuery} from './validate';
-import {exec} from 'child_process';
 
 export default function search(query: string): void {
   validateQuery(query);

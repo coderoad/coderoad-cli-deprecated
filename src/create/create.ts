@@ -1,4 +1,3 @@
-import * as fs from 'fs';
 import {validatePackageName} from './validate';
 import {createPackageJson, createTutorialMd, createTestFiles} from './write-demo';
 import {createReadme} from '../build/readme';

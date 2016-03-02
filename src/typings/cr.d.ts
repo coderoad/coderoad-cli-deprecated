@@ -15,7 +15,7 @@ declare namespace CR {
     title: string;
     description: string;
     tasks?: Task[];
-    continue?: string;
+    onComplete?: string;
   }
   interface Task {
     description: string;
@@ -43,6 +43,6 @@ declare namespace CR {
     testRunnerOptions?: Object;
   }
 
-  type TaskAction = 'hint'|'test'|'action'|'continue';
-  type OutputAction = 'hints'|'tests'|'actions'|'continue';
+  type TaskAction = 'hint'|'test'|'action'|'onComplete';
+  type OutputAction = 'hints'|'tests'|'actions'|'onComplete';
 }

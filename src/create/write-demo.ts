@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as prompt from 'prompt';
 import {fileExists} from '../tools/file';
 
 function createFile(pathToFile: string): void {
@@ -33,13 +32,13 @@ export function createPackageJson(name: string): void {
   if (!fileExists('package.json')) {
     let inputPath = path.join(__dirname, '..', '..', 'setup', 'package.json');
     let packageJson = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
-    packageJson.name = 'coderoad-' + name
+    packageJson.name = 'coderoad-' + name;
     let packageJsonString = JSON.stringify(packageJson, null, 2);
     fs.writeFileSync('package.json', packageJsonString, 'utf8');
   }
 }
 
-export function createTestFiles():void {
+export function createTestFiles(): void {
   createFile(path.join('tutorial', '1', '01', '01.spec.js'));
   createFile(path.join('tutorial', '1', '01', '02.spec.js'));
   createFile(path.join('tutorial', '1', '02', '01.spec.js'));

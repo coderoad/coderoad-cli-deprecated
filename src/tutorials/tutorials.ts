@@ -11,8 +11,7 @@ export default function tutorials(): void {
 function fileExists(path: string): boolean {
   try {
     fs.accessSync(path, fs.R_OK | fs.W_OK);
-  }
-  catch (e) {
+  } catch (e) {
     if (e) {
       console.log(e);
       return false;
@@ -63,7 +62,7 @@ function getTutorials(): void {
     .concat(searchForTutorials(packageJson.dependencies))
     .concat(searchForTutorials(packageJson.devDependencies));
   if (tutorials.length) {
-    console.log('Available tutorials: ')
+    console.log('Available tutorials: ');
     tutorials.forEach((tutorial: string) => {
       console.log('  - ' + tutorial);
     });

@@ -83,7 +83,7 @@ function generateReadme(data: CR.Output, packageJson: PackageJson): string {
 
     chapters.forEach(function(chapter) {
       readme = readme.concat(chapter);
-    })
+    });
   }
 
   return readme.join('\n');

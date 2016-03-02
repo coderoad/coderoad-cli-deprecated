@@ -20,7 +20,7 @@ function doAction(type: CR.OutputAction, isArray, actionValue, result, line, ind
     valueList.forEach((value) => {
       value = trimQuotes(value.trim(), true);
       result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(value);
-    })
+    });
   } else {
     result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(actionValue);
   }
@@ -28,7 +28,7 @@ function doAction(type: CR.OutputAction, isArray, actionValue, result, line, ind
 }
 
 export function addToTasks(result, line, index) {
-  let action: CR.TaskAction|string = Match.isAction(line);  //: 'action'|'test'|'hint'|'continue'
+  let action: CR.TaskAction|string = Match.isAction(line);  // 'action'|'test'|'hint'|'continue'
   let task: CR.Task = result.chapters[index.chapter].pages[index.page].tasks[index.task];
   let trimmedContent: string = line.slice(action.length + 2, line.length - 1); // content between brackets
   let actionValue: string = trimQuotes(trimmedContent);
@@ -41,7 +41,7 @@ export function addToTasks(result, line, index) {
       result = doAction('hints', isActionArray, actionValue, result, line, index);
       break;
     case 'continue':
-      result = doAction('continue', isActionArray, actionValue, result, line, index);
+      break;
     case 'action':
       if (task.actions === undefined) {
         result.chapters[index.chapter].pages[index.page].tasks[index.task].actions = [];
@@ -52,8 +52,7 @@ export function addToTasks(result, line, index) {
           value = trimCommandValue(trimQuotes(value.trim()));
           result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
         });
-      }
-      else {
+      } else {
         let value: string = trimCommandValue(actionValue);
         result.chapters[index.chapter].pages[index.page].tasks[index.task].actions.push(value);
       }

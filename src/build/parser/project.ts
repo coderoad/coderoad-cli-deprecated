@@ -1,7 +1,6 @@
 import * as Match from './match';
 import {chapter} from './chapter';
 import {loadImport} from './import';
-import {trimLineBreaks} from './cleanup';
 
 export function project(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   let inCodeBlock = false;
@@ -22,10 +21,9 @@ export function project(result: CR.Output, lines: string[], index: CR.Index): CR
       case !!Match.codeBlock(line):
         if (line.length > 3) {
           result.project.description += line;
-          continue;
+        } else {
+          inCodeBlock = !inCodeBlock;
         }
-        inCodeBlock = !inCodeBlock;
-      case inCodeBlock:
         continue;
 
       // #

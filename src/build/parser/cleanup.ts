@@ -17,7 +17,7 @@ export function trimQuotes(text: string, quotesOnly?: boolean): string {
   if (!!text.match(/^[\r\n]/)) {
     return text;
   } else if (!!text.match(/^\s/)) {
-    return trimQuotes(text.slice(1), quotesOnly)
+    return trimQuotes(text.slice(1), quotesOnly);
   } else if (!!text.match(/\s$/)) {
     // trim trailing spaces
     return trimQuotes(text.slice(0, text.length - 1), quotesOnly);

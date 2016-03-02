@@ -5,7 +5,6 @@ import {loadImport} from './import';
 import {bracketTracker} from './cleanup';
 
 export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
-  let hasBreak: number = null;
   index.page += 1;
   index.task = -1;
   result.chapters[index.chapter].pages.push({
@@ -13,7 +12,7 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
     description: ''
   });
   let inCodeBlock = false;
-  let currentContinue = null;
+  let currentComplete = null;
   let bracketCount = 0;
 
   let i = 0;
@@ -32,22 +31,22 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
       case !!Match.codeBlock(line):
         if (line.length > 3) {
           result.chapters[index.chapter].pages[index.page].description += '\n' + line;
-          continue;
+        } else {
+          inCodeBlock = !inCodeBlock;
         }
-        inCodeBlock = !inCodeBlock;
+        continue;
       case inCodeBlock:
         continue;
 
-      // @continue
-      case !!Match.isContinue(line) || !!currentContinue:
-        currentContinue = currentContinue ? currentContinue += line : line;
+      // @onComplete
+      case !!Match.isComplete(line) || !!currentComplete:
+        currentComplete = currentComplete ? currentComplete += line : Match.isComplete(line);
         bracketCount = bracketTracker(line);
+        // complete
         if (bracketCount === 0) {
-          // if continue()
-          result.chapters[index.chapter].pages[index.page].continue = currentContinue;
-          currentContinue = null;
+          result.chapters[index.chapter].pages[index.page].onComplete = currentComplete;
+          currentComplete = null;
         }
-        console.log(line);
         continue;
 
       // ##

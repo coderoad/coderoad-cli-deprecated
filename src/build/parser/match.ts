@@ -1,3 +1,5 @@
+import {trimQuotes} from './cleanup';
+
 function match(char: string, times: number) {
   return new RegExp('^' + char + '{' + times + '}(?!#)(.*?)$', 'gm');
 }
@@ -10,7 +12,7 @@ var regex = {
   '```': match('`', 3),
   'action': /^@(action|test|hint|continue)/,
   'import': /^@import\((.+)\)$/,
-  'continue': /^@continue/
+  'onComplete': /^@onComplete\((.+)\)$/
 };
 
 function parseWithCode(code: string) {
@@ -19,7 +21,7 @@ function parseWithCode(code: string) {
       return null;
     }
     if (line.match(regex[code])) {
-      return regex[code].exec(line)[1];
+      return trimQuotes(regex[code].exec(line)[1]);
     } else {
       return null;
     }
@@ -33,12 +35,12 @@ export const task = parseWithCode('+');
 export const codeBlock = parseWithCode('```');
 export const isAction = parseWithCode('action');
 export const isImport = parseWithCode('import');
-export const isContinue = parseWithCode('continue');
+export const isComplete = parseWithCode('onComplete');
 
 export const isArray = function(line: string): string {
   let isMatch = line.match(/^\[.+\]$/);
   return isMatch ? isMatch[0] : null;
-}
+};
 
 export function isEmpty(line: string): boolean {
   return !line.length || !!line.match(/^\s+?[\n\r]/);

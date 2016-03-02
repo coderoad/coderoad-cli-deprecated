@@ -11,7 +11,7 @@ function build(lines: string[]): CR.Output {
       description: ''
     },
     chapters: []
-  }
+  };
   let index = {
     chapter: -1,
     page: -1,
@@ -33,8 +33,5 @@ export default function(filePath: string, output = './coderoad.json'): void {
     // Safe to Write coderoad.json
     fs.writeFileSync(output, result, 'utf8');
   }
-
   createReadme();
-
-
 }
