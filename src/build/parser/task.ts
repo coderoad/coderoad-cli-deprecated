@@ -2,37 +2,34 @@ import * as Match from './match';
 import {chapter} from './chapter';
 import {page} from './page';
 import {addToTasks} from './actions';
-import {trimLeadingSpaces} from './cleanup';
+import {trimLeadingSpaces, bracketTracker} from './cleanup';
 import {loadImport} from './import';
 
-function bracketTracker(line: string): number {
-  let l = (line.match(/\(/g) || []).length;
-  let r = (line.match(/\)/g) || []).length;
-  return l - r;
-}
+
 
 export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   result.chapters[index.chapter].pages[index.page].tasks.push({
     description: trimLeadingSpaces(Match.task(lines[0]))
   });
   index.task += 1;
-  let inExpCodeBlock = false;
+  let inCodeBlock = false;
   let currentAction = null;
   let bracketCount = 0;
 
   let i = 0;
   while (i < lines.length - 1) {
     i += 1;
-
     let line: string = lines[i];
-    // @import
-    let importFile: string = Match.isImport(line);
-    if (!!importFile) {
-      lines = loadImport(lines, importFile);
-    } else {
 
-      // @action (multiline)
-      if (!!currentAction) {
+    switch (true) {
+
+      // @import
+      case !!Match.isImport(line):
+        lines = loadImport(lines, Match.isImport(line));
+        continue;
+
+      // @action multiline
+      case !!currentAction:
         if (line.length === 0) {
           currentAction += '\n';
         } else if ((bracketTracker(line) + bracketCount) !== 0) {
@@ -47,55 +44,51 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
           bracketCount = 0;
         }
         continue;
-      }
 
-      // not @action multiline
-
-      let isAction: string = Match.isAction(line);
-      // not in action, may be in Explanation code block
-      if (!isAction && !!Match.codeBlock(line)) {
+      // @action codeblock
+      case !Match.isAction(line) && !!Match.codeBlock(line):
         if (line.length > 3) {
-          result = addToDescription(i, result, line, index);
-          continue;
-        }
-        inExpCodeBlock = !inExpCodeBlock;
-      }
-
-      if (!inExpCodeBlock) {
-
-        // @action
-        if (!!isAction) {
-          currentAction = line;
-          bracketCount = bracketTracker(line);
-          // TODO: bracket has completed bracket
-          if (bracketCount === 0) {
-            // if action complete, call addToTasks with merged lines
-            result = addToTasks(result, currentAction, index);
-            currentAction = null;
+          if (i > 0) {
+            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
           }
-          // + Task
-        } else if (!!Match.task(line)) {
-          return task(result, lines.slice(i), index);
-          // ### Page
-        } else if (!!Match.page(line)) {
-          return page(result, lines.slice(i), index);
-          // ## Chapter
-        } else if (!!Match.chapter(line)) {
-          return chapter(result, lines.slice(i), index);
-          // task description +
+          result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
         } else {
-          result = addToDescription(i, result, line, index);
+          inCodeBlock = !inCodeBlock;
         }
-      }
+        continue;
+
+
+      // @action
+      case !!Match.isAction(line):
+        currentAction = line;
+        bracketCount = bracketTracker(line);
+        // TODO: bracket has completed bracket
+        if (bracketCount === 0) {
+          // if action complete, call addToTasks with merged lines
+          result = addToTasks(result, currentAction, index);
+          currentAction = null;
+        }
+        continue;
+
+      // +
+      case !!Match.task(line):
+        return task(result, lines.slice(i), index);
+
+      // ###
+      case !!Match.page(line):
+        return page(result, lines.slice(i), index);
+
+      // ##
+      case !!Match.chapter(line):
+        return chapter(result, lines.slice(i), index);
+
+      // description
+      default:
+        if (i > 0) {
+          result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+        }
+        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
     }
   }
-  return result;
-}
-
-function addToDescription(i: number, result: CR.Output, line: string, index: CR.Index): CR.Output {
-  if (i > 0) {
-    result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
-  }
-  result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
   return result;
 }

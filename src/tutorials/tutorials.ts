@@ -57,7 +57,7 @@ function searchForTutorials(location): string[] {
   }
 }
 
-function getTutorials(): string[] {
+function getTutorials(): void {
   let packageJson: PackageJson = loadRootPackageJson();
   let tutorials: string[] = []
     .concat(searchForTutorials(packageJson.dependencies))

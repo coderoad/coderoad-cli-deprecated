@@ -14,15 +14,14 @@ declare namespace CR {
   interface Page {
     title: string;
     description: string;
-    explanation?: string;
     tasks?: Task[];
+    continue?: string;
   }
   interface Task {
     description: string;
     tests?: string[];
     hints?: string[];
     actions?: string[];
-    continue?: string;
   }
 
   interface Output {

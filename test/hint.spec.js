@@ -45,7 +45,7 @@ describe('@hint', function() {
     });
   });
 
-  it('should take multiline arrays of hints', function() {
+  xit('should take multiline arrays of hints', function() {
     var lines = ['+ Task One', '', "@hint([\n'hint1',\n 'hint 2'\n])"];
     var next = task(result(), lines, index());
     var nextTask = next.chapters[0].pages[0].tasks[0];

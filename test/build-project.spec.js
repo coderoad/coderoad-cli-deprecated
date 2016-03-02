@@ -5,6 +5,10 @@ describe('project', function() {
 
   var result = function() {
     return {
+      project: {
+        title: '',
+        description: ''
+      },
       chapters: []
     };
   };

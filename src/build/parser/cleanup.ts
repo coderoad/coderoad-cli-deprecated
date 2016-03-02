@@ -1,3 +1,9 @@
+export function bracketTracker(line: string): number {
+  let l = (line.match(/\(/g) || []).length;
+  let r = (line.match(/\)/g) || []).length;
+  return l - r;
+}
+
 export function trimLineBreaks(text: string) {
   if (text.match(/^\s+|\s+$/)) {
     text = text.replace(/^[\s\r\n]+|[\s\r\n]+$/g, '');
@@ -55,9 +61,6 @@ export function cleanup(result: CR.Output): string {
         chapter.pages.map((page) => {
           if (page.description) {
             page.description = trimLineBreaks(page.description);
-          }
-          if (page.explanation) {
-            page.explanation = trimLineBreaks(page.explanation);
           }
           if (page.tasks) {
             page.tasks.map((task) => {

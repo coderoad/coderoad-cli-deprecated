@@ -15,40 +15,40 @@ export function chapter(result: CR.Output, lines: string[], index: CR.Index): CR
   let i = 0;
   while (i < lines.length - 1) {
     i += 1;
-
     let line = lines[i];
-    // import
-    let importFile = Match.isImport(line); // return import path || false
-    if (!!importFile) {
-      lines = loadImport(lines, importFile);
-      continue;
-    }
 
-    if (!!Match.codeBlock(line)) {
-      if (line.length > 3) {
-        result = addToDescription(i, result, line, index);
+    switch (true) {
+
+      // @import
+      case !!Match.isImport(line):
+        lines = loadImport(lines, Match.isImport(line));
         continue;
-      }
-      inCodeBlock = !inCodeBlock;
-    }
 
-    if (!inCodeBlock) {
-      if (Match.page(line)) {
+      // ``` `
+      case !!Match.codeBlock(line):
+        if (line.length > 3) {
+          result.chapters[index.chapter].description += line;
+          continue;
+        }
+        inCodeBlock = !inCodeBlock;
+      case inCodeBlock:
+        continue;
+
+      // ###
+      case !!Match.page(line):
         return page(result, lines.slice(i), index);
-      } else if (Match.chapter(line) && i > 1) {
+
+      // ##
+      case Match.chapter(line) && i > 1:
         return chapter(result, lines.slice(i), index);
-      } else {
-        result = addToDescription(i, result, line, index);
-      }
+
+      // description
+      default:
+        if (i > 1) {
+          result.chapters[index.chapter].description += '\n';
+        }
+        result.chapters[index.chapter].description += line;
     }
   }
-  return result;
-}
-
-function addToDescription(i, result, line, index) {
-  if (i > 1) {
-    result.chapters[index.chapter].description += '\n';
-  }
-  result.chapters[index.chapter].description += line;
   return result;
 }

@@ -57,64 +57,35 @@ describe('page', function() {
   });
 
 
-  it('should return a page explanation', function() {
-    var lines = ['### Page One', 'page description', '', 'page explanation'];
+  it('should allow code blocks in the page description', function() {
+    var lines = ['### Page One', 'page description', '```', 'var a = 12;', '```'];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
     expect(nextPage).to.deep.equal({
       title: 'Page One',
-      description: 'page description',
-      explanation: 'page explanation'
-    });
-  });
-
-  it('should allow a multi-line page explanation', function() {
-    var lines = ['### Page One', 'page description', '', 'page explanation', 'more page explanation'];
-    var next = page(result(), lines, index());
-    var nextPage = next.chapters[0].pages[0];
-    expect(nextPage).to.deep.equal({
-      title: 'Page One',
-      description: 'page description',
-      explanation: 'page explanation\nmore page explanation'
-    });
-  });
-
-  it('should allow code blocks in the page explanation', function() {
-    var lines = ['### Page One', 'page description', '', 'page explanation', '```', 'var a = 12;', '```'];
-    var next = page(result(), lines, index());
-    var nextPage = next.chapters[0].pages[0];
-    expect(nextPage).to.deep.equal({
-      title: 'Page One',
-      description: 'page description',
-      explanation: 'page explanation\n```\nvar a = 12;\n```'
+      description: 'page description\n```\nvar a = 12;\n```'
     });
   });
 
   it('should add codeblock languages', function() {
-    var lines = ['### Page Title', 'page description', '',
-      'code block', '```js', 'var a = 42;', '```', 'end code block'
-    ];
+    var lines = ['### Page Title', 'code block', '```js', 'var a = 42;', '```', 'end code block'];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
-    expect(nextPage.explanation).to.equal('code block\n```js\nvar a = 42;\n```\nend code block');
+    expect(nextPage.description).to.equal('code block\n```js\nvar a = 42;\n```\nend code block');
   });
 
-  it('should add single line codeblocks', function () {
-    var lines = ['### Page Title', 'page description', '',
-      'code block', '```var a = 42;```', 'end code block'
-    ];
+  it('should add single line codeblocks', function() {
+    var lines = ['### Page Title', 'code block', '```var a = 42;```', 'end code block'];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
-    expect(nextPage.explanation).to.equal('code block\n```var a = 42;```\nend code block');
+    expect(nextPage.description).to.equal('code block\n```var a = 42;```\nend code block');
   });
 
-  it('should handle strangely formatted codeblocks', function () {
-    var lines = ['### Page Title', 'page description', '',
-      'code block', '```var a = 42;', '```', 'end code block'
-    ];
+  it('should handle strangely formatted codeblocks', function() {
+    var lines = ['### Page Title', 'code block', '```var a = 42;', '```', 'end code block'];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
-    expect(nextPage.explanation).to.equal('code block\n```var a = 42;\n```\nend code block');
+    expect(nextPage.description).to.equal('code block\n```var a = 42;\n```\nend code block');
   });
 
   it('should exit on a new chapter', function() {
