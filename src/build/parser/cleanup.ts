@@ -4,11 +4,18 @@ export function bracketTracker(line: string): number {
   return l - r;
 }
 
-export function trimLineBreaks(text: string) {
+export function trimLineBreaks(text: string): string {
   if (text.match(/^\s+|\s+$/)) {
     text = text.replace(/^[\s\r\n]+|[\s\r\n]+$/g, '');
   }
   return text;
+}
+
+export function trimArray(text: string): string[] {
+  let array: string[] = text.slice(1, -1).match(/(".*?"|[^\s",][^",]+[^\s",])(?=\s*,|\s*$)/g) || [];
+  return array.map(function(item) {
+    return trimQuotes(trimLineBreaks(item), true);
+  });
 }
 
 let quotes = ['\'', '"'];

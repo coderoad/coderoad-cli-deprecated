@@ -103,6 +103,6 @@ describe('@hint', function() {
       ],
       description: 'Task One\n'
     });
-  })
+  });
 
 }); // @hint

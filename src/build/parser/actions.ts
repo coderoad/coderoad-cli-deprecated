@@ -1,18 +1,19 @@
-import {trimQuotes, trimCommandValue} from './cleanup';
+import {trimQuotes, trimCommandValue, trimArray} from './cleanup';
 import * as Match from './match';
 
-function doAction(type: CR.OutputAction, isArray, actionValue, result, line, index) {
+function doAction(type: CR.OutputAction, isArray, actionValue, result, line, index): CR.Output {
   // set to array
   if (result.chapters[index.chapter].pages[index.page].tasks[index.task][type] === undefined) {
     result.chapters[index.chapter].pages[index.page].tasks[index.task][type] = [];
   }
   if (!!isArray) {
-    let valueList: string[] = actionValue.slice(1, -1).split(',');
-    valueList.forEach((value) => {
-      value = trimQuotes(value.trim(), true);
+    // array
+    let values = trimArray(actionValue);
+    values.forEach((value) => {
       result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(value);
     });
   } else {
+    // string
     result.chapters[index.chapter].pages[index.page].tasks[index.task][type].push(actionValue);
   }
   return result;

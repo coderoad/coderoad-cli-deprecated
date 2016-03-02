@@ -1,6 +1,27 @@
 var expect = require('chai').expect;
-var trimQuotes = require('../lib/build/parser/cleanup').trimQuotes;
-var trimLineBreaks = require('../lib/build/parser/cleanup').trimLineBreaks;
+var cleanup = require('../lib/build/parser/cleanup');
+var trimQuotes = cleanup.trimQuotes;
+var trimLineBreaks = cleanup.trimLineBreaks;
+var trimArray = cleanup.trimArray;
+
+describe('trimArray', function () {
+
+  it('should trim an array', function () {
+    var test = "['hint 1', 'hint 2']";
+    expect(trimArray(test)).to.deep.equal([
+      'hint 1',
+      'hint 2'
+    ]);
+  });
+
+  it('should trim an array of string literals', function () {
+    var test = "['`var a = 42;`', '`var b = 12;`']"
+    expect(trimArray(test)).to.deep.equal([
+      '`var a = 42;`',
+      '`var b = 12;`'
+    ]);
+  });
+});
 
 describe('trimQuotes', function () {
 

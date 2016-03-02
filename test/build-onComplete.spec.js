@@ -23,9 +23,19 @@ describe('@onComplete', function() {
     return {
       chapters: [{
         pages: [{
+          title: '',
+          description: '',
           tasks: []
         }]
       }]
+    };
+  };
+
+  var indexTask = function() {
+    return {
+      chapter: 0,
+      page: 0,
+      task: -1
     };
   };
 
@@ -42,7 +52,8 @@ describe('@onComplete', function() {
 
   it('should handle multi-line codeblocks', function() {
     var lines = ['### Page One', 'page description', 'more page description',
-    '@onComplete("next page', '```', 'var a = 42;', '```', '")'];
+      '@onComplete("next page', '```', 'var a = 42;', '```', '")'
+    ];
     var next = page(result(), lines, index());
     var nextPage = next.chapters[0].pages[0];
     expect(nextPage).to.deep.equal({
@@ -52,22 +63,24 @@ describe('@onComplete', function() {
     });
   });
 
-    it('should handle string literals', function() {
-      var lines = ['### Page One', 'page description', 'more page description',
-      '@onComplete("next page', '`var a = 42;`', '")'];
-      var next = page(result(), lines, index());
-      var nextPage = next.chapters[0].pages[0];
-      expect(nextPage).to.deep.equal({
-        title: 'Page One',
-        description: 'page description\nmore page description',
-        onComplete: 'next page\n`var a = 42;`'
-      });
+  it('should handle string literals', function() {
+    var lines = ['### Page One', 'page description', 'more page description',
+      '@onComplete("next page', '`var a = 42;`', '")'
+    ];
+    var next = page(result(), lines, index());
+    var nextPage = next.chapters[0].pages[0];
+    expect(nextPage).to.deep.equal({
+      title: 'Page One',
+      description: 'page description\nmore page description',
+      onComplete: 'next page\n`var a = 42;`'
     });
+  });
 
-  xit('shouldn\'t add @onComplete string to a task', function() {
-    var lines = ['+ Task One', 'with more on the next', 'line', '@onComplete("next page")'];
-    var next = task(resultTask(), lines, index());
+  it('shouldn\'t add to tasks', function() {
+    var lines = ['+ Task One', 'with more on the next', 'line'];
+    var next = task(resultTask(), lines, indexTask());
     var nextTask = next.chapters[0].pages[0].tasks[0];
     expect(nextTask.description).to.equal('Task One\nwith more on the next\nline');
   });
+
 });
