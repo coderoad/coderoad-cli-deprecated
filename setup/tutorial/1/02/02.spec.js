@@ -1,7 +1,7 @@
 describe('02 multiplyOne', function() {
 
   it('doesn\'t exist', function () {
-    expect(multiplyOne).to.not.be.undefined;
+    expect(multiplyOne).to.be.defined;
   });
 
   it('should take a parameter', function() {

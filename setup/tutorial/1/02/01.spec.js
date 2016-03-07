@@ -7,7 +7,7 @@ loadJS('page-02.js')
 describe('01 divideOne', function() {
 
   it('doesn\'t exist', function () {
-    expect(divideOne).to.not.be.undefined;
+    expect(divideOne).to.be.defined;
   });
 
   it('should take a parameter', function() {

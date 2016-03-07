@@ -1,7 +1,7 @@
 describe('02 subtractOne', function() {
 
   it('doesn\'t exist', function () {
-    expect(subtractOne).to.not.be.undefined;
+    expect(subtractOne).to.be.defined;
   });
 
   it('should take a parameter', function() {

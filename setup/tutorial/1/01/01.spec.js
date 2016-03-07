@@ -6,7 +6,7 @@ loadJS('page-01.js')
 describe('01 addOne', function() {
 
   it('doesn\'t exist', function() {
-    expect(addOne).to.not.be.undefined;
+    expect(addOne).to.be.defined;
   });
 
   it('should take a parameter', function() {
