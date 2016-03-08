@@ -1,6 +1,6 @@
 import {validatePackageName} from './validate';
 import {createPackageJson, createTutorialMd, createTestFiles} from './write-demo';
-import {createReadme} from '../build/readme';
+import build from '../build/build';
 
 export default function create(name: string): void {
   // check
@@ -15,7 +15,9 @@ export default function create(name: string): void {
   createTutorialMd();
   // tests folder with sample test
   createTestFiles();
-  // readme with install instructions and overview
-  createReadme();
+
+  const tutorial = 'tutorial/tutorial.md';
+  const output = 'coderoad.json';
+  build(tutorial, output);
 
 }

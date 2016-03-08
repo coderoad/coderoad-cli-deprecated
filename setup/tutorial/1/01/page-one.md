@@ -22,7 +22,7 @@ Try making your own basic functions.
 ```
 // addOne
 function addOne(x) {
-  return;
+  return ::>;
 }
 ```  
 ))
@@ -34,7 +34,7 @@ function addOne(x) {
 
 // subtractOne
 function subtractOne(x) {
-  return;
+  return ::>;
 }
 ```  
 ))
