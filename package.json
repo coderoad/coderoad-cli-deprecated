@@ -1,12 +1,12 @@
 {
   "name": "coderoad-cli",
-  "version": "0.3.25",
+  "version": "0.3.26",
   "description": "Command line interface for CodeRoad. Build project files.",
   "keywords": [
     "coderoad"
   ],
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,6 +18,7 @@
     "coderoad": "lib/cli.js"
   },
   "files": [
+    "setup",
     "lib",
     "package.json",
     "*.md"

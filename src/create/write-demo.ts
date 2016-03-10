@@ -4,7 +4,7 @@ import {fileExists} from '../tools/file';
 
 function createFile(pathToFile: string): void {
   if (!fileExists(pathToFile)) {
-    let inputPath = path.join(__dirname, '..', '..', 'setup', pathToFile);
+    let inputPath: string = path.join(__dirname, '..', '..', 'setup', pathToFile);
     let test = fs.readFileSync(inputPath, 'utf8');
     fs.writeFileSync(pathToFile, test, 'utf8');
   }
@@ -30,10 +30,11 @@ export function createTutorialMd(): void {
 
 export function createPackageJson(name: string): void {
   if (!fileExists('package.json')) {
-    let inputPath = path.join(__dirname, '..', '..', 'setup', 'package.json');
-    let packageJson = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
+    console.log(__dirname);
+    let inputPath: string = path.join(__dirname, '..', '..', 'setup', 'package.json');
+    let packageJson: PackageJson = JSON.parse(fs.readFileSync(inputPath, 'utf8'));
     packageJson.name = 'coderoad-' + name;
-    let packageJsonString = JSON.stringify(packageJson, null, 2);
+    let packageJsonString: string = JSON.stringify(packageJson, null, 2);
     fs.writeFileSync('package.json', packageJsonString, 'utf8');
   }
 }
