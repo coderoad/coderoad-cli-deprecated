@@ -8,15 +8,20 @@ function doAction(type: CR.OutputAction, isArray, actionValue, result, line, {ch
   if (result.chapters[chapter].pages[page].tasks[task][type] === undefined) {
     result.chapters[chapter].pages[page].tasks[task][type] = [];
   }
+  let current = result.chapters[chapter].pages[page].tasks[task][type];
   if (!!isArray) {
     // array
     let values = trimArray(actionValue);
     values.forEach((value) => {
-      result.chapters[chapter].pages[page].tasks[task][type].push(value);
+      if (current.indexOf(value) === -1 && values.indexOf(value) === -1) {
+        result.chapters[chapter].pages[page].tasks[task][type].push(value);
+      }
     });
   } else {
     // string
-    result.chapters[chapter].pages[page].tasks[task][type].push(actionValue);
+    if (current.indexOf(actionValue) === -1) {
+      result.chapters[chapter].pages[page].tasks[task][type].push(actionValue);
+    }
   }
   return result;
 }
