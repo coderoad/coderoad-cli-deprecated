@@ -15,6 +15,7 @@
   "files": [
     "src/cli.ts",
     "src/build/build.ts",
+    "src/build/lint.ts",
     "src/build/parser/actions.ts",
     "src/build/parser/chapter.ts",
     "src/build/parser/cleanup.ts",
