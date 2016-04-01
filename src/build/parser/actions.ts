@@ -27,7 +27,7 @@ function doAction(type: CR.OutputAction, isArray, actionValue, result, line, {ch
 }
 
 export function addToTasks(result, line, index) {
-  let action: CR.TaskAction|string = Match.isAction(line);  // 'action'|'test'|'hint'|'continue'
+  let action: CR.TaskAction|string = Match.isAction(line);  // 'action'|'test'|'hint'|'openConsole'
   const {chapter, page, task} = index;
   let currentTask: CR.Task = result.chapters[chapter].pages[page].tasks[task];
   let trimmedContent: string = line.slice(action.length + 2, line.length - 1); // content between brackets
