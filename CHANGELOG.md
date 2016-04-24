@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - rename "project" to "info"
 - rename "testDir" to "dir"
 - rename "testRunner" to "runner"
+- updates for 'atom-coderoad@0.7'
 
 ## [0.3.27] - 2016-03-12
 - lint output and show errors/warnings
