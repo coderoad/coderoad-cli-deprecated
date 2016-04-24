@@ -18,8 +18,8 @@ export function validatePackageName(name: string): void {
     if (!validated.errors && !validated.warnings) {
       console.log(chalk.red(`
         Invalid package name. Try using kebab-case.
-        > coderoad create ${_.kebabCase(name)}
-        `));
+        > coderoad create ${_.kebabCase(name) }
+      `));
     }
     process.exit(1);
   }

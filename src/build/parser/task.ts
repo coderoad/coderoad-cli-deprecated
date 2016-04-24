@@ -5,8 +5,6 @@ import {addToTasks} from './actions';
 import {trimLeadingSpaces, bracketTracker, trimValue} from './cleanup';
 import {loadImport} from './import';
 
-
-
 export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   result.chapters[index.chapter].pages[index.page].tasks.push({
     description: trimLeadingSpaces(Match.task(lines[0]))
@@ -31,7 +29,9 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
 
       // @onComplete
       case (!!Match.isPageComplete(line) || !!currentPageComplete):
-        currentPageComplete = !!currentPageComplete ? currentPageComplete += '\n' + line : Match.isPageComplete(line);
+        currentPageComplete = !!currentPageComplete
+          ? currentPageComplete += '\n' + line
+          : Match.isPageComplete(line);
         bracketCount = bracketTracker(currentPageComplete);
         // complete
         if (bracketCount === 0) {

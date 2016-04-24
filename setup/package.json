@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "config": {
-    "testDir": "tutorial",
+    "dir": "tutorial",
     "testSuffix": ".spec.js",
-    "testRunner": "mocha-coderoad"
+    "runner": "mocha-coderoad"
   }
 }

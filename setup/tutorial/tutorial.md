@@ -1,5 +1,5 @@
-# Project Title
-Project description.
+# Tutorial Title
+Tutorial description.
 
 ## Chapter One Title
 Chapter one description.

@@ -1,6 +1,6 @@
 declare namespace CR {
 
-  interface Project {
+  interface Info {
     title: string;
     description: string;
   }
@@ -25,7 +25,7 @@ declare namespace CR {
   }
 
   interface Output {
-    project: Project;
+    info: Info;
     chapters: Chapter[];
   }
 
@@ -36,7 +36,7 @@ declare namespace CR {
   }
 
   interface Config {
-    testDir?: string;
+    dir?: string;
     testSuffix?: string;
     testRunner: string;
     edit?: boolean;

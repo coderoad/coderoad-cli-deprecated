@@ -28,7 +28,7 @@ function parseWithCode(code: string) {
   };
 }
 
-export const project = parseWithCode('#');
+export const info = parseWithCode('#');
 export const chapter = parseWithCode('##');
 export const page = parseWithCode('###');
 export const task = parseWithCode('+');

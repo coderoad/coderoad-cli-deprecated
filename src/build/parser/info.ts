@@ -2,7 +2,7 @@ import * as Match from './match';
 import {chapter} from './chapter';
 import {loadImport} from './import';
 
-export function project(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
+export function info(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   let inCodeBlock = false;
   let i = -1;
 
@@ -20,15 +20,15 @@ export function project(result: CR.Output, lines: string[], index: CR.Index): CR
       // ``` `
       case !!Match.codeBlock(line):
         if (line.length > 3) {
-          result.project.description += line;
+          result.info.description += line;
         } else {
           inCodeBlock = !inCodeBlock;
         }
         continue;
 
       // #
-      case !!Match.project(line):
-        result.project.title = Match.project(line).trim();
+      case !!Match.info(line):
+        result.info.title = Match.info(line).trim();
         continue;
 
       // ##
@@ -38,9 +38,9 @@ export function project(result: CR.Output, lines: string[], index: CR.Index): CR
       // description
       default:
         if (i > 1) {
-          result.project.description += '\n';
+          result.info.description += '\n';
         }
-        result.project.description += line;
+        result.info.description += line;
     }
   }
   return result;

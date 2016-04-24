@@ -70,8 +70,8 @@ export function trimValue(text: string): string {
 
 export function cleanup(result: CR.Output): string {
   result = JSON.parse(JSON.stringify(result));
-  if (result.project.description) {
-    result.project.description = trimLineBreaks(result.project.description);
+  if (result.info.description) {
+    result.info.description = trimLineBreaks(result.info.description);
   }
   if (result.chapters) {
     result.chapters.map((chapter) => {

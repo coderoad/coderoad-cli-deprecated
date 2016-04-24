@@ -1,5 +1,5 @@
 import {trimQuotes, trimCommandValue, trimArray} from './cleanup';
-import * as Match from './match';
+import {isAction, isArray} from './match';
 
 // TODO: change to use new Set ()
 
@@ -27,12 +27,12 @@ function doAction(type: CR.OutputAction, isArray, actionValue, result, line, {ch
 }
 
 export function addToTasks(result, line, index) {
-  let action: CR.TaskAction|string = Match.isAction(line);  // 'action'|'test'|'hint'|'openConsole'
+  let action: CR.TaskAction|string = isAction(line);  // 'action'|'test'|'hint'|'openConsole'
   const {chapter, page, task} = index;
   let currentTask: CR.Task = result.chapters[chapter].pages[page].tasks[task];
   let trimmedContent: string = line.slice(action.length + 2, line.length - 1); // content between brackets
   let actionValue: string = trimQuotes(trimmedContent);
-  let isActionArray = Match.isArray(trimQuotes(actionValue));
+  let isActionArray = isArray(trimQuotes(actionValue));
   switch (action) {
     case 'test':
       result = doAction('tests', isActionArray, actionValue, result, line, index);

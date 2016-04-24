@@ -1,5 +1,5 @@
 import * as chalk from 'chalk';
-import {isValidJSON, hasProjectInfo, hasPage, lintOutput} from './lint';
+import {isValidJSON, hasTutorialInfo, hasPage, lintOutput} from './lint';
 
 export function filePath(filePath: string): void {
   if (!filePath) {
@@ -16,7 +16,7 @@ export function result(text: string): boolean {
   isValidJSON(text);
 
   let jsonObject = JSON.parse(text);
-  hasProjectInfo(jsonObject);
+  hasTutorialInfo(jsonObject);
   hasPage(jsonObject);
   lintOutput(jsonObject);
   return true;

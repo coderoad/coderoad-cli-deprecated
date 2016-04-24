@@ -1,12 +1,12 @@
-import * as fs from 'fs';
+import {readFileSync, writeFileSync}  from 'fs';
 import * as validate from './validators';
-import {project} from './parser/project';
+import {info} from './parser/info';
 import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 
 function build(lines: string[]): CR.Output {
   let result = {
-    project: {
+    info: {
       title: '',
       description: ''
     },
@@ -17,7 +17,7 @@ function build(lines: string[]): CR.Output {
     page: -1,
     task: -1
   };
-  return project(result, lines, index);
+  return info(result, lines, index);
 }
 
 export default function(filePath: string, output = './coderoad.json'): void {
@@ -25,13 +25,13 @@ export default function(filePath: string, output = './coderoad.json'): void {
   validate.filePath(filePath);
 
   // Read
-  let lines: string[] = fs.readFileSync(filePath, 'utf8').split('\n');
+  let lines: string[] = readFileSync(filePath, 'utf8').split('\n');
   // Build
   let result = cleanup(build(lines));
 
   if (validate.result(result)) {
     // Safe to Write coderoad.json
-    fs.writeFileSync(output, result, 'utf8');
+    writeFileSync(output, result, 'utf8');
   }
   createReadme();
 }

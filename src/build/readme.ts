@@ -27,9 +27,9 @@ function generateReadme(data: CR.Output, packageJson: PackageJson): string {
   readme.push();
   // title
   readme = readme.concat([
-    '# ' + data.project.title,
+    '# ' + data.info.title,
     '',
-    data.project.description,
+    data.info.description,
     ''
   ]);
   // coderoad explanation
