@@ -10,7 +10,7 @@ We'll write two more basic functions, this time without any help.
 ```
 // divideOne
 function divideOne(x) {
-  return ::>;
+  return ::>
 }
 ```  
 ))
@@ -22,7 +22,7 @@ function divideOne(x) {
 
 // multiplyOne
 function multiplyOne(x) {
-  return ::>;
+  return ::>
 }
 ```  
 ))

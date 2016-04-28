@@ -6,7 +6,7 @@ declare var program: {
   publish: any;
   run: any;
   search: any;
-}
+};
 
 interface PackageJson {
   name: string;

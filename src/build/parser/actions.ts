@@ -3,7 +3,10 @@ import {isAction, isArray} from './match';
 
 // TODO: change to use new Set ()
 
-function doAction(type: CR.OutputAction, isArray, actionValue, result, line, {chapter, page, task}): CR.Output {
+function doAction(
+  type: CR.OutputAction, isArray, actionValue, result, line,
+  {chapter, page, task}
+): CR.Output {
   // set to array
   if (result.chapters[chapter].pages[page].tasks[task][type] === undefined) {
     result.chapters[chapter].pages[page].tasks[task][type] = [];
@@ -27,7 +30,7 @@ function doAction(type: CR.OutputAction, isArray, actionValue, result, line, {ch
 }
 
 export function addToTasks(result, line, index) {
-  let action: CR.TaskAction|string = isAction(line);  // 'action'|'test'|'hint'|'openConsole'
+  let action: CR.TaskAction | string = isAction(line);  // 'action'|'test'|'hint'|'openConsole'
   const {chapter, page, task} = index;
   let currentTask: CR.Task = result.chapters[chapter].pages[page].tasks[task];
   let trimmedContent: string = line.slice(action.length + 2, line.length - 1); // content between brackets

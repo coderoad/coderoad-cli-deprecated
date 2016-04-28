@@ -1,4 +1,4 @@
-import * as chalk from 'chalk';
+import {yellow, red} from 'chalk';
 
 const validKeys = {
   info: ['title', 'description'],
@@ -22,7 +22,7 @@ export function lintOutput(json: CR.Output): void {
     }
   });
 
-  json.chapters.forEach((chapter, cIndex) => {
+  json.chapters.forEach((chapter: CR.Chapter, cIndex: number) => {
     // chapter
     let chKeys = Object.keys(chapter);
     chKeys.forEach((key) => {
@@ -35,7 +35,7 @@ export function lintOutput(json: CR.Output): void {
     });
 
     if (chapter.pages && chapter.pages.length > 0) {
-      chapter.pages.forEach((page, pIndex) => {
+      chapter.pages.forEach((page: CR.Page, pIndex: number) => {
         // page
         let pKeys = Object.keys(page);
         pKeys.forEach((key) => {
@@ -48,7 +48,7 @@ export function lintOutput(json: CR.Output): void {
         });
 
         if (page.tasks && page.tasks.length > 0) {
-          page.tasks.forEach((task, tIndex) => {
+          page.tasks.forEach((task: CR.Task, tIndex: number) => {
             let tKeys = Object.keys(task);
 
             tKeys.forEach((key) => {
@@ -85,13 +85,13 @@ export function lintOutput(json: CR.Output): void {
 
   if (warningKeys.length > 0) {
     warningKeys.forEach((w) => {
-      console.log(chalk.yellow(`Warning: ${w.warning}: `, w.location));
+      console.log(yellow(`Warning: ${w.warning}: `, w.location));
     });
   }
 
   if (invalidKeys.length > 0) {
     invalidKeys.forEach((e) => {
-      console.log(chalk.red(`Error: ${e.error}: `, e.location));
+      console.log(red(`Error: ${e.error}: `, e.location));
     });
 
     process.exit(1); // fail
@@ -102,7 +102,7 @@ export function isValidJSON(text: string): void {
   if (!/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
     replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
     replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-    console.log(chalk.red(`
+    console.log(red(`
       Something went wrong. Build did not output valid JSON.
       `));
     process.exit(1); // fail
@@ -113,7 +113,7 @@ export function hasTutorialInfo(json: CR.Output): void {
   let validTitle = json.info.title.length > 0,
     validDescription = json.info.description.length > 0;
   if (!(validTitle && validDescription)) {
-    console.log(chalk.red(`
+    console.log(red(`
       Your tutorial is missing basic project information. Check the project title & description.
       `));
     process.exit(1); // fail
@@ -122,7 +122,7 @@ export function hasTutorialInfo(json: CR.Output): void {
 
 export function hasPage(json: CR.Output): void {
   if (!(json.chapters[0].pages.length > 0 && !!json.chapters[0].pages[0].title)) {
-    console.log(chalk.red(`
+    console.log(red(`
       Your tutorial requires at least one page.
       `));
     process.exit(1); // fail

@@ -1,11 +1,11 @@
-import * as chalk from 'chalk';
+import {yellow} from 'chalk';
 import {validateQuery} from './validate';
 
 export default function search(query: string): void {
   validateQuery(query);
 
   console.log(`Searching for "coderoad-${query}"...`);
-  console.log(chalk.yellow('Search feature not fully implemented yet.\n'));
+  console.log(yellow('Search feature not fully implemented yet.\n'));
   console.log('To search for tutorials follow the instructions below: \n');
   console.log(`Search tutorials on npm:
     > npm search coderoad tutorial

@@ -1,8 +1,8 @@
-import * as fs from 'fs';
+import {accessSync, F_OK} from 'fs';
 
 export function fileExists(path: string): boolean {
   try {
-    fs.accessSync(path, fs.F_OK);
+    accessSync(path, F_OK);
   } catch (e) {
     if (e) {
       if (e.code !== 'ENOENT') {

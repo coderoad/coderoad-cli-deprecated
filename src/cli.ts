@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import * as program from 'commander';
-import * as chalk from 'chalk';
+import {grey} from 'chalk';
 import build from './build/build';
 import create from './create/create';
 import search from './search/search';
@@ -29,9 +29,9 @@ if (!program.args.length &&
   if (program.build) {
     const tutorial = program.args[0] || 'tutorial/tutorial.md';
     const output = 'coderoad.json';
-    console.log(chalk.grey(`building from ${tutorial}...`));
+    console.log(grey(`building from ${tutorial}...`));
     build(tutorial, output);
-    console.log(chalk.grey(`build complete: coderoad.json`));
+    console.log(grey(`build complete: coderoad.json`));
   }
 
   // create

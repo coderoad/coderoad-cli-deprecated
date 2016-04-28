@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import {readFileSync, writeFileSync} from 'fs';
 import {fileExists} from '../tools/file';
 
 export function createReadme(): void {
@@ -16,20 +16,21 @@ export function createReadme(): void {
     console.log('No package.json file found');
     return;
   }
-  let data: CR.Output = JSON.parse(fs.readFileSync('coderoad.json', 'utf8'));
-  let packageJson: PackageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+  let data: CR.Output = JSON.parse(readFileSync('coderoad.json', 'utf8'));
+  let packageJson: PackageJson = JSON.parse(readFileSync('package.json', 'utf8'));
   let content: string = generateReadme(data, packageJson);
-  fs.writeFileSync('README.md', content, 'utf8');
+  writeFileSync('README.md', content, 'utf8');
 }
 
 function generateReadme(data: CR.Output, packageJson: PackageJson): string {
   let readme = [];
-  readme.push();
+
+  const {info, chapters} = data;
   // title
   readme = readme.concat([
-    '# ' + data.info.title,
+    '# ' + info.title,
     '',
-    data.info.description,
+    info.description,
     ''
   ]);
   // coderoad explanation
@@ -57,31 +58,32 @@ function generateReadme(data: CR.Output, packageJson: PackageJson): string {
     '## Outline',
     ''
   ]);
-  if (data.chapters) {
-    let chapters = data.chapters.map(function(chapter) {
-      let ch = [
-        '### ' + chapter.title,
-        '',
-        chapter.description,
-        ''
-      ];
-      if (chapter.pages) {
-        let pages = chapter.pages.map(function(page) {
-          return [
-            '##### ' + page.title,
-            '',
-            page.description,
-            ''
-          ];
-        });
-        pages.forEach(function(page) {
-          ch = ch.concat(page);
-        });
-      }
-      return ch;
-    });
+  if (chapters) {
+    let parsedChapters: CR.Chapter[] = chapters.map(
+      (chapter: CR.Chapter) => {
+        let ch = [
+          '### ' + chapter.title,
+          '',
+          chapter.description,
+          ''
+        ];
+        if (chapter.pages) {
+          let pages = chapter.pages.map((page) => {
+            return [
+              '##### ' + page.title,
+              '',
+              page.description,
+              ''
+            ];
+          });
+          pages.forEach((page) => {
+            ch = ch.concat(page);
+          });
+        }
+        return ch;
+      });
 
-    chapters.forEach(function(chapter) {
+    parsedChapters.forEach((chapter: CR.Chapter) => {
       readme = readme.concat(chapter);
     });
   }

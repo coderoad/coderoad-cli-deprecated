@@ -5,14 +5,14 @@ import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 
 function build(lines: string[]): CR.Output {
-  let result = {
+  let result: CR.Output = {
     info: {
       title: '',
       description: ''
     },
     chapters: []
   };
-  let index = {
+  let index: CR.Index = {
     chapter: -1,
     page: -1,
     task: -1
