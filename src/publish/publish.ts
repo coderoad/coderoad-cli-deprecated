@@ -3,7 +3,7 @@ import validateVersion from './validate';
 
 export default function publish(version: string): void {
   validateVersion(version);
-  console.log(`Publishing package version "${version}"...`);
+  process.stdout.write(`Publishing package version "${version}"... \n`);
   console.log(yellow('Publish feature not implemented yet.\n'));
   console.log('To publish your tutorial package follow these instructions: \n');
   console.log(`Setup a git repo and tag your version:

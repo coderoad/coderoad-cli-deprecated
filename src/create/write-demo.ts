@@ -24,8 +24,6 @@ export function createTutorialMd(): void {
   createFile(join('tutorial', '1', '01', 'page-one.md'));
   createFolder(join('tutorial', '1', '02'));
   createFile(join('tutorial', '1', '02', 'page-two.md'));
-  createFolder(join('tutorial', 'common'));
-  createFile(join('tutorial', 'common', 'loadJS.js'));
 }
 
 export function createPackageJson(name: string): void {
