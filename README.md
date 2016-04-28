@@ -35,10 +35,10 @@ Running **create** generates:
   "dependencies": {
       "mocha-coderoad": "^0.3.1"
   },
-  "coderoad": {
-      "testDir": "test",
-      "testSuffix": ".spec.js",
-      "testRunner": "mocha-coderoad"
+  "config": {
+      "dir": "tutorial",
+      "runner": "mocha-coderoad",
+      "testSuffix": ".spec.js"
   }
 }
 ```
