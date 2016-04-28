@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.4.2]
+- same line '✓' output
+- bug fixes
+
 ## [0.4]
 - rename "project" to "info"
 - rename "testDir" to "dir"

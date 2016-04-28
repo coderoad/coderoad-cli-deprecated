@@ -7,7 +7,7 @@ export default function create(name: string): void {
   validatePackageName(name);
 
   // continue
-  console.log('Creating demo tutorial...');
+  process.stdout.write(`Creating demo tutorial "coderoad-${name}"...`);
 
   // npm package
   createPackageJson(name);

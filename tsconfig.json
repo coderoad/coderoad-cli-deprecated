@@ -1,53 +1,54 @@
 {
-  "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
-    "removeComments": true,
-    "noResolve": true,
-    "outDir": "lib"
-  },
-  "compileOnSave": true,
-  "buildOnSave": true,
-  "filesGlob": [
-    "src/*.ts",
-    "src/**/*.ts"
-  ],
-  "files": [
-    "src/cli.ts",
-    "src/build/build.ts",
-    "src/build/lint.ts",
-    "src/build/parser/actions.ts",
-    "src/build/parser/chapter.ts",
-    "src/build/parser/cleanup.ts",
-    "src/build/parser/import.ts",
-    "src/build/parser/info.ts",
-    "src/build/parser/match.ts",
-    "src/build/parser/page.ts",
-    "src/build/parser/task.ts",
-    "src/build/readme.ts",
-    "src/build/validators.ts",
-    "src/create/create.ts",
-    "src/create/validate.ts",
-    "src/create/write-demo.ts",
-    "src/list/list.ts",
-    "src/publish/publish.ts",
-    "src/publish/validate.ts",
-    "src/search/search.ts",
-    "src/search/validate.ts",
-    "src/tools/file.ts",
-    "src/tutorials/tutorials.ts",
-    "src/typings/chalk/chalk.d.ts",
-    "src/typings/commander/commander.d.ts",
-    "src/typings/cr.d.ts",
-    "src/typings/globals.d.ts",
-    "src/typings/node/node.d.ts",
-    "src/typings/prompt/prompt.d.ts",
-    "src/typings/tsd.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "atom": {
-    "rewriteTsconfig": true
-  }
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "commonjs",
+        "removeComments": true,
+        "noResolve": true,
+        "outDir": "lib"
+    },
+    "compileOnSave": true,
+    "buildOnSave": true,
+    "filesGlob": [
+        "src/*.ts",
+        "src/**/*.ts"
+    ],
+    "files": [
+        "src/cli.ts",
+        "src/build/build.ts",
+        "src/build/lint.ts",
+        "src/build/parser/actions.ts",
+        "src/build/parser/chapter.ts",
+        "src/build/parser/cleanup.ts",
+        "src/build/parser/import.ts",
+        "src/build/parser/info.ts",
+        "src/build/parser/match.ts",
+        "src/build/parser/page.ts",
+        "src/build/parser/task.ts",
+        "src/build/readme.ts",
+        "src/build/validators.ts",
+        "src/create/create.ts",
+        "src/create/validate.ts",
+        "src/create/write-demo.ts",
+        "src/list/list.ts",
+        "src/publish/publish.ts",
+        "src/publish/validate.ts",
+        "src/search/search.ts",
+        "src/search/validate.ts",
+        "src/tools/file.ts",
+        "src/tutorials/tutorials.ts",
+        "src/typings/chalk/chalk.d.ts",
+        "src/typings/commander/commander.d.ts",
+        "src/typings/cr.d.ts",
+        "src/typings/globals.d.ts",
+        "src/typings/node/node.d.ts",
+        "src/typings/prompt/prompt.d.ts",
+        "src/typings/tsd.d.ts",
+        "src/update/update.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
+    "atom": {
+        "rewriteTsconfig": true
+    }
 }

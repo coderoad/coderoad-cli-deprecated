@@ -1,12 +1,13 @@
 #! /usr/bin/env node
 
 import * as program from 'commander';
-import {grey} from 'chalk';
+import {grey, green} from 'chalk';
 import build from './build/build';
 import create from './create/create';
 import search from './search/search';
 import tutorials from './tutorials/tutorials';
 import publish from './publish/publish';
+import {checkForUpdate} from './update/update';
 
 program
   .version('0.3.27')
@@ -20,6 +21,8 @@ program
 
   .parse(process.argv);
 
+checkForUpdate();
+
 if (!program.args.length &&
   !program.build && !program.tutorials && !program.run) {
   program.help();
@@ -29,9 +32,8 @@ if (!program.args.length &&
   if (program.build) {
     const tutorial = program.args[0] || 'tutorial/tutorial.md';
     const output = 'coderoad.json';
-    console.log(grey(`building from ${tutorial}...`));
+    process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
     build(tutorial, output);
-    console.log(grey(`build complete: coderoad.json`));
   }
 
   // create
@@ -53,6 +55,8 @@ if (!program.args.length &&
     const version = program.args[0];
     publish(version);
   }
+
+  process.stdout.write(green(' ✓\n'));
 
   process.exit(0);
 }
