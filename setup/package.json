@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Coderoad tutorial",
   "author": "Name <email> (site)",
-  "contributers": [],
+  "contributors": [],
   "main": "coderoad.json",
   "files": [
     "coderoad.json",
@@ -14,7 +14,8 @@
     "node" : ">=0.10.3"
   },
   "dependencies": {
-    "mocha-coderoad": "^0.5.4"
+    "mocha-coderoad": "^0.6.0",
+    "chai": "3.5.0"
   },
   "license": "MIT",
   "config": {
