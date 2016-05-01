@@ -7,12 +7,12 @@ export function validatePackageName(name: string): void {
   if (!validated.validForNewPackages || !validated.validForOldPackages) {
     if (validated.errors) {
       validated.errors.forEach((error) => {
-        console.log(red('Package ' + error));
+        console.log(red('\nPackage ' + error));
       });
     }
     if (validated.warnings) {
       validated.warnings.forEach((warning) => {
-        console.log(yellow('Package ' + warning));
+        console.log(yellow('\nPackage ' + warning));
       });
     }
     if (!validated.errors && !validated.warnings) {

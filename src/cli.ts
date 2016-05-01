@@ -12,51 +12,49 @@ import {checkForUpdate} from './update/update';
 program
   .version('0.3.27')
   .usage('[options] <keywords>')
-  .option('-b, --build [path/to/tutorial.md]', 'tutorial markdown file', /^.+\.md$/i)
+  .option('-b, --build [path/to/tutorial.md]',
+    'tutorial markdown file', /^.+\.md$/i)
   .option('-c, --create [name]', 'tutorial name')
-  .option('-p, --publish [version]', 'publish tutorial to npm with new version number')
+  .option('-p, --publish [version]',
+    'publish tutorial to npm with new version number')
   .option('-t, --tutorials', 'list of tutorial packages')
   .option('-s, --search [query]', 'search for tutorial package')
   .option('-r, --run', 'run tutorial')
-
   .parse(process.argv);
 
 checkForUpdate();
 
-if (!program.args.length &&
-  !program.build && !program.tutorials && !program.run) {
-  program.help();
-} else {
-
-  // build
-  if (program.build) {
+switch (true) {
+  case program.build:
     const tutorial = program.args[0] || 'tutorial/tutorial.md';
     const output = 'coderoad.json';
     process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
     build(tutorial, output);
-  }
+    break;
 
-  // create
-  if (program.create) {
+  case program.create:
     const packageName = program.args[0];
     create(packageName);
-  }
+    break;
 
-  if (program.search) {
+  case program.search:
     const query = program.args[0];
     search(query);
-  }
+    break;
 
-  if (program.tutorials) {
+  case program.tutorials:
     tutorials();
-  }
+    break;
 
-  if (program.publish) {
+  case program.publish:
     const version = program.args[0];
     publish(version);
-  }
+    break;
 
-  process.stdout.write(green(' ✓\n'));
-
-  process.exit(0);
+  default:
+    program.help();
 }
+
+// exit
+process.stdout.write(green(' ✓\n'));
+process.exit(0);

@@ -14,7 +14,8 @@ export default function publish(version: string): void {
     > git add remote origin http://github.com/$your-github-id$/$your-package-name$
     > git push -u --tags
   `);
-  console.log(`Publish your package to npm:
+  console.log(`
+    Publish your package to npm:
     > npm publish
   `);
 }
