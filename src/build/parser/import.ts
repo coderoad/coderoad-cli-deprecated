@@ -2,14 +2,17 @@ import {readFileSync} from 'fs';
 import {join} from 'path';
 import {fileExists} from '../../tools/file';
 import {trimQuotes} from './cleanup';
+import {tutorialDir} from './settings';
 
 export function loadImport(lines: string[], pathToMd: string): string[] {
+  // add .md suffix
   pathToMd = trimQuotes(pathToMd);
   if (!pathToMd.match(/\.md$/)) {
     pathToMd = pathToMd.concat('.md');
   }
-  let realPath: string = join(process.cwd(), pathToMd);
-  if (!fileExists(pathToMd)) {
+  // get path to imports
+  let realPath: string = join(process.cwd(), tutorialDir, pathToMd);
+  if (!fileExists(realPath)) {
     console.log('Invalid path to markdown file', realPath);
     return;
   }

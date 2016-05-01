@@ -23,6 +23,7 @@
         "src/build/parser/info.ts",
         "src/build/parser/match.ts",
         "src/build/parser/page.ts",
+        "src/build/parser/settings.ts",
         "src/build/parser/task.ts",
         "src/build/readme.ts",
         "src/build/validators.ts",

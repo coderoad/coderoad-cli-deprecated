@@ -13,10 +13,10 @@ program
   .version('0.3.27')
   .usage('[options] <keywords>')
   .option('-b, --build [path/to/tutorial.md]',
-    'tutorial markdown file', /^.+\.md$/i)
+  'tutorial markdown file', /^.+\.md$/i)
   .option('-c, --create [name]', 'tutorial name')
   .option('-p, --publish [version]',
-    'publish tutorial to npm with new version number')
+  'publish tutorial to npm with new version number')
   .option('-t, --tutorials', 'list of tutorial packages')
   .option('-s, --search [query]', 'search for tutorial package')
   .option('-r, --run', 'run tutorial')
@@ -55,6 +55,6 @@ switch (true) {
     program.help();
 }
 
-// exit
+// success! exit
 process.stdout.write(green(' ✓\n'));
 process.exit(0);
