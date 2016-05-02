@@ -7,7 +7,6 @@ function match(char: string, times: number) {
 var regex = {
   '#': match('#', 1),
   '##': match('#', 2),
-  '###': match('#', 3),
   '+': match('\\+', 1),
   '```': match('`', 3),
   'action': /^@(action|test|hint|openConsole)/,
@@ -29,8 +28,7 @@ function parseWithCode(code: string) {
 }
 
 export const info = parseWithCode('#');
-export const chapter = parseWithCode('##');
-export const page = parseWithCode('###');
+export const page = parseWithCode('##');
 export const task = parseWithCode('+');
 export const codeBlock = parseWithCode('```');
 export const isAction = parseWithCode('action');

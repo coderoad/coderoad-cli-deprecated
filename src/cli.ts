@@ -24,35 +24,29 @@ program
 
 checkForUpdate();
 
-switch (true) {
-  case program.build:
-    const tutorial = program.args[0] || 'tutorial/tutorial.md';
-    const output = 'coderoad.json';
-    process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
-    build(tutorial, output);
-    break;
+if (program.build) {
+  const tutorial = program.args[0] || 'tutorial/tutorial.md';
+  const output = 'coderoad.json';
+  process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
+  build(tutorial, output);
 
-  case program.create:
-    const packageName = program.args[0];
-    create(packageName);
-    break;
+} else if (program.create) {
+  const packageName = program.args[0];
+  create(packageName);
 
-  case program.search:
-    const query = program.args[0];
-    search(query);
-    break;
+} else if (program.search) {
+  const query = program.args[0];
+  search(query);
 
-  case program.tutorials:
-    tutorials();
-    break;
+} else if (program.tutorials) {
+  tutorials();
 
-  case program.publish:
-    const version = program.args[0];
-    publish(version);
-    break;
+} else if (program.publish) {
+  const version = program.args[0];
+  publish(version);
 
-  default:
-    program.help();
+} else {
+  program.help();
 }
 
 // success! exit

@@ -25,7 +25,7 @@ export function createReadme(): void {
 function generateReadme(data: CR.Output, packageJson: PackageJson): string {
   let readme = [];
 
-  const {info, chapters} = data;
+  const {info, pages} = data;
   // title
   readme = readme.concat([
     '# ' + info.title,
@@ -58,35 +58,18 @@ function generateReadme(data: CR.Output, packageJson: PackageJson): string {
     '## Outline',
     ''
   ]);
-  if (chapters) {
-    let parsedChapters: CR.Chapter[] = chapters.map(
-      (chapter: CR.Chapter) => {
-        let ch = [
-          '### ' + chapter.title,
-          '',
-          chapter.description,
-          ''
-        ];
-        if (chapter.pages) {
-          let pages = chapter.pages.map((page) => {
-            return [
-              '##### ' + page.title,
-              '',
-              page.description,
-              ''
-            ];
-          });
-          pages.forEach((page) => {
-            ch = ch.concat(page);
-          });
-        }
-        return ch;
-      });
+  let parsedPages: string[][] = pages.map((page) => {
+    return [
+      '##### ' + page.title,
+      '',
+      page.description,
+      ''
+    ];
+  });
 
-    parsedChapters.forEach((chapter: CR.Chapter) => {
-      readme = readme.concat(chapter);
-    });
-  }
+  parsedPages.forEach((page: string[]) => {
+    readme = readme.concat(page);
+  });
 
   return readme.join('\n');
 }

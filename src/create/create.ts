@@ -10,14 +10,11 @@ export default function create(name: string): void {
   process.stdout.write(`Creating demo tutorial "coderoad-${name}"...`);
 
   // npm package
-  createPackageJson(name);
-  // create tutorial.md
-  createTutorialMd();
-  // tests folder with sample test
-  createTestFiles();
-
-  const tutorial = 'tutorial/tutorial.md';
-  const output = 'coderoad.json';
-  build(tutorial, output);
-
+  Promise.all([
+    createPackageJson(name),
+    createTutorialMd(),
+    createTestFiles()
+  ]).then(() => {
+    build('tutorial/tutorial.md', 'coderoad.json');
+  });
 }

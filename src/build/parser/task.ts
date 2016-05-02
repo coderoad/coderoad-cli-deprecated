@@ -1,12 +1,11 @@
 import * as Match from './match';
-import {chapter} from './chapter';
 import {page} from './page';
 import {addToTasks} from './actions';
 import {trimLeadingSpaces, bracketTracker, trimValue} from './cleanup';
 import {loadImport} from './import';
 
 export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
-  result.chapters[index.chapter].pages[index.page].tasks.push({
+  result.pages[index.page].tasks.push({
     description: trimLeadingSpaces(Match.task(lines[0]))
   });
   index.task += 1;
@@ -35,7 +34,7 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
         bracketCount = bracketTracker(currentPageComplete);
         // complete
         if (bracketCount === 0) {
-          result.chapters[index.chapter].pages[index.page].onPageComplete = trimValue(currentPageComplete);
+          result.pages[index.page].onPageComplete = trimValue(currentPageComplete);
           currentPageComplete = null;
         }
         continue;
@@ -61,9 +60,9 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
       case !Match.isAction(line) && !!Match.codeBlock(line):
         if (line.length > 3) {
           if (i > 0) {
-            result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+            result.pages[index.page].tasks[index.task].description += '\n';
           }
-          result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
+          result.pages[index.page].tasks[index.task].description += line;
         } else {
           inCodeBlock = !inCodeBlock;
         }
@@ -86,20 +85,17 @@ export function task(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
       case !!Match.task(line):
         return task(result, lines.slice(i), index);
 
-      // ###
+      // ##
       case !!Match.page(line):
         return page(result, lines.slice(i), index);
 
-      // ##
-      case !!Match.chapter(line):
-        return chapter(result, lines.slice(i), index);
 
       // description
       default:
         if (i > 0) {
-          result.chapters[index.chapter].pages[index.page].tasks[index.task].description += '\n';
+          result.pages[index.page].tasks[index.task].description += '\n';
         }
-        result.chapters[index.chapter].pages[index.page].tasks[index.task].description += line;
+        result.pages[index.page].tasks[index.task].description += line;
     }
   }
   return result;

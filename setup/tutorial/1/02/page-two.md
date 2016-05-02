@@ -1,4 +1,5 @@
-### Divide & Multiply
+## Divide & Multiply
+
 Writing basic functions continued.
 
 We'll write two more basic functions, this time without any help.

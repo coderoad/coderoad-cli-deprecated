@@ -17,7 +17,6 @@
         "src/build/build.ts",
         "src/build/lint.ts",
         "src/build/parser/actions.ts",
-        "src/build/parser/chapter.ts",
         "src/build/parser/cleanup.ts",
         "src/build/parser/import.ts",
         "src/build/parser/info.ts",

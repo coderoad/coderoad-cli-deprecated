@@ -1,5 +1,4 @@
 import * as Match from './match';
-import {chapter} from './chapter';
 import {task} from './task';
 import {loadImport} from './import';
 import {bracketTracker, trimValue} from './cleanup';
@@ -7,7 +6,7 @@ import {bracketTracker, trimValue} from './cleanup';
 export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
   index.page += 1;
   index.task = -1;
-  result.chapters[index.chapter].pages.push({
+  result.pages.push({
     title: Match.page(lines[0]).trim(),
     description: ''
   });
@@ -35,7 +34,7 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
         bracketCount = bracketTracker(currentPageComplete);
         // complete
         if (bracketCount === 0) {
-          result.chapters[index.chapter].pages[index.page].onPageComplete = trimValue(currentPageComplete);
+          result.pages[index.page].onPageComplete = trimValue(currentPageComplete);
           currentPageComplete = null;
         }
         continue;
@@ -43,7 +42,7 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
       // ``` `
       case !!Match.codeBlock(line):
         if (line.length > 3) {
-          result.chapters[index.chapter].pages[index.page].description += '\n' + line;
+          result.pages[index.page].description += '\n' + line;
         } else {
           inCodeBlock = !inCodeBlock;
         }
@@ -53,26 +52,22 @@ export function page(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
 
 
       // ##
-      case !!Match.chapter(line):
-        return chapter(result, lines.slice(i), index);
-
-      // ###
       case !!Match.page(line):
         return page(result, lines.slice(i), index);
 
       // +
       case !!Match.task(line):
-        if (result.chapters[index.chapter].pages[index.page].tasks === undefined) {
-          result.chapters[index.chapter].pages[index.page].tasks = [];
+        if (result.pages[index.page].tasks === undefined) {
+          result.pages[index.page].tasks = [];
         }
         return task(result, lines.slice(i), index);
 
       // description
       default:
         if (i > 1) {
-          result.chapters[index.chapter].pages[index.page].description += '\n';
+          result.pages[index.page].description += '\n';
         }
-        result.chapters[index.chapter].pages[index.page].description += line;
+        result.pages[index.page].description += line;
         continue;
     }
   }

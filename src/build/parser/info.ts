@@ -1,5 +1,5 @@
 import * as Match from './match';
-import {chapter} from './chapter';
+import {page} from './page';
 import {loadImport} from './import';
 
 export function info(result: CR.Output, lines: string[], index: CR.Index): CR.Output {
@@ -32,8 +32,8 @@ export function info(result: CR.Output, lines: string[], index: CR.Index): CR.Ou
         continue;
 
       // ##
-      case !!Match.chapter(line):
-        return chapter(result, lines.slice(i), index);
+      case !!Match.page(line):
+        return page(result, lines.slice(i), index);
 
       // description
       default:

@@ -8,14 +8,13 @@ function build(lines: string[]): CR.Output {
   let result: CR.Output = {
     info: {
       title: '',
-      description: ''
+      description: '',
     },
-    chapters: []
+    pages: []
   };
   let index: CR.Index = {
-    chapter: -1,
     page: -1,
-    task: -1
+    task: -1,
   };
   return info(result, lines, index);
 }

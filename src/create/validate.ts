@@ -1,8 +1,9 @@
 import {red, yellow} from 'chalk';
 import * as validateNpm from 'validate-npm-package-name';
-const _ = require('lodash');
+import kebabCase from 'lodash.kebabcase';
 
 export function validatePackageName(name: string): void {
+  console.log(kebabCase);
   let validated: Validated = validateNpm(name);
   if (!validated.validForNewPackages || !validated.validForOldPackages) {
     if (validated.errors) {
@@ -18,7 +19,7 @@ export function validatePackageName(name: string): void {
     if (!validated.errors && !validated.warnings) {
       console.log(red(`
         Invalid package name. Try using kebab-case.
-        > coderoad create ${_.kebabCase(name) }
+        > coderoad create ${kebabCase(name) }
       `));
     }
     process.exit(1);

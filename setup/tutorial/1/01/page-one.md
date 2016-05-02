@@ -1,4 +1,5 @@
-### Add & Subtract
+## Add & Subtract
+
 Writing basic functions.
 
 A function has inputs and outputs. The inputs we call "parameters" and wrap them in `(` brackets `)`.

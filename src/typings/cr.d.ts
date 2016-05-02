@@ -2,13 +2,12 @@ declare namespace CR {
 
   interface Output {
     info: Info;
-    chapters: Chapter[];
+    pages: Page[];
   }
 
   type OutputAction = string;
 
   interface Index {
-    chapter: number;
     page: number;
     task: number;
   }
@@ -18,9 +17,6 @@ declare namespace CR {
     description: string;
   }
 
-  interface Chapter extends Info {
-    pages: Page[];
-  }
   interface Page extends Info {
     tasks?: Task[];
     onPageComplete?: string;
@@ -34,7 +30,6 @@ declare namespace CR {
   type TaskAction = string;
 
   interface Position {
-    chapter: number;
     page: number;
   }
 

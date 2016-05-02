@@ -73,22 +73,15 @@ export function cleanup(result: CR.Output): string {
   if (result.info.description) {
     result.info.description = trimLineBreaks(result.info.description);
   }
-  if (result.chapters) {
-    result.chapters.map((chapter) => {
-      if (chapter.description) {
-        chapter.description = trimLineBreaks(chapter.description);
+  if (result.pages) {
+    result.pages.map((page) => {
+      if (page.description) {
+        page.description = trimLineBreaks(page.description);
       }
-      if (chapter.pages) {
-        chapter.pages.map((page) => {
-          if (page.description) {
-            page.description = trimLineBreaks(page.description);
-          }
-          if (page.tasks) {
-            page.tasks.map((task) => {
-              if (task.description) {
-                task.description = trimLineBreaks(task.description);
-              }
-            });
+      if (page.tasks) {
+        page.tasks.map((task) => {
+          if (task.description) {
+            task.description = trimLineBreaks(task.description);
           }
         });
       }

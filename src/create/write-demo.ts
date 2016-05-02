@@ -17,28 +17,38 @@ function createFolder(pathToFolder: string): void {
 }
 
 export function createTutorialMd(): void {
-  createFolder('tutorial');
-  createFile(join('tutorial', 'tutorial.md'));
-  createFolder(join('tutorial', '1'));
-  createFolder(join('tutorial', '1', '01'));
-  createFile(join('tutorial', '1', '01', 'page-one.md'));
-  createFolder(join('tutorial', '1', '02'));
-  createFile(join('tutorial', '1', '02', 'page-two.md'));
+  return new Promise((resolve, reject) => {
+    createFolder('tutorial');
+    createFile(join('tutorial', 'tutorial.md'));
+    createFolder(join('tutorial', '1'));
+    createFolder(join('tutorial', '1', '01'));
+    createFile(join('tutorial', '1', '01', 'page-one.md'));
+    createFolder(join('tutorial', '1', '02'));
+    createFile(join('tutorial', '1', '02', 'page-two.md'));
+    resolve();
+  });
 }
 
 export function createPackageJson(name: string): void {
-  if (!fileExists('package.json')) {
-    let inputPath: string = join(__dirname, '..', '..', 'setup', 'package.json');
-    let packageJson: PackageJson = JSON.parse(readFileSync(inputPath, 'utf8'));
-    packageJson.name = 'coderoad-' + name;
-    let packageJsonString: string = JSON.stringify(packageJson, null, 2);
-    writeFileSync('package.json', packageJsonString, 'utf8');
-  }
+  return new Promise((resolve, reject) => {
+    if (!fileExists('package.json')) {
+      let inputPath: string = join(__dirname, '..', '..', 'setup', 'package.json');
+      let packageJson: PackageJson = JSON.parse(readFileSync(inputPath, 'utf8'));
+      packageJson.name = 'coderoad-' + name;
+      let packageJsonString: string = JSON.stringify(packageJson, null, 2);
+      writeFileSync('package.json', packageJsonString, 'utf8');
+      resolve();
+    } else {
+      resolve();
+    }
+  });
 }
 
 export function createTestFiles(): void {
-  createFile(join('tutorial', '1', '01', '01.spec.js'));
-  createFile(join('tutorial', '1', '01', '02.spec.js'));
-  createFile(join('tutorial', '1', '02', '01.spec.js'));
-  createFile(join('tutorial', '1', '02', '02.spec.js'));
+  return new Promise((resolve, reject) => {
+    createFile(join('tutorial', '1', '01', '01.spec.js'));
+    createFile(join('tutorial', '1', '01', '02.spec.js'));
+    createFile(join('tutorial', '1', '02', '01.spec.js'));
+    createFile(join('tutorial', '1', '02', '02.spec.js'));
+  });
 }
