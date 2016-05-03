@@ -18,13 +18,17 @@ function createFolder(pathToFolder: string): void {
 
 export function createTutorialMd(): void {
   return new Promise((resolve, reject) => {
+    createFile('.gitignore');
     createFolder('tutorial');
     createFile(join('tutorial', 'tutorial.md'));
-    createFolder(join('tutorial', '1'));
-    createFolder(join('tutorial', '1', '01'));
-    createFile(join('tutorial', '1', '01', 'page-one.md'));
-    createFolder(join('tutorial', '1', '02'));
-    createFile(join('tutorial', '1', '02', 'page-two.md'));
+    createFolder(join('tutorial', '01'));
+    createFile(join('tutorial', '01', 'page-one.md'));
+    createFile(join('tutorial', '01', '01.spec.js'));
+    createFile(join('tutorial', '01', '02.spec.js'));
+    createFolder(join('tutorial', '02'));
+    createFile(join('tutorial', '02', 'page-two.md'));
+    createFile(join('tutorial', '02', '01.spec.js'));
+    createFile(join('tutorial', '02', '02.spec.js'));
     resolve();
   });
 }
@@ -41,14 +45,5 @@ export function createPackageJson(name: string): void {
     } else {
       resolve();
     }
-  });
-}
-
-export function createTestFiles(): void {
-  return new Promise((resolve, reject) => {
-    createFile(join('tutorial', '1', '01', '01.spec.js'));
-    createFile(join('tutorial', '1', '01', '02.spec.js'));
-    createFile(join('tutorial', '1', '02', '01.spec.js'));
-    createFile(join('tutorial', '1', '02', '02.spec.js'));
   });
 }

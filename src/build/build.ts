@@ -4,7 +4,7 @@ import {info} from './parser/info';
 import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 
-function build(lines: string[]): CR.Output {
+function parseAndBuild(lines: string[]): CR.Output {
   let result: CR.Output = {
     info: {
       title: '',
@@ -19,14 +19,14 @@ function build(lines: string[]): CR.Output {
   return info(result, lines, index);
 }
 
-export default function(filePath: string, output = './coderoad.json'): void {
+export default function build(filePath: string, output = './coderoad.json'): void {
   // VALIDATE: path name
   validate.filePath(filePath);
 
   // Read
   let lines: string[] = readFileSync(filePath, 'utf8').split('\n');
   // Build
-  let result = cleanup(build(lines));
+  let result = cleanup(parseAndBuild(lines));
 
   if (validate.result(result)) {
     // Safe to Write coderoad.json

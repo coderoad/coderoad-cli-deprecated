@@ -1,5 +1,5 @@
 import {validatePackageName} from './validate';
-import {createPackageJson, createTutorialMd, createTestFiles} from './write-demo';
+import {createPackageJson, createTutorialMd} from './write-demo';
 import build from '../build/build';
 
 export default function create(name: string): void {
@@ -12,9 +12,9 @@ export default function create(name: string): void {
   // npm package
   Promise.all([
     createPackageJson(name),
-    createTutorialMd(),
-    createTestFiles()
+    createTutorialMd()
   ]).then(() => {
     build('tutorial/tutorial.md', 'coderoad.json');
   });
+
 }
