@@ -1,5 +1,4 @@
 ## Add & Subtract
-
 Writing basic functions.
 
 A function has inputs and outputs. The inputs we call "parameters" and wrap them in `(` brackets `)`.
@@ -18,6 +17,8 @@ Try making your own basic functions.
 
 + write a function `addOne` that adds one to a number
 @test('01/01')
+@hint('return the parameter + 1')
+@hint('second hint')
 @action(open('page-01.js'))
 @action(set(
 ```
@@ -30,6 +31,7 @@ function addOne(x) {
 
 + write a function `subtractOne` that subtracts one from a number
 @test('01/02')
+@hint('return the parameter - 1')
 @action(insert(
 ```
 
@@ -39,3 +41,5 @@ function subtractOne(x) {
 }
 ```  
 ))
+
+@onPageComplete('Continue to learn more about multiply & divide')

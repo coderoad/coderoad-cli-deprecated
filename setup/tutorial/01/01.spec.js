@@ -1,5 +1,6 @@
 var expect = require('chai').expect;
 
+/// load('01/data.js', true)
 /// load('page-01.js')
 
 describe('01 addOne', function() {

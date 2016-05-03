@@ -1,5 +1,4 @@
 ## Divide & Multiply
-
 Writing basic functions continued.
 
 We'll write two more basic functions, this time without any help.
@@ -13,7 +12,7 @@ We'll write two more basic functions, this time without any help.
 function divideOne(x) {
   return ::>
 }
-```  
+```
 ))
 
 + write a function `mutiplyone` that multiplies a number by 1

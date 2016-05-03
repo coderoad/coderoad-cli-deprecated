@@ -1,0 +1,3 @@
+global.something = {
+  some: 'data'
+};
