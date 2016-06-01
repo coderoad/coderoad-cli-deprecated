@@ -50,13 +50,13 @@ if (program.build) {
 } else if (program.tutorials) {
   // run find tutorials
   process.stdout.write(`List of tutorial packages in this directory...`);
-  const tuts = tutorials();
+  const tuts = tutorials(process.cwd());
   if (!tuts) {
     fail();
   } else {
-    process.stdout.write('\n\n')
+    process.stdout.write('\n');
     tuts.forEach((tut) => {
-      process.stdout.write(`    ${tut.name} : ${tut.version}\n`);
+      process.stdout.write(`  ${tut.name} : ${tut.version}\n`);
     });
   }
 

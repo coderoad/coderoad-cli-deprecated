@@ -2,7 +2,7 @@ import {join} from 'path';
 import {readFileSync} from 'fs';
 import fileExists from 'node-file-exists';
 import {isTutorial, tutorialError} from './is-tutorial';
-import {canUpdateTutorial} from './update';
+// import {canUpdateTutorial} from './update';
 
 export default function findTutorials(
   dir: string, deps: Object
@@ -33,7 +33,7 @@ export default function findTutorials(
         return {
           name,
           version,
-          latest: !!canUpdateTutorial(name, version)
+          latest: false // !!canUpdateTutorial(name, version)
         };
       }));
   } else {
