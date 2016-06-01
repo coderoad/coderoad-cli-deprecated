@@ -4,7 +4,9 @@ import fileExists from 'node-file-exists';
 import {isTutorial, tutorialError} from './is-tutorial';
 import {canUpdateTutorial} from './update';
 
-export function searchForTutorials(dir: string, deps: Object): Tutorial.Info[] {
+export default function findTutorials(
+  dir: string, deps: Object
+): Tutorial.Info[] {
   if (!!deps && Object.keys(deps).length > 0) {
     return (Object.keys(deps)
       .filter((name: string) => isTutorial(dir, name))

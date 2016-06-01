@@ -30,6 +30,7 @@ if (program.build) {
   const tutorial = program.args[0] || 'tutorial/tutorial.md';
   const output = 'coderoad.json';
   process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
+  // run build
   if (!build(tutorial, output)) {
     fail();
   }
@@ -37,6 +38,7 @@ if (program.build) {
 } else if (program.create) {
   const packageName = program.args[0];
   process.stdout.write(`Creating demo tutorial "coderoad-${packageName}"...`);
+  // run create
   if (!create(packageName)) {
     fail();
   }
@@ -46,7 +48,17 @@ if (program.build) {
   search(query);
 
 } else if (program.tutorials) {
-  tutorials();
+  // run find tutorials
+  process.stdout.write(`List of tutorial packages in this directory...`);
+  const tuts = tutorials();
+  if (!tuts) {
+    fail();
+  } else {
+    process.stdout.write('\n\n')
+    tuts.forEach((tut) => {
+      process.stdout.write(`    ${tut.name} : ${tut.version}\n`);
+    });
+  }
 
 } else if (program.publish) {
   const version = program.args[0];

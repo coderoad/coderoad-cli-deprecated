@@ -1,7 +1,6 @@
 import * as fs from 'fs';
 import {yellow} from 'chalk';
-import {fileExists} from '../tools/file';
-
+import fileExists from 'node-file-exists';
 
 function incrementVersion(version: string): string {
   let finalDot = version.lastIndexOf('.');

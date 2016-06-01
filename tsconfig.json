@@ -32,6 +32,7 @@
         "src/create/validate.ts",
         "src/create/write-demo.ts",
         "src/list/list.ts",
+        "src/packageJson/get.ts",
         "src/publish/index.ts",
         "src/publish/validate.ts",
         "src/search/index.ts",

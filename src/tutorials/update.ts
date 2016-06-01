@@ -13,9 +13,10 @@ export function tutorialUpdate(name: string): void {
 export function canUpdateTutorial(
   name: string, currentVersion: string
 ): Promise<boolean> {
-  if (!navigator.onLine) {
-    return null;
-  }
+  return null;
+  // if (global.hasOwnProperty('navigator') || !global.navigator.onLine) {
+  //   return null;
+  // }
   return (commandLine(
     'npm', `outdated ${name}`
   ).then(
