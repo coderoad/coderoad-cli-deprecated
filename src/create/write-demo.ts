@@ -1,5 +1,6 @@
 import {readFileSync, writeFileSync, mkdirSync} from 'fs';
 import {join} from 'path';
+import {sortPackageJson} from 'sort-package-json'
 import {fileExists} from '../tools/file';
 
 function createFile(pathToFile: string): void {
@@ -33,25 +34,40 @@ const files = [
   join('tutorial', '02', '02.spec.js')
 ];
 
-export function createTutorialMd(): void {
+export function createTutorialMd(): Promise<boolean> {
   return new Promise((resolve, reject) => {
     folders.forEach((folder) => createFolder(folder));
     files.forEach((file) => createFile(file));
-    resolve();
+    resolve(true);
   });
 }
 
-export function createPackageJson(name: string): void {
+export function createPackageJson(name: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     if (!fileExists('package.json')) {
-      let inputPath: string = join(__dirname, '..', '..', 'setup', 'package.json');
-      let packageJson: PackageJson = JSON.parse(readFileSync(inputPath, 'utf8'));
+
+      // read from existing package.json
+      const inputPath: string = join(
+        __dirname, '..', '..', 'setup', 'package.json'
+      );
+
+      const packageJson: PackageJson = JSON.parse(
+        readFileSync(inputPath, 'utf8')
+      );
       packageJson.name = 'coderoad-' + name;
-      let packageJsonString: string = JSON.stringify(packageJson, null, 2);
+
+      // sort package.json keys
+      const packageJsonString: string = sortPackageJson(
+        JSON.stringify(packageJson, null, 2)
+      );
+
       writeFileSync('package.json', packageJsonString, 'utf8');
-      resolve();
+      resolve(true);
     } else {
-      resolve();
+      // TODO: validate package.json
+
+      // already created
+      resolve(true);
     }
   });
 }

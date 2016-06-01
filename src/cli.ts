@@ -30,15 +30,14 @@ if (program.build) {
   const tutorial = program.args[0] || 'tutorial/tutorial.md';
   const output = 'coderoad.json';
   process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
-  const built = build(tutorial, output);
-  if (!built) {
+  if (!build(tutorial, output)) {
     fail();
   }
 
 } else if (program.create) {
   const packageName = program.args[0];
-  const created = create(packageName);
-  if (!created) {
+  process.stdout.write(`Creating demo tutorial "coderoad-${packageName}"...`);
+  if (!create(packageName)) {
     fail();
   }
 
