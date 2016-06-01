@@ -1,14 +1,15 @@
 #! /usr/bin/env node
 
 import * as program from 'commander';
-import {grey, green} from 'chalk';
+import {grey} from 'chalk';
+import {success, fail} from './result';
 
-import build from './build/build';
-import create from './create/create';
-import search from './search/search';
-import tutorials from './tutorials/tutorials';
-import publish from './publish/publish';
-import {checkForUpdate} from './update/update';
+import build from './build';
+import create from './create';
+import search from './search';
+import tutorials from './tutorials';
+import publish from './publish';
+import checkForUpdate from './update';
 
 program
   .version('0.6.0')
@@ -29,11 +30,17 @@ if (program.build) {
   const tutorial = program.args[0] || 'tutorial/tutorial.md';
   const output = 'coderoad.json';
   process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
-  build(tutorial, output);
+  const built = build(tutorial, output);
+  if (!built) {
+    fail();
+  }
 
 } else if (program.create) {
   const packageName = program.args[0];
-  create(packageName);
+  const created = create(packageName);
+  if (!created) {
+    fail();
+  }
 
 } else if (program.search) {
   const query = program.args[0];
@@ -51,5 +58,4 @@ if (program.build) {
 }
 
 // success! exit
-process.stdout.write(green(' ✓\n'));
-process.exit(0);
+success();

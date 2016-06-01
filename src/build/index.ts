@@ -19,9 +19,11 @@ function parseAndBuild(lines: string[]): CR.Output {
   return info(result, lines, index);
 }
 
-export default function build(filePath: string, output = './coderoad.json'): void {
+export default function build(filePath: string, output = './coderoad.json'): boolean {
   // VALIDATE: path name
-  validate.filePath(filePath);
+  if (!validate.filePath(filePath)) {
+    return false;
+  };
 
   // Read
   let lines: string[] = readFileSync(filePath, 'utf8').split('\n');
@@ -33,4 +35,5 @@ export default function build(filePath: string, output = './coderoad.json'): voi
     writeFileSync(output, result, 'utf8');
   }
   createReadme();
+  return true;
 }

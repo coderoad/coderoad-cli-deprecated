@@ -2,7 +2,7 @@ import {red, yellow} from 'chalk';
 import * as validateNpm from 'validate-npm-package-name';
 import kebabCase from 'lodash.kebabcase';
 
-export function validatePackageName(name: string): void {
+export function validatePackageName(name: string): boolean {
   let validated: Validated = validateNpm(name);
   if (!validated.validForNewPackages || !validated.validForOldPackages) {
     if (validated.errors) {
@@ -21,6 +21,7 @@ export function validatePackageName(name: string): void {
         > coderoad create ${kebabCase(name) }
       `));
     }
-    process.exit(1);
+    return false;
   }
+  return true;
 }

@@ -14,7 +14,9 @@
     ],
     "files": [
         "src/cli.ts",
-        "src/build/build.ts",
+        "src/index.ts",
+        "src/result.ts",
+        "src/build/index.ts",
         "src/build/lint.ts",
         "src/build/parser/actions.ts",
         "src/build/parser/cleanup.ts",
@@ -26,16 +28,16 @@
         "src/build/parser/task.ts",
         "src/build/readme.ts",
         "src/build/validators.ts",
-        "src/create/create.ts",
+        "src/create/index.ts",
         "src/create/validate.ts",
         "src/create/write-demo.ts",
         "src/list/list.ts",
-        "src/publish/publish.ts",
+        "src/publish/index.ts",
         "src/publish/validate.ts",
-        "src/search/search.ts",
+        "src/search/index.ts",
         "src/search/validate.ts",
         "src/tools/file.ts",
-        "src/tutorials/tutorials.ts",
+        "src/tutorials/index.ts",
         "src/typings/chalk/chalk.d.ts",
         "src/typings/commander/commander.d.ts",
         "src/typings/cr.d.ts",
@@ -43,7 +45,7 @@
         "src/typings/node/node.d.ts",
         "src/typings/prompt/prompt.d.ts",
         "src/typings/tsd.d.ts",
-        "src/update/update.ts"
+        "src/update/index.ts"
     ],
     "exclude": [
         "node_modules"
