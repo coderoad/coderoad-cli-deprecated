@@ -1,5 +1,5 @@
 import {readFileSync, writeFileSync} from 'fs';
-import {fileExists} from '../tools/file';
+import fileExists from 'node-file-exists';
 import {red} from 'chalk';
 
 export function createReadme(): boolean {

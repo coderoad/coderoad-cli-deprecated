@@ -1,6 +1,6 @@
 import {readFileSync} from 'fs';
 import {join} from 'path';
-import {fileExists} from '../../tools/file';
+import fileExists from 'node-file-exists';
 import {trimQuotes} from './cleanup';
 import {tutorialDir} from './settings';
 

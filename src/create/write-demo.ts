@@ -1,7 +1,7 @@
 import {readFileSync, writeFileSync, mkdirSync} from 'fs';
 import {join} from 'path';
 import {sortPackageJson} from 'sort-package-json'
-import {fileExists} from '../tools/file';
+import fileExists from 'node-file-exists';
 
 function createFile(pathToFile: string): void {
   if (!fileExists(pathToFile)) {
