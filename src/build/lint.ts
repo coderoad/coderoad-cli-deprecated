@@ -6,7 +6,7 @@ const validKeys = {
   task: ['description', 'tests', 'actions', 'hints']
 };
 
-export function lintOutput(json: CR.Output): void {
+export function lintOutput(json: CR.Output): boolean {
   let invalidKeys = [];
   let warningKeys = [];
 
@@ -73,32 +73,35 @@ export function lintOutput(json: CR.Output): void {
     invalidKeys.forEach((e) => {
       console.log(red(`\nError: ${e.error}: `, e.location));
     });
-
-    process.exit(1); // fail
+    return false;
   }
+  return true;
 }
 
-export function isValidJSON(text: string): void {
+export function isValidJSON(text: string): boolean {
   if (!/^[\],:{}\s]*$/.test(text.replace(/\\["\\\/bfnrtu]/g, '@').
     replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').
     replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
     console.log(red('\nSomething went wrong. Build did not output valid JSON.'));
-    process.exit(1); // fail
+    return false;
   }
+  return true;
 }
 
-export function hasTutorialInfo(json: CR.Output): void {
+export function hasTutorialInfo(json: CR.Output): boolean {
   let validTitle = json.info.title.length > 0,
     validDescription = json.info.description.length > 0;
   if (!(validTitle && validDescription)) {
     console.log(red('\nYour tutorial is missing basic project information. Check the project title & description.'));
-    process.exit(1); // fail
+    return false;
   }
+  return true;
 }
 
-export function hasPage(json: CR.Output): void {
+export function hasPage(json: CR.Output): boolean {
   if (!(json.pages.length > 0 && !!json.pages[0].title)) {
     console.log(red('\nYour tutorial requires at least one page.'));
-    process.exit(1); // fail
+    return false;
   }
+  return true;
 }

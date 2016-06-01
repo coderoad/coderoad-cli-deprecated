@@ -5,14 +5,15 @@ import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 
 function parseAndBuild(lines: string[]): CR.Output {
-  let result: CR.Output = {
+  // coderoad.json outline
+  const result: CR.Output = {
     info: {
       title: '',
       description: '',
     },
     pages: []
   };
-  let index: CR.Index = {
+  const index: CR.Index = {
     page: -1,
     task: -1,
   };
@@ -20,20 +21,26 @@ function parseAndBuild(lines: string[]): CR.Output {
 }
 
 export default function build(filePath: string, output = './coderoad.json'): boolean {
-  // VALIDATE: path name
-  if (!validate.filePath(filePath)) {
-    return false;
-  };
 
-  // Read
-  let lines: string[] = readFileSync(filePath, 'utf8').split('\n');
-  // Build
-  let result = cleanup(parseAndBuild(lines));
+  // validate path name
+  if (!validate.filePath(filePath)) { return false; }
+
+  // read tutorial.md
+  const lines: string[] = readFileSync(filePath, 'utf8').split('\n');
+
+  // build coeroad.json
+  const result = cleanup(parseAndBuild(lines));
+
+  // error parsing or building coderoad.json
+  if (!result) { return false; }
 
   if (validate.result(result)) {
     // Safe to Write coderoad.json
     writeFileSync(output, result, 'utf8');
   }
-  createReadme();
+
+  // check error creating readme
+  if (!createReadme()) { return false; }
+
   return true;
 }

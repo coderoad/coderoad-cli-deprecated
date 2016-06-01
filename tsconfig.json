@@ -41,6 +41,7 @@
         "src/typings/chalk/chalk.d.ts",
         "src/typings/commander/commander.d.ts",
         "src/typings/cr.d.ts",
+        "src/typings/es6-promise/es6-promise.d.ts",
         "src/typings/globals.d.ts",
         "src/typings/node/node.d.ts",
         "src/typings/prompt/prompt.d.ts",

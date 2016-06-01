@@ -1,7 +1,8 @@
 import {readFileSync, writeFileSync} from 'fs';
 import {fileExists} from '../tools/file';
+import {red} from 'chalk';
 
-export function createReadme(): void {
+export function createReadme(): boolean {
   if (!fileExists('./README.md')) {
     // prompt.start();
     // prompt.get(['overwriteReadme'], function (err, result) {
@@ -9,17 +10,18 @@ export function createReadme(): void {
     // });
   }
   if (!fileExists('./coderoad.json')) {
-    console.log('No coderoad.json file found');
-    return;
+    console.log(red('No coderoad.json file found'));
+    return false;
   }
   if (!fileExists('./package.json')) {
-    console.log('No package.json file found');
-    return;
+    console.log(red('No package.json file found'));
+    return false;
   }
   let data: CR.Output = JSON.parse(readFileSync('coderoad.json', 'utf8'));
   let packageJson: PackageJson = JSON.parse(readFileSync('package.json', 'utf8'));
   let content: string = generateReadme(data, packageJson);
   writeFileSync('README.md', content, 'utf8');
+  return true;
 }
 
 function generateReadme(data: CR.Output, packageJson: PackageJson): string {

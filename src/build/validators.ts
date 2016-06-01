@@ -10,14 +10,19 @@ export function filePath(filePath: string): boolean {
     return false; // fail
   }
   // regex .md
+  return true;
 }
 
 export function result(text: string): boolean {
-  isValidJSON(text);
 
-  let jsonObject = JSON.parse(text);
-  hasTutorialInfo(jsonObject);
-  hasPage(jsonObject);
-  lintOutput(jsonObject);
-  return true;
+  if (!isValidJSON(text)) { return false; }
+
+  const jsonObject = JSON.parse(text);
+
+  // run tests
+  return [
+    hasTutorialInfo(jsonObject),
+    hasPage(jsonObject),
+    lintOutput(jsonObject)
+  ].every(x => !!x);
 }
