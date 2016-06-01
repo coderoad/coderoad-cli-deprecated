@@ -4,7 +4,7 @@ import {fileExists} from '../tools/file';
 
 function createFile(pathToFile: string): void {
   if (!fileExists(pathToFile)) {
-    let inputPath: string = join(__dirname, '..', '..', 'setup', pathToFile);
+    let inputPath = join(__dirname, '..', '..', 'setup', pathToFile);
     let test = readFileSync(inputPath, 'utf8');
     writeFileSync(pathToFile, test, 'utf8');
   }
@@ -16,19 +16,27 @@ function createFolder(pathToFolder: string): void {
   }
 }
 
+const folders = [
+  'tutorial',
+  join('tutorial', '01'),
+  join('tutorial', '02')
+];
+
+const files = [
+  '.gitignore',
+  join('tutorial', 'tutorial.md'),
+  join('tutorial', '01', 'page-one.md'),
+  join('tutorial', '01', '01.spec.js'),
+  join('tutorial', '01', '02.spec.js'),
+  join('tutorial', '02', 'page-two.md'),
+  join('tutorial', '02', '01.spec.js'),
+  join('tutorial', '02', '02.spec.js')
+];
+
 export function createTutorialMd(): void {
   return new Promise((resolve, reject) => {
-    createFile('.gitignore');
-    createFolder('tutorial');
-    createFile(join('tutorial', 'tutorial.md'));
-    createFolder(join('tutorial', '01'));
-    createFile(join('tutorial', '01', 'page-one.md'));
-    createFile(join('tutorial', '01', '01.spec.js'));
-    createFile(join('tutorial', '01', '02.spec.js'));
-    createFolder(join('tutorial', '02'));
-    createFile(join('tutorial', '02', 'page-two.md'));
-    createFile(join('tutorial', '02', '01.spec.js'));
-    createFile(join('tutorial', '02', '02.spec.js'));
+    folders.forEach((folder) => createFolder(folder));
+    files.forEach((file) => createFile(file));
     resolve();
   });
 }

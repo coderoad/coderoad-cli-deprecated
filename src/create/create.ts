@@ -2,7 +2,7 @@ import {validatePackageName} from './validate';
 import {createPackageJson, createTutorialMd} from './write-demo';
 import build from '../build/build';
 
-export default function create(name: string): void {
+export default function create(name: string, dir: string): void {
   // check
   validatePackageName(name);
 

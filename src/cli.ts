@@ -2,6 +2,7 @@
 
 import * as program from 'commander';
 import {grey, green} from 'chalk';
+
 import build from './build/build';
 import create from './create/create';
 import search from './search/search';
@@ -10,7 +11,7 @@ import publish from './publish/publish';
 import {checkForUpdate} from './update/update';
 
 program
-  .version('0.3.27')
+  .version('0.6.0')
   .usage('[options] <keywords>')
   .option('-b, --build [path/to/tutorial.md]',
   'tutorial markdown file', /^.+\.md$/i)

@@ -1,6 +1,6 @@
 {
   "name": "coderoad-cli",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "description": "Command line interface for CodeRoad. Build project files.",
   "keywords": [
     "coderoad"
