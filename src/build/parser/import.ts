@@ -4,14 +4,14 @@ import fileExists from 'node-file-exists';
 import {trimQuotes} from './cleanup';
 import {tutorialDir} from './settings';
 
-export function loadImport(lines: string[], pathToMd: string): string[] {
+export function loadImport(dir: string, lines: string[], pathToMd: string): string[] {
   // add .md suffix
   pathToMd = trimQuotes(pathToMd);
   if (!pathToMd.match(/\.md$/)) {
     pathToMd = pathToMd.concat('.md');
   }
   // get path to imports
-  let realPath: string = join(process.cwd(), tutorialDir, pathToMd);
+  let realPath: string = join(dir, tutorialDir, pathToMd);
   if (!fileExists(realPath)) {
     console.log('Invalid path to markdown file', realPath);
     return;

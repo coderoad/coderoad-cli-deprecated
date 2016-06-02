@@ -43,7 +43,6 @@ const files = [
 ];
 
 export function createTutorialMd(dir: string): Promise<boolean> {
-  console.log('dir', dir);
   return new Promise((resolve, reject) => {
     folders(dir).forEach((folder) => createFolder(folder));
     files.forEach((file) => createFile(dir, file));

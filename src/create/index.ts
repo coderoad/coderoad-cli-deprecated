@@ -1,8 +1,8 @@
 import {validatePackageName} from './validate';
 import {createPackageJson, createTutorialMd} from './write-demo';
-import {join} from 'path';
+// import {join} from 'path';
 import {red, yellow} from 'chalk';
-import build from '../build';
+// import build from '../build';
 
 export default function create(dir: string, name: string): boolean | Promise<boolean> {
 
@@ -12,10 +12,10 @@ export default function create(dir: string, name: string): boolean | Promise<boo
     createPackageJson(dir, name),
     createTutorialMd(dir)
   ]).then(() => {
-    build(
-      join(dir, 'tutorial/tutorial.md'),
-      join(dir, 'coderoad.json')
-    );
+    // build(
+    //   join(dir, 'tutorial/tutorial.md'),
+    //   join(dir, 'coderoad.json')
+    // );
     return true;
   }).catch((e) => {
 

@@ -31,7 +31,7 @@ if (program.build) {
   const output = 'coderoad.json';
   process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
   // run build
-  if (!build(tutorial, output)) {
+  if (!build(process.cwd(), tutorial, output)) {
     fail();
   }
 
