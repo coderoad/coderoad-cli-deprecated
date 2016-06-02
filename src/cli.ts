@@ -1,7 +1,7 @@
 #! /usr/bin/env node
 
 import * as program from 'commander';
-import {grey} from 'chalk';
+import {grey, yellow} from 'chalk';
 import {success, fail} from './result';
 
 import build from './build';
@@ -19,7 +19,7 @@ program
   .option('-c, --create [name]', 'tutorial name')
   .option('-p, --publish [version]',
   'publish tutorial to npm with new version number')
-  .option('-t, --tutorials', 'list of tutorial packages')
+  .option('-t, --tutorials', 'list of local tutorial packages')
   .option('-s, --search [query]', 'search for tutorial package')
   .option('-r, --run', 'run tutorial')
   .parse(process.argv);
@@ -55,9 +55,13 @@ if (program.build) {
     fail();
   } else {
     process.stdout.write('\n');
-    tuts.forEach((tut) => {
-      process.stdout.write(`  ${tut.name} : ${tut.version}\n`);
-    });
+    if (tuts.length < 1) {
+      process.stdout.write(yellow(`  No tutorials in this directory.`));
+    } else {
+      tuts.forEach((tut) => {
+        process.stdout.write(`  ${tut.name} : ${tut.version}\n`);
+      });
+    }
   }
 
 } else if (program.publish) {

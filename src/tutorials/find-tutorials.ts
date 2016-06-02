@@ -9,6 +9,8 @@ export default function findTutorials(
 ): Tutorial.Info[] {
   if (!!deps && Object.keys(deps).length > 0) {
     return (Object.keys(deps)
+      // map over possible tutorials
+      // filter to only packages with a coderoad.json file
       .filter((name: string) => isTutorial(dir, name))
       .map(function(name: string) {
         const pathToTutorialPackageJson = join(

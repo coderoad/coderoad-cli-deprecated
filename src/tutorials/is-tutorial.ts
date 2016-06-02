@@ -14,20 +14,21 @@ export function isTutorial(dir: string, name: string): boolean {
     return false;
   }
   // main path to coderoad.json
-  let packageJson = JSON.parse(readFileSync(pathToTutorialPackageJson, 'utf8'));
-  if (!packageJson.main && packageJson.main.match(/coderoad.json$/)) {
-    console.log(`Error with ${name}: main does not load a coderoad.json file. ${tutorialError}`);
+  let pj = JSON.parse(readFileSync(pathToTutorialPackageJson, 'utf8'));
+
+  if (!pj.hasOwnProperty('main') || !pj.main.match(/coderoad.json$/)) {
+    // console.log(`Error with ${name}: main does not load a coderoad.json file. ${tutorialError}`);
     return false;
   }
   // coderoad.json file exists
   let pathToCoderoadJson = join(
-    dir, 'node_modules', name, packageJson.main
+    dir, 'node_modules', name, pj.main
   );
   if (!fileExists(pathToCoderoadJson)) {
     console.log(`Error with ${name}: no coderoad.json file. ${tutorialError}`);
     return false;
   };
-  if (!packageJson.config || !packageJson.config.runner) {
+  if (!pj.config || !pj.config.runner) {
     console.log(`Error with ${name}: no test runner specified. ${tutorialError}`);
     return false;
   }
