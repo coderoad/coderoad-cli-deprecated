@@ -3,28 +3,36 @@ import {join} from 'path';
 import {sortPackageJson} from 'sort-package-json'
 import fileExists from 'node-file-exists';
 
-function createFile(pathToFile: string): void {
-  if (!fileExists(pathToFile)) {
-    let inputPath = join(__dirname, '..', '..', 'setup', pathToFile);
-    let test = readFileSync(inputPath, 'utf8');
-    writeFileSync(pathToFile, test, 'utf8');
+function createFile(dir: string, pathToFile: string): void {
+  try {
+    if (!fileExists(pathToFile)) {
+      let inputPath = join(__dirname, '..', '..', 'setup', pathToFile);
+      let test = readFileSync(inputPath, 'utf8');
+      writeFileSync(join(dir, pathToFile), test, 'utf8');
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
 function createFolder(pathToFolder: string): void {
-  if (!fileExists(pathToFolder)) {
-    mkdirSync(pathToFolder);
+  try {
+    if (!fileExists(pathToFolder)) {
+      mkdirSync(pathToFolder);
+    }
+  } catch (e) {
+    console.log(e);
   }
 }
 
-const folders = [
-  'tutorial',
-  join('tutorial', '01'),
-  join('tutorial', '02')
+const folders = dir => [
+  join(dir, 'tutorial'),
+  join(dir, 'tutorial', '01'),
+  join(dir, 'tutorial', '02')
 ];
 
 const files = [
-  '.gitignore',
+  join('.gitignore'),
   join('tutorial', 'tutorial.md'),
   join('tutorial', '01', 'page-one.md'),
   join('tutorial', '01', '01.spec.js'),
@@ -34,17 +42,18 @@ const files = [
   join('tutorial', '02', '02.spec.js')
 ];
 
-export function createTutorialMd(): Promise<boolean> {
+export function createTutorialMd(dir: string): Promise<boolean> {
+  console.log('dir', dir);
   return new Promise((resolve, reject) => {
-    folders.forEach((folder) => createFolder(folder));
-    files.forEach((file) => createFile(file));
+    folders(dir).forEach((folder) => createFolder(folder));
+    files.forEach((file) => createFile(dir, file));
     resolve(true);
   });
 }
 
-export function createPackageJson(name: string): Promise<boolean> {
+export function createPackageJson(dir: string, name: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    if (!fileExists('package.json')) {
+    if (!fileExists(join(dir, 'package.json'))) {
 
       // read from existing package.json
       const inputPath: string = join(
@@ -61,7 +70,7 @@ export function createPackageJson(name: string): Promise<boolean> {
         JSON.stringify(packageJson, null, 2)
       );
 
-      writeFileSync('package.json', packageJsonString, 'utf8');
+      writeFileSync(join(dir, 'package.json'), packageJsonString, 'utf8');
       resolve(true);
     } else {
       // TODO: validate package.json

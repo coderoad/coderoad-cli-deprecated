@@ -39,7 +39,7 @@ if (program.build) {
   const packageName = program.args[0];
   process.stdout.write(`Creating demo tutorial "coderoad-${packageName}"...`);
   // run create
-  if (!create(packageName)) {
+  if (!create(process.cwd(), packageName)) {
     fail();
   }
 

@@ -1,17 +1,21 @@
 import {validatePackageName} from './validate';
 import {createPackageJson, createTutorialMd} from './write-demo';
+import {join} from 'path';
 import {red, yellow} from 'chalk';
 import build from '../build';
 
-export default function create(name: string): boolean | Promise<boolean> {
+export default function create(dir: string, name: string): boolean | Promise<boolean> {
 
   // npm package
   return Promise.all([
     validatePackageName(name),
-    createPackageJson(name),
-    createTutorialMd()
+    createPackageJson(dir, name),
+    createTutorialMd(dir)
   ]).then(() => {
-    build('tutorial/tutorial.md', 'coderoad.json');
+    build(
+      join(dir, 'tutorial/tutorial.md'),
+      join(dir, 'coderoad.json')
+    );
     return true;
   }).catch((e) => {
 
