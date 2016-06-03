@@ -1,5 +1,5 @@
 # Project Title
 Project description.
 
-@import('01/page-one')
-@import('02/page-two')
+@import('01')
+@import('02')

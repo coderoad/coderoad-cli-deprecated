@@ -35,8 +35,6 @@ export default function build(dir: string, filePath: string, output = './coderoa
   // build coeroad.json
   const result = cleanup(parseAndBuild(dir, lines));
 
-  console.log('result', result);
-
   // error parsing or building coderoad.json
   if (!result) { return false; }
 

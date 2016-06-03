@@ -8,7 +8,11 @@ export function loadImport(dir: string, lines: string[], pathToMd: string): stri
   // add .md suffix
   pathToMd = trimQuotes(pathToMd);
   if (!pathToMd.match(/\.md$/)) {
-    pathToMd = pathToMd.concat('.md');
+    if (fileExists(join(dir, tutorialDir, pathToMd.concat('.md')))) {
+      pathToMd = pathToMd.concat('.md');
+    } else {
+      pathToMd = join(pathToMd, 'index.md');
+    }
   }
   // get path to imports
   let realPath: string = join(dir, tutorialDir, pathToMd);

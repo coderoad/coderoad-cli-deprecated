@@ -3,12 +3,8 @@ import fileExists from 'node-file-exists';
 import {red} from 'chalk';
 
 export function createReadme(): boolean {
-  if (!fileExists('./README.md')) {
-    // prompt.start();
-    // prompt.get(['overwriteReadme'], function (err, result) {
-    //   console.log(result);
-    // });
-  }
+  // if (!fileExists('./README.md')) {
+  // }
   if (!fileExists('./coderoad.json')) {
     console.log(red('No coderoad.json file found'));
     return false;

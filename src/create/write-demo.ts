@@ -34,10 +34,10 @@ const folders = dir => [
 const files = [
   join('.gitignore'),
   join('tutorial', 'tutorial.md'),
-  join('tutorial', '01', 'page-one.md'),
+  join('tutorial', '01', 'index.md'),
   join('tutorial', '01', '01.spec.js'),
   join('tutorial', '01', '02.spec.js'),
-  join('tutorial', '02', 'page-two.md'),
+  join('tutorial', '02', 'index.md'),
   join('tutorial', '02', '01.spec.js'),
   join('tutorial', '02', '02.spec.js')
 ];
