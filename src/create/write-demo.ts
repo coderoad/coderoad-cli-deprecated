@@ -25,14 +25,13 @@ function createFolder(pathToFolder: string): void {
   }
 }
 
-const folders = dir => [
+const tutorialFolders = dir => [
   join(dir, 'tutorial'),
   join(dir, 'tutorial', '01'),
   join(dir, 'tutorial', '02')
 ];
 
-const files = [
-  join('.gitignore'),
+const tutorialDemo = [
   join('tutorial', 'tutorial.md'),
   join('tutorial', '01', 'index.md'),
   join('tutorial', '01', '01.js'),
@@ -44,8 +43,11 @@ const files = [
 
 export function createTutorialMd(dir: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    folders(dir).forEach((folder) => createFolder(folder));
-    files.forEach((file) => createFile(dir, file));
+    createFile(dir, '.gitignore');
+    if (!fileExists(join(dir, 'tutorial'))) {
+      tutorialFolders(dir).forEach((folder) => createFolder(folder));
+      tutorialDemo.forEach((file) => createFile(dir, file));
+    }
     resolve(true);
   });
 }
