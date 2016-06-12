@@ -4,3 +4,5 @@ export {default as publish} from './publish';
 export {default as search} from './search';
 export {default as tutorials} from './tutorials';
 export {default as update} from './update';
+
+export {default as validateName} from './validate/name';

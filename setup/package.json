@@ -14,13 +14,13 @@
     "node" : ">=0.10.3"
   },
   "dependencies": {
-    "mocha-coderoad": "^0.6.0",
+    "mocha-coderoad": "^0.7.0",
     "chai": "3.5.0"
   },
   "license": "MIT",
   "config": {
     "dir": "tutorial",
     "runner": "mocha-coderoad",
-    "testSuffix": ".spec.js"
+    "testSuffix": ".js"
   }
 }

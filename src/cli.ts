@@ -14,13 +14,13 @@ import checkForUpdate from './update';
 program
   .version('0.6.0')
   .usage('[options] <keywords>')
-  .option('-b, --build [path/to/tutorial.md]',
-  'tutorial markdown file', /^.+\.md$/i)
-  .option('-c, --create [name]', 'tutorial name')
-  .option('-p, --publish [version]',
-  'publish tutorial to npm with new version number')
+  .option('-b, --build <path/to/tutorial.md>',
+    'tutorial markdown file', /^.+\.md$/i)
+  .option('-c, --create <name>', 'tutorial name')
+  .option('-p, --publish <version>',
+    'publish tutorial to npm with new version number')
   .option('-t, --tutorials', 'list of local tutorial packages')
-  .option('-s, --search [query]', 'search for tutorial package')
+  .option('-s, --search <query>', 'search for tutorial package')
   .option('-r, --run', 'run tutorial')
   .parse(process.argv);
 

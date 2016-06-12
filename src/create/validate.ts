@@ -1,6 +1,8 @@
 import * as validateNpm from 'validate-npm-package-name';
 import kebabCase from 'lodash.kebabcase';
 
+// TODO: use ../validate/name
+
 export function validatePackageName(name: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
     let validated: Validated = validateNpm(name);
