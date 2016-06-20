@@ -55,6 +55,30 @@ const pJKeys: PJKeys[] = [{
     validate: runner => typeof runner === 'string' && runner.length,
     msg: 'must specify a test runner',
     example: 'mocha-coderoad',
+  }, {
+    name: 'repository',
+    optional: true,
+    validate: (repo: string | { type: string, url: string }) => {
+      return typeof repo === 'string' && repo.length ||
+        typeof repo === 'object' && repo.hasOwnProperty('type')
+        && typeof repo.type === 'string' &&
+        repo.hasOwnProperty('url') && typeof repo.url === 'string';
+    },
+    msg: 'should have a valid repository',
+    example: 'https://github.com/shmck/coderoad-tutorial-name',
+  }, {
+    name: 'bugs',
+    optional: true,
+    validate: (bugs: { url: string }) => typeof bugs === 'object' &&
+      bugs.hasOwnProperty('url') && typeof bugs.url === 'string',
+    msg: 'should have a link to where to post bugs',
+    example: '"bugs": { "url": "https://github.com/shmck/coderoad-tutorial-name" }'
+  }, {
+    name: 'license',
+    optional: true,
+    validate: license => typeof license === 'string' && license.length,
+    msg: 'should have a valid license (ex: MIT, ISC, etc.)',
+    example: 'MIT',
   }];
 
 interface PJErrors {
@@ -66,17 +90,31 @@ interface PJKeys extends PJErrors {
   name: string;
   validate: (content: string) => boolean;
   config?: boolean;
+  optional?: boolean;
 }
 
-export default function validatePackageJson(pj: PackageJson): PJErrors[] {
+interface ValidatePjOutput {
+  errors: PJErrors[];
+  warnings: PJErrors[];
+}
+
+export default function validatePackageJson(pj: PackageJson): ValidatePjOutput {
   const errors = [];
+  const warnings = [];
   pJKeys.forEach(key => {
     // key on pj or pj.config
     const target = pj.config ? pj.config : pj;
     // key doesn't exist or key is invalid
     if (!target.hasOwnProperty(key.name) || key.validate(target[key.name])) {
-      errors.push({ msg: key.msg, example: key.example });
+      if (!key.optional) {
+        errors.push({ msg: key.msg, example: key.example });
+      } else {
+        warnings.push({ msg: key.msg, example: key.example });
+      }
     }
   });
-  return errors;
+  return {
+    errors,
+    warnings,
+  };
 }
