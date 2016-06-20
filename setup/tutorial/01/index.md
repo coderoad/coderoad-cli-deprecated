@@ -5,7 +5,7 @@ A function has inputs and outputs. The inputs we call "parameters" and wrap them
 
 The output is `return`ed from the function.
 
-```
+```js
                     // input
 function doSomething(parameter) {
   // output
