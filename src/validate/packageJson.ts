@@ -81,22 +81,7 @@ const pJKeys: PJKeys[] = [{
     example: 'MIT',
   }];
 
-interface PJErrors {
-  msg: string;
-  example: string;
-}
 
-interface PJKeys extends PJErrors {
-  name: string;
-  validate: (content: string) => boolean;
-  config?: boolean;
-  optional?: boolean;
-}
-
-interface ValidatePjOutput {
-  errors: PJErrors[];
-  warnings: PJErrors[];
-}
 
 export default function validatePackageJson(pj: PackageJson): ValidatePjOutput {
   const errors = [];
@@ -107,9 +92,9 @@ export default function validatePackageJson(pj: PackageJson): ValidatePjOutput {
     // key doesn't exist or key is invalid
     if (!target.hasOwnProperty(key.name) || key.validate(target[key.name])) {
       if (!key.optional) {
-        errors.push({ msg: key.msg, example: key.example });
+        errors.push({ name: key.name, msg: key.msg, example: key.example });
       } else {
-        warnings.push({ msg: key.msg, example: key.example });
+        warnings.push({ name: key.name, msg: key.msg, example: key.example });
       }
     }
   });

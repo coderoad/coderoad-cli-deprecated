@@ -50,6 +50,7 @@
   "src/typings/cr/globals.d.ts",
   "src/typings/cr/test.d.ts",
   "src/typings/cr/tutorial.d.ts",
+  "src/typings/cr/validate.d.ts",
   "src/typings/es6-promise/es6-promise.d.ts",
   "src/typings/globals.d.ts",
   "src/typings/node-file-exists/index.d.ts",
@@ -58,6 +59,7 @@
   "src/typings/sort-package-json/index.d.ts",
   "src/typings/tsd.d.ts",
   "src/update/index.ts",
+  "src/validate/index.ts",
   "src/validate/packageJson.ts"
  ],
  "exclude": [
