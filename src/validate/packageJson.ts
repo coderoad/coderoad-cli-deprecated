@@ -1,11 +1,11 @@
 const pJKeys: PJKeys[] = [{
   name: 'name',
-  validate: name => name.match(/^coderoad-[A-Za-z0-9\-]+$/),
+  validate: name => !!name.match(/^coderoad-[A-Za-z0-9\-]+$/),
   msg: 'must be kebabcased and start with "coderoad"',
   example: 'coderoad-tutorial-name',
 }, {
     name: 'version',
-    validate: version => version.match(/^[0-9]+\.[0-9]+\.[0-9]+$/),
+    validate: version => !!version.match(/^[0-9]+\.[0-9]+\.[0-9]+$/),
     msg: 'must be 3 numbers separated by dots',
     example: '0.1.0',
   }, {
@@ -20,7 +20,7 @@ const pJKeys: PJKeys[] = [{
     example: 'CodeRoad tutorial on ES2015 new features.'
   }, {
     name: 'keywords',
-    validate: keywords => Array.isArray(keywords) && keywords.length && keywords.includes('coderoad'),
+    validate: keywords => Array.isArray(keywords) && !!keywords.length && keywords.includes('coderoad'),
     msg: 'must be an array containing "coderoad"',
     example: '["coderoad", "tutorial", "js"]',
   }, {
@@ -40,26 +40,26 @@ const pJKeys: PJKeys[] = [{
     example: '["coderoad.json", "tutorial"]',
   }, {
     name: 'engines',
-    validate: engines => typeof engines === 'object' && engines.node && engines.node.match(/^[>=]?[0-9]+/),
+    validate: engines => typeof engines === 'object' && !!engines.node && !!engines.node.match(/^(>=)?[0-9]+/),
     msg: 'must specify a valid node version',
     example: '"engines": { "node": ">=0.10.3"}',
   }, {
     name: 'language',
     config: true,
-    validate: lang => typeof lang === 'string' && lang.length,
+    validate: lang => typeof lang === 'string' && !!lang.length,
     msg: 'must specify a programming language',
     example: 'JS',
   }, {
     name: 'runner',
     config: true,
-    validate: runner => typeof runner === 'string' && runner.length,
+    validate: runner => typeof runner === 'string' && !!runner.length,
     msg: 'must specify a test runner',
     example: 'mocha-coderoad',
   }, {
     name: 'repository',
     optional: true,
     validate: (repo: string | { type: string, url: string }) => {
-      return typeof repo === 'string' && repo.length ||
+      return typeof repo === 'string' && !!repo.length ||
         typeof repo === 'object' && repo.hasOwnProperty('type')
         && typeof repo.type === 'string' &&
         repo.hasOwnProperty('url') && typeof repo.url === 'string';
@@ -76,25 +76,23 @@ const pJKeys: PJKeys[] = [{
   }, {
     name: 'license',
     optional: true,
-    validate: license => typeof license === 'string' && license.length,
+    validate: license => typeof license === 'string' && !!license.length,
     msg: 'should have a valid license (ex: MIT, ISC, etc.)',
     example: 'MIT',
   }];
-
-
 
 export default function validatePackageJson(pj: PackageJson): ValidatePjOutput {
   const errors = [];
   const warnings = [];
   pJKeys.forEach(key => {
     // key on pj or pj.config
-    const target = pj.config ? pj.config : pj;
+    const target = key.config ? pj.config : pj;
     // key doesn't exist or key is invalid
-    if (!target.hasOwnProperty(key.name) || key.validate(target[key.name])) {
-      if (!key.optional) {
-        errors.push({ name: key.name, msg: key.msg, example: key.example });
-      } else {
+    if (!target.hasOwnProperty(key.name) || !key.validate(target[key.name])) {
+      if (key.optional) {
         warnings.push({ name: key.name, msg: key.msg, example: key.example });
+      } else {
+        errors.push({ name: key.name, msg: key.msg, example: key.example });
       }
     }
   });

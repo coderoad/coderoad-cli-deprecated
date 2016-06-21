@@ -10,18 +10,18 @@ export default function validate(): boolean {
   }
   const validation = validatePackageJson(pj);
   // log warnings
-  getValidationMessages(validation.warnings, yellow);
+  getValidationMessages('Warning', validation.warnings, yellow);
   // log and return errors
-  return getValidationMessages(validation.errors, red);
+  return getValidationMessages('Error', validation.errors, red);
 }
 
-function getValidationMessages(validation: PJErrors[], color: any) {
+function getValidationMessages(title: string, validation: PJErrors[], color: any) {
   if (validation && validation.length) {
-    validation.forEach((e) => {
-      console.log(color(`
-        Error: ${e.name} ${e.msg}.
+    validation.forEach((e, index) => {
+      console.log(
+        color(`${index + 1}. ${title}: "${e.name}" ${e.msg}.
         Example: ${e.example}
-      `));
+`));
     });
     return false;
   }
