@@ -1,6 +1,6 @@
 import {red} from 'chalk';
 import findTutorials from './find-tutorials';
-import getPackageJson from '../packageJson/get';
+import getPackageJson from '../get/packageJson';
 
 export default function tutorials(dir: string): string[] {
   const pj: PackageJson = getPackageJson(dir);

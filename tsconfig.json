@@ -31,7 +31,7 @@
   "src/create/index.ts",
   "src/create/validate.ts",
   "src/create/write-demo.ts",
-  "src/packageJson/get.ts",
+  "src/get/packageJson.ts",
   "src/publish/index.ts",
   "src/publish/validate.ts",
   "src/search/index.ts",
@@ -59,6 +59,7 @@
   "src/typings/sort-package-json/index.d.ts",
   "src/typings/tsd.d.ts",
   "src/update/index.ts",
+  "src/validate/coderoadJson.ts",
   "src/validate/index.ts",
   "src/validate/packageJson.ts"
  ],

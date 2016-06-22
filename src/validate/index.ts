@@ -1,6 +1,6 @@
 import {red, yellow} from 'chalk';
 import validatePackageJson from './packageJson';
-import getPackageJson from '../packageJson/get';
+import getPackageJson from '../get/packageJson';
 
 export default function validate(): boolean {
   const pj = getPackageJson(process.cwd());
