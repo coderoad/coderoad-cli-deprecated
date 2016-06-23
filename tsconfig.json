@@ -57,7 +57,6 @@
   "src/typings/node/node.d.ts",
   "src/typings/prompt/prompt.d.ts",
   "src/typings/sort-package-json/index.d.ts",
-  "src/typings/tsd.d.ts",
   "src/update/index.ts",
   "src/validate/coderoadJson.ts",
   "src/validate/index.ts",
