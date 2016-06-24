@@ -1,3 +1,5 @@
+import {isString} from './validations';
+
 const pJKeys: PJKeys[] = [{
   name: 'name',
   validate: name => !!name.match(/^coderoad-[A-Za-z0-9\-]+$/),
@@ -15,7 +17,7 @@ const pJKeys: PJKeys[] = [{
     example: '"coderoad.json"',
   }, {
     name: 'description',
-    validate: desc => typeof desc === 'string' && desc.length > 3,
+    validate: isString,
     msg: 'must be long enough to describe a package',
     example: '"CodeRoad tutorial on ES2015 new features."'
   }, {
@@ -25,7 +27,7 @@ const pJKeys: PJKeys[] = [{
     example: '[\n"coderoad",\n"tutorial",\n"js"\n]',
   }, {
     name: 'author',
-    validate: author => typeof author === 'string' && author.length > 2,
+    validate: isString,
     msg: 'must have an author name and optional email',
     example: '"Shawn McKay <me@email.com> (http://blog)"',
   }, {
@@ -46,20 +48,20 @@ const pJKeys: PJKeys[] = [{
   }, {
     name: 'language',
     config: true,
-    validate: lang => typeof lang === 'string' && !!lang.length,
+    validate: isString,
     msg: 'must specify a programming language',
     example: '"JS"',
   }, {
     name: 'runner',
     config: true,
-    validate: runner => typeof runner === 'string' && !!runner.length,
+    validate: isString,
     msg: 'must specify a test runner',
     example: '"mocha-coderoad"',
   }, {
     name: 'repository',
     optional: true,
     validate: (repo: string | { type: string, url: string }) => {
-      return typeof repo === 'string' && !!repo.length ||
+      return isString ||
         typeof repo === 'object' && repo.hasOwnProperty('type')
         && typeof repo.type === 'string' &&
         repo.hasOwnProperty('url') && typeof repo.url === 'string';
@@ -76,7 +78,7 @@ const pJKeys: PJKeys[] = [{
   }, {
     name: 'license',
     optional: true,
-    validate: license => typeof license === 'string' && !!license.length,
+    validate: isString,
     msg: 'should have a valid license (ex: MIT, ISC, etc.)',
     example: '"MIT"',
   }];

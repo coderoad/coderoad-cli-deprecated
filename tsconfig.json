@@ -31,7 +31,6 @@
   "src/create/index.ts",
   "src/create/validate.ts",
   "src/create/write-demo.ts",
-  "src/get/packageJson.ts",
   "src/publish/index.ts",
   "src/publish/validate.ts",
   "src/search/index.ts",
@@ -58,9 +57,12 @@
   "src/typings/prompt/prompt.d.ts",
   "src/typings/sort-package-json/index.d.ts",
   "src/update/index.ts",
+  "src/utils/getJson.ts",
   "src/validate/coderoadJson.ts",
   "src/validate/index.ts",
-  "src/validate/packageJson.ts"
+  "src/validate/packageJson.ts",
+  "src/validate/validation-messages.ts",
+  "src/validate/validations.ts"
  ],
  "exclude": [
   "node_modules"
