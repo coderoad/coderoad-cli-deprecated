@@ -49,6 +49,14 @@ Update changes to your tutorial by running **build**. This will generate a *code
 
     > coderoad build
 
+
+### Validate
+
+Validate your package.json & coderoad.json for possible errors or flagged warnings.
+
+    > coderoad validate
+
+
 ### Demo Your Tutorial
 
 Open a new directory for demoing your tutorial. Setup a new NPM project file.
