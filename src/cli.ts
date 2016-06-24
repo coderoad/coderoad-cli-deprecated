@@ -13,7 +13,7 @@ import checkForUpdate from './update';
 import validate from './validate';
 
 program
-  .version('0.7.0')
+  .version('0.7.1')
   .usage('[options] <keywords>')
   .option('-b, --build <path/to/tutorial.md>',
   'tutorial markdown file', /^.+\.md$/i)

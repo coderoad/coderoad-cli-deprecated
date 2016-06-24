@@ -4,6 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.7.0] - WIP
 - validate function for package.json & coderoad.json
+- repair README creator on build
 
 ## [0.6.0] - 2016-06-12
 - allow for programmatic use
