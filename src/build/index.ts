@@ -12,7 +12,7 @@ function parseAndBuild(dir: string, lines: string[]): CR.Output {
       title: '',
       description: '',
     },
-    pages: []
+    pages: [],
   };
   const index: CR.Index = {
     page: -1,
@@ -44,7 +44,7 @@ export default function build(dir: string, filePath: string, output = './coderoa
   }
 
   // check error creating readme
-  if (!createReadme()) { return false; }
+  if (!createReadme(dir)) { return false; }
 
   return true;
 }

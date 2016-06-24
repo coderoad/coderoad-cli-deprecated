@@ -1,22 +1,23 @@
 import {readFileSync, writeFileSync} from 'fs';
 import fileExists from 'node-file-exists';
 import {red} from 'chalk';
+import {join} from 'path';
 
-export function createReadme(): boolean {
+export function createReadme(dir): boolean {
   // if (!fileExists('./README.md')) {
   // }
-  if (!fileExists('./coderoad.json')) {
+  if (!fileExists(join(dir, 'coderoad.json'))) {
     console.log(red('No coderoad.json file found'));
     return false;
   }
-  if (!fileExists('./package.json')) {
+  if (!fileExists(join(dir, 'package.json'))) {
     console.log(red('No package.json file found'));
     return false;
   }
-  let data: CR.Output = JSON.parse(readFileSync('coderoad.json', 'utf8'));
-  let packageJson: PackageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+  let data: CR.Output = JSON.parse(readFileSync(join(dir, 'coderoad.json'), 'utf8'));
+  let packageJson: PackageJson = JSON.parse(readFileSync(join(dir, 'package.json'), 'utf8'));
   let content: string = generateReadme(data, packageJson);
-  writeFileSync('README.md', content, 'utf8');
+  writeFileSync(join(dir, 'README.md'), content, 'utf8');
   return true;
 }
 
