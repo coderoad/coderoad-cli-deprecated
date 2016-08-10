@@ -10,8 +10,17 @@ export default function tutorials(dir: string): string[] {
     return null;
   }
 
+  let removeDups = {};
+
   return ([]
     .concat(findTutorials(dir, pj.dependencies))
     .concat(findTutorials(dir, pj.devDependencies))
+    .filter((tutorial) => {
+      if (!removeDups.hasOwnProperty(tutorial.name) && removeDups[tutorial.name] !== tutorial.version) {
+        removeDups[tutorial.name] = tutorial.version;
+        return true;
+      }
+      return false;
+    })
   );
 }

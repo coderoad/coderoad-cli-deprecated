@@ -1,7 +1,7 @@
 import {join} from 'path';
 import {readFileSync} from 'fs';
 import fileExists from 'node-file-exists';
-import {isTutorial, tutorialError} from './is-tutorial';
+import {isTutorial} from './is-tutorial';
 // import {canUpdateTutorial} from './update';
 
 export default function findTutorials(
@@ -20,7 +20,7 @@ export default function findTutorials(
         // no package.json
         if (!fileExists(pathToTutorialPackageJson)) {
           console.log(
-            `Error with ${name}: no package.json file found. ${tutorialError}`
+            `Error with ${name}: no package.json file found.`
           );
           return {
             name,

@@ -2,7 +2,7 @@ import {join} from 'path';
 import {readFileSync} from 'fs';
 import fileExists from 'node-file-exists';
 
-export const tutorialError = 'This is an error with the tutorial itself';
+// export const tutorialError = 'This is an error with the tutorial itself';
 
 export function isTutorial(dir: string, name: string): boolean {
   // has package.json
@@ -10,7 +10,7 @@ export function isTutorial(dir: string, name: string): boolean {
     dir, 'node_modules', name, 'package.json'
   );
   if (!fileExists(pathToTutorialPackageJson)) {
-    console.log(`Error with ${name}: no package.json file found. ${tutorialError}`);
+    // console.log(`Error with ${name}: no package.json file found. ${tutorialError}`);
     return false;
   }
   // main path to coderoad.json
@@ -25,11 +25,11 @@ export function isTutorial(dir: string, name: string): boolean {
     dir, 'node_modules', name, pj.main
   );
   if (!fileExists(pathToCoderoadJson)) {
-    console.log(`Error with ${name}: no coderoad.json file. ${tutorialError}`);
+    // console.log(`Error with ${name}: no coderoad.json file. ${tutorialError}`);
     return false;
   };
   if (!pj.config || !pj.config.runner) {
-    console.log(`Error with ${name}: no test runner specified. ${tutorialError}`);
+    // console.log(`Error with ${name}: no test runner specified. ${tutorialError}`);
     return false;
   }
 
