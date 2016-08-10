@@ -1,3 +1,0 @@
-global.something = {
-  some: 'data'
-};

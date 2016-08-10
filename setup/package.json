@@ -11,14 +11,15 @@
   ],
   "keywords": ["coderoad", "tutorial"],
   "engines": {
-    "node" : ">=0.10.3"
+    "node" : ">=0.12.0"
   },
   "dependencies": {
-    "mocha-coderoad": "^0.7.0",
+    "mocha-coderoad": "0.10.0",
     "chai": "3.5.0"
   },
   "license": "MIT",
   "config": {
+    "language": "JS",
     "dir": "tutorial",
     "runner": "mocha-coderoad",
     "testSuffix": ".js"

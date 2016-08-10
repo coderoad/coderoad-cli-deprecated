@@ -1,18 +1,16 @@
-describe('02 multiplyOne', function() {
+describe('02 multiplyOne', () => {
 
-  it('doesn\'t exist', function () {
-    expect(multiplyOne).to.be.defined;
-  });
+  const multiplyOne = page.__get__('multiplyOne');
 
-  it('should take a parameter', function() {
+  it('should take a parameter', () => {
     expect(multiplyOne).to.have.length(1);
   });
 
-  it('should output a number', function () {
+  it('should output a number', () => {
     expect(multiplyOne(1)).to.be.a('number');
   });
 
-  it('returns the multiplied number by one', function() {
+  it('returns the multiplied number by one', () => {
     expect(multiplyOne(1)).to.equal(1);
     expect(multiplyOne(10)).to.equal(10);
   });

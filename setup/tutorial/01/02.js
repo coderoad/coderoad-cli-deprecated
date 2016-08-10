@@ -1,18 +1,16 @@
-describe('02 subtractOne', function() {
+describe('02 subtractOne', () => {
 
-  it('doesn\'t exist', function () {
-    expect(subtractOne).to.be.defined;
-  });
+  const subtractOne = page.__get__('subtractOne');
 
-  it('should take a parameter', function() {
+  it('should take a parameter', () => {
     expect(subtractOne).to.have.length(1);
   });
 
-  it('should output a number', function () {
+  it('should output a number', () => {
     expect(subtractOne(1)).to.be.a('number');
   });
 
-  it('doesn\'t subtract 1', function() {
+  it('doesn\'t subtract 1', () => {
     expect(subtractOne(1)).to.equal(0);
     expect(subtractOne(10)).to.equal(9);
   });

@@ -1,27 +1,24 @@
-var expect = require('chai').expect;
+const expect = require('chai').expect;
 
-/// load('01/data.js', true)
-/// load('page-01.js')
+const page = require('BASE/page-01.js');
 
-describe('01 addOne', function() {
+describe('01 addOne', () => {
 
-	it('doesn\'t exist', function() {
-		expect(addOne).to.be.defined;
-	});
+	const addOne = page.__get__('addOne');
 
-	it('should take a parameter', function() {
+	it('should take a parameter', () => {
 		expect(addOne).to.have.length(1);
 	});
 
-	it('doesn\'t return anything', function() {
+	it('doesn\'t return anything', () => {
 		expect(addOne(1)).to.exist;
 	});
 
-	it('should output a number', function() {
+	it('should output a number', () => {
 		expect(addOne(1)).to.be.a('number');
 	});
 
-	it('doesn\'t add 1 + 1', function() {
+	it('doesn\'t add 1 + 1', () => {
 		expect(addOne(1)).to.equal(2);
 		expect(addOne(10)).to.equal(11);
 	});
