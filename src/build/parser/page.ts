@@ -3,7 +3,7 @@ import {task} from './task';
 import {loadImport} from './import';
 import {bracketTracker, trimValue} from './cleanup';
 
-export function page(dir: string, result: CR.Output, lines: string[], index: CR.Index): CR.Output {
+export function page({ dir, result, lines, index}) {
   index.page += 1;
   index.task = -1;
   result.pages.push({
@@ -53,14 +53,14 @@ export function page(dir: string, result: CR.Output, lines: string[], index: CR.
 
       // ##
       case !!Match.page(line):
-        return page(dir, result, lines.slice(i), index);
+        return page({dir, result, lines: lines.slice(i), index});
 
       // +
       case !!Match.task(line):
         if (result.pages[index.page].tasks === undefined) {
           result.pages[index.page].tasks = [];
         }
-        return task(dir, result, lines.slice(i), index);
+        return task({dir, result, lines: lines.slice(i), index});
 
       // description
       default:

@@ -1,31 +1,24 @@
-var expect = require('chai').expect;
-var task = require('../lib/build/parser/task').task;
-var trim = require('../lib/build/parser/actions').trimCommandValue;
+const expect = require('chai').expect;
+const task = require('../lib/build/parser/task').task;
+const trim = require('../lib/build/parser/cleanup').trimCommandValue;
 
-var result = function() {
-  return {
-    chapters: [{
-      pages: [{
-        tasks: []
-      }]
-    }]
-  };
-};
-var index = function() {
-  return {
-    chapter: 0,
-    page: 0,
-    task: -1
-  };
-};
+const result = () => ({
+  pages: [{
+    tasks: []
+  }]
+});
 
+const index = () => ({
+  page: 0,
+  task: -1
+});
 
-describe('@action', function() {
+describe('@action', () => {
 
-  it('should take a single-line action in double quotes', function() {
-    var lines = ['+ Task One', '', '@action(do("something"))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should take a single-line action in double quotes', () => {
+    const lines = ['+ Task One', '', '@action(do("something"))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       actions: [
         "do('something')"
@@ -34,10 +27,10 @@ describe('@action', function() {
     });
   });
 
-  it('should take a single-line action in single quotes', function() {
-    var lines = ['+ Task One', '', "@action(do('something'))"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should take a single-line action in single quotes', () => {
+    const lines = ['+ Task One', '', "@action(do('something'))"];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -46,10 +39,10 @@ describe('@action', function() {
     });
   });
 
-  it('should take a single-line action as a string literals', function() {
-    var lines = ['+ Task One', '', '@action(do(`var a`))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should take a single-line action as a string literals', () => {
+    const lines = ['+ Task One', '', '@action(do(`var a`))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -58,10 +51,10 @@ describe('@action', function() {
     });
   });
 
-  it('should take a single-line action as a code block', function() {
-    var lines = ['+ Task One', '', '@action(do(```var a```))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should take a single-line action as a code block', () => {
+    const lines = ['+ Task One', '', '@action(do(```var a```))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -70,10 +63,10 @@ describe('@action', function() {
     });
   });
 
-  it('shouldn\'t add actions within code blocks', function() {
-    var lines = ['+ Task One', '', "@action(do(```@action(do('something else'))```))"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('shouldn\'t add actions within code blocks', () => {
+    const lines = ['+ Task One', '', "@action(do(```@action(do('something else'))```))"];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -82,10 +75,10 @@ describe('@action', function() {
     });
   });
 
-  it('should take an array of task actions', function() {
-    var lines = ['+ Task One', '', "@action([\"insert('some text')\", \"insert('more text')\"])"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should take an array of task actions', () => {
+    const lines = ['+ Task One', '', "@action([\"insert('some text')\", \"insert('more text')\"])"];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -95,10 +88,10 @@ describe('@action', function() {
     });
   });
 
-  it('should trim leading spaces from a task action', function() {
-    var lines = ['+ Task One', '', "@action(do(     ```var a = 42;```))"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should trim leading spaces from a task action', () => {
+    const lines = ['+ Task One', '', "@action(do(     ```var a = 42;```))"];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -107,10 +100,10 @@ describe('@action', function() {
     });
   });
 
-  it('should maintain line breaks in code blocks with ```', function() {
-    var lines = ['+ Task One', '', "@action(do(```function () {\n return true;\n}\n```))"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should maintain line breaks in code blocks with ```', () => {
+    const lines = ['+ Task One', '', "@action(do(```function () {\n return true;\n}\n```))"];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -119,10 +112,10 @@ describe('@action', function() {
     });
   });
 
-  it('should maintain line breaks in code blocks with string literals', function() {
-    var lines = ['+ Task One', '', "@action(do(`function () {\n return true;\n}`))"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should maintain line breaks in code blocks with string literals', () => {
+    const lines = ['+ Task One', '', "@action(do(`function () {\n return true;\n}`))"];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -131,10 +124,10 @@ describe('@action', function() {
     });
   });
 
-  it('should handle multiline code blocks', function() {
-    var lines = ['+ Task One', '', '@action(do(', '```', 'var a = 42;', '```', '))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should handle multiline code blocks', () => {
+    const lines = ['+ Task One', '', '@action(do(', '```', 'var a = 42;', '```', '))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -143,10 +136,10 @@ describe('@action', function() {
     });
   });
 
-  it('should handle multiline string literals', function() {
-    var lines = ['+ Task One', '', '@action(do(', '`', 'var a = 42;', '`', '))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should handle multiline string literals', () => {
+    const lines = ['+ Task One', '', '@action(do(', '`', 'var a = 42;', '`', '))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -155,10 +148,10 @@ describe('@action', function() {
     });
   });
 
-  it('should treat empty spaces in code blocks as line breaks', function() {
-    var lines = ['+ Task One', '', '@action(do(', '```', '', 'var a = 42;', '', '```))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should treat empty spaces in code blocks as line breaks', () => {
+    const lines = ['+ Task One', '', '@action(do(', '```', '', 'var a = 42;', '', '```))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [
@@ -167,10 +160,10 @@ describe('@action', function() {
     });
   });
 
-  it('should treat empty spaces in string literals as line breaks', function() {
-    var lines = ['+ Task One', '', '@action(do(', '`', '', 'var a = 42;', '', '`))'];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should treat empty spaces in string literals as line breaks', () => {
+    const lines = ['+ Task One', '', '@action(do(', '`', '', 'var a = 42;', '', '`))'];
+    const next = task({result: result(), lines, index: index()});
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       description: 'Task One\n',
       actions: [

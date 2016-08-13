@@ -4,7 +4,9 @@ import {addToTasks} from './actions';
 import {trimLeadingSpaces, bracketTracker, trimValue} from './cleanup';
 import {loadImport} from './import';
 
-export function task(dir: string, result: CR.Output, lines: string[], index: CR.Index): CR.Output {
+export function task({
+  dir, result, lines, index
+}) {
   result.pages[index.page].tasks.push({
     description: trimLeadingSpaces(Match.task(lines[0]))
   });
@@ -83,11 +85,11 @@ export function task(dir: string, result: CR.Output, lines: string[], index: CR.
 
       // +
       case !!Match.task(line):
-        return task(dir, result, lines.slice(i), index);
+        return task({dir, result, lines: lines.slice(i), index});
 
       // ##
       case !!Match.page(line):
-        return page(dir, result, lines.slice(i), index);
+        return page({dir, result, lines: lines.slice(i), index});
 
 
       // description

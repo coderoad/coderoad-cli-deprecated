@@ -2,7 +2,7 @@ import * as Match from './match';
 import {page} from './page';
 import {loadImport} from './import';
 
-export function info(dir: string, result: CR.Output, lines: string[], index: CR.Index): CR.Output {
+export function info({ dir, result, lines, index }): CR.Output {
   let inCodeBlock = false;
   let i = -1;
 
@@ -14,7 +14,7 @@ export function info(dir: string, result: CR.Output, lines: string[], index: CR.
 
       // @import
       case !!Match.isImport(line):
-        lines = loadImport(dir, lines, Match.isImport(line));
+        lines = loadImport({dir, lines, pathToMd: Match.isImport(line)});
         continue;
 
       // ``` `
@@ -33,7 +33,7 @@ export function info(dir: string, result: CR.Output, lines: string[], index: CR.
 
       // ##
       case !!Match.page(line):
-        return page(dir, result, lines.slice(i), index);
+        return page({dir, result, lines: lines.slice(i), index});
 
       // description
       default:
