@@ -25,7 +25,7 @@ export function task({
 
       // @import
       case !!Match.isImport(line):
-        lines = loadImport(dir, lines, Match.isImport(line));
+        lines = loadImport({dir, lines, pathToMd: Match.isImport(line)});
         continue;
 
       // @onComplete

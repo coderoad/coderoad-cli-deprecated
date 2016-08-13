@@ -3,11 +3,11 @@ import {task} from './task';
 import {loadImport} from './import';
 import {bracketTracker, trimValue} from './cleanup';
 
-export function page({ dir, result, lines, index}) {
+export function page({ dir, result, lines, index }) {
   index.page += 1;
   index.task = -1;
   result.pages.push({
-    title: Match.page(lines[0]).trim(),
+    title: Match.page(lines[0]),
     description: ''
   });
   let inCodeBlock = false;
@@ -23,7 +23,7 @@ export function page({ dir, result, lines, index}) {
 
       // @import
       case !!Match.isImport(line):
-        lines = loadImport(dir, lines, Match.isImport(line));
+        lines = loadImport({dir, lines, pathToMd: Match.isImport(line)});
         continue;
 
       // @onComplete
