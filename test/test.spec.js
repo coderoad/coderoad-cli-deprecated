@@ -1,45 +1,39 @@
-var expect = require('chai').expect;
-var task = require('../lib/build/parser/task').task;
-var trim = require('../lib/build/parser/actions').trimCommandValue;
+const { expect } = require('chai');
+const { task } = require('../lib/build/parser/task');
+const trim = require('../lib/build/parser/actions').trimCommandValue;
 
-var result = function() {
-  return {
-    chapters: [{
-      pages: [{
-        tasks: []
-      }]
-    }]
-  };
-};
-var index = function() {
-  return {
-    chapter: 0,
-    page: 0,
-    task: -1
-  };
-};
+const result = () => ({
+  pages: [{
+    tasks: []
+  }]
+});
 
-describe('@test', function() {
+const index = () => ({
+  page: 0,
+  task: -1
+});
 
-  it('should take a single test file', function() {
-    var lines = ['+ Task One', '', "@test('path/to/test.js')"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+describe('@test', () => {
+
+  it('should take a single test file', () => {
+    const lines = ['+ Task One', '', "@test('path/to/test.js')"];
+    const next = task({ result: result(), lines, index: index() });
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       tests: [
-        "path/to/test.js"
+        'path/to/test.js'
       ],
       description: 'Task One\n'
     });
   });
 
-  it('should take an array of test files', function() {
-    var lines = ['+ Task One', '', "@test(['path/to/test.js', 'path/to/test2.js'])"];
-    var next = task(result(), lines, index());
-    var nextTask = next.chapters[0].pages[0].tasks[0];
+  it('should take an array of test files', () => {
+    const lines = ['+ Task One', '', "@test(['path/to/test.js', 'path/to/test2.js'])"];
+    const next = task({ result: result(), lines, index: index() });
+    const nextTask = next.pages[0].tasks[0];
     expect(nextTask).to.deep.equal({
       tests: [
-        "path/to/test.js", "path/to/test2.js"
+        'path/to/test.js', 'path/to/test2.js'
       ],
       description: 'Task One\n'
     });
