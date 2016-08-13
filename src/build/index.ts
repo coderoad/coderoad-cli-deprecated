@@ -21,7 +21,9 @@ function parseAndBuild(dir: string, lines: string[]): CR.Output {
   return info({ dir, result, lines, index });
 }
 
-export default function build(dir: string, filePath: string, output = './coderoad.json'): boolean {
+export default function build({
+  dir, filePath, output = './coderoad.json'
+}): boolean {
 
   filePath = join(dir, filePath);
   output = join(dir, output);

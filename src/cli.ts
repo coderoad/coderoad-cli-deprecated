@@ -29,11 +29,11 @@ program
 checkForUpdate();
 
 if (program.build) {
-  const tutorial = program.args[0] || 'tutorial/tutorial.md';
+  const tutorialPath = program.args[0] || 'tutorial/tutorial.md';
   const output = 'coderoad.json';
-  process.stdout.write(grey(`building coderoad.json for ${tutorial}...`));
+  process.stdout.write(grey(`building coderoad.json for ${tutorialPath}...`));
   // run build
-  if (!build(process.cwd(), tutorial, output)) {
+  if (!build({ dir: process.cwd(), filePath: tutorialPath, output })) {
     fail();
   }
 
@@ -41,7 +41,7 @@ if (program.build) {
   const packageName = program.args[0];
   process.stdout.write(`Creating demo tutorial "coderoad-${packageName}"...`);
   // run create
-  if (!create(process.cwd(), packageName)) {
+  if (!create({ dir: process.cwd(), name: packageName })) {
     fail();
   }
 
@@ -52,7 +52,7 @@ if (program.build) {
 } else if (program.tutorials) {
   // run find tutorials
   process.stdout.write(`List of tutorial packages in this directory...`);
-  const tuts = tutorials(process.cwd());
+  const tuts = tutorials({ dir: process.cwd() });
   if (!tuts) {
     fail();
   } else {
@@ -68,7 +68,7 @@ if (program.build) {
 
 } else if (program.publish) {
   const version = program.args[0];
-  publish(version);
+  publish({ version });
 
 } else if (program.validate) {
   if (!validate()) {

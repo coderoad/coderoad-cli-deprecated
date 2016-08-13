@@ -2,7 +2,7 @@ import {red} from 'chalk';
 import findTutorials from './find-tutorials';
 import getJson from '../utils/getJson';
 
-export default function tutorials(dir: string): string[] {
+export default function tutorials({ dir }): string[] {
   const pj: PackageJson = getJson(dir, 'package.json');
 
   if (!pj) {

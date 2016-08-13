@@ -1,7 +1,7 @@
 import {yellow} from 'chalk';
 import validateVersion from './validate';
 
-export default function publish(version: string): void {
+export default function publish({ version }): void {
   validateVersion(version);
   process.stdout.write(`Publishing package version "${version}"... \n`);
   console.log(yellow('Publish feature not implemented yet.\n'));

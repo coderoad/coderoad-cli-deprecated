@@ -4,7 +4,7 @@ import {createPackageJson, createTutorialMd} from './write-demo';
 import {red, yellow} from 'chalk';
 // import build from '../build';
 
-export default function create(dir: string, name: string): boolean | Promise<boolean> {
+export default function create({ dir, name }): boolean | Promise<boolean> {
 
   // npm package
   return Promise.all([
