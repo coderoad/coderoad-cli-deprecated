@@ -1,7 +1,13 @@
 export function bracketTracker(line: string): number {
-  let l = (line.match(/\(/g) || []).length;
-  let r = (line.match(/\)/g) || []).length;
-  return l - r;
+  return line.split('').reduce((t, c) => {
+    switch (c) {
+      case '(':
+        return t + 1;
+      case ')':
+        return t - 1;
+    }
+    return t;
+  }, 0);
 }
 
 export function trimLineBreaks(text: string): string {

@@ -2,7 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.7.0] - WIP
+## [0.8.0] - 2016-08-13
+- parser fixes and updates
+- sample tutorial updated for mocha-coderoad@0.10
+
+## [0.7.0] - 2016-07-28
 - validate function for package.json & coderoad.json
 - repair README creator on build
 

@@ -27,7 +27,7 @@ describe('@test', () => {
     });
   });
 
-  it('should take an array of test files', () => {
+  xit('should take an array of test files', () => {
     const lines = ['+ Task One', '', "@test(['path/to/test.js', 'path/to/test2.js'])"];
     const next = task({ result: result(), lines, index: index() });
     const nextTask = next.pages[0].tasks[0];

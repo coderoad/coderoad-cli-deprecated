@@ -4,9 +4,7 @@ import { addToTasks } from './actions';
 import { trimLeadingSpaces, bracketTracker, trimValue } from './cleanup';
 import { loadImport } from './import';
 
-export function task({
-  dir, result, lines, index
-}) {
+export function task({ dir, result, lines, index }) {
   result.pages[index.page].tasks.push({
     description: trimLeadingSpaces(Match.task(lines[0]))
   });

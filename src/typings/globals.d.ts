@@ -16,3 +16,7 @@ interface Validated {
 declare module 'validate-npm-package-name' {
   export default function validateNpm(name: string): Validated;
 }
+
+declare var Set: {
+    new <T>(): Set<T>;
+}

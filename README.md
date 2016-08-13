@@ -1,9 +1,9 @@
 # CodeRoad CLI
-Command line interface for [CodeRoad](http://coderoad.github.io). See the [docs](https://coderoad.github.io/docs) for more.
+Command line interface for [CodeRoad](http://coderoad.github.io). See the [docs](https://coderoad.github.io/tutorial-docs.html) for more.
 
 ### Install
 
-Use [CodeRoad CLI](https://github.com/coderoad/coderoad-cli) to setup and build a project data file.
+Use CodeRoad CLI to setup and build a project data file.
 
 Install *CodeRoad-CLI*. Make sure [NodeJS](nodejs.org) is already installed
 
@@ -33,12 +33,13 @@ Running **create** generates:
   "main": "coderoad.json",
   "keywords": ["coderoad", "tutorial"],
   "dependencies": {
-      "mocha-coderoad": "^0.3.1"
+      "mocha-coderoad": "0.10.0"
   },
   "config": {
+      "language": "JS",
       "dir": "tutorial",
       "runner": "mocha-coderoad",
-      "testSuffix": ".spec.js"
+      "testSuffix": ".js"
   }
 }
 ```
@@ -92,8 +93,6 @@ Inside of your demo root directory, connect the link.
 ### Using Atom
 
 Open *Atom-Coderoad* to view your tutorial. Your package should appear as a loaded package. Click on it.
-
-![CodeRoad Loaded Packages](https://coderoad.github.io/img/docs/loaded-packages.png)
 
 Reload *Atom* to view changes. You can use the Atom [command-palette](https://atom.io/docs/latest/getting-started-atom-basics#command-palette) to find "reload" or simply use the reload hot-key.
 
