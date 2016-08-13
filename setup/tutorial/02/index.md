@@ -15,7 +15,7 @@ function divideOne(x) {
 ```
 ))
 
-+ write a function `mutiplyone` that multiplies a number by 1
++ write a function `mutiplyOne` that multiplies a number by 1
 @test('02/02')
 @action(insert(
 ```

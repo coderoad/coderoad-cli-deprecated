@@ -2,6 +2,10 @@ describe('02 multiplyOne', () => {
 
   const multiplyOne = page.__get__('multiplyOne');
 
+  it('doesn\t exist', () => {
+		expect(multiplyOne).to.not.be.undefined;
+	});
+
   it('should take a parameter', () => {
     expect(multiplyOne).to.have.length(1);
   });

@@ -6,6 +6,10 @@ describe('01 addOne', () => {
 
 	const addOne = page.__get__('addOne');
 
+	it('doesn\t exist', () => {
+		expect(addOne).to.not.be.undefined;
+	});
+
 	it('should take a parameter', () => {
 		expect(addOne).to.have.length(1);
 	});

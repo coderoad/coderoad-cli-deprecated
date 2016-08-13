@@ -1,10 +1,14 @@
-const expect = require('chai').expect;
+const { expect } = require('chai');
 
 const page = require('BASE/page-02');
 
 describe('01 divideOne', () => {
 
   const divideOne = page.__get__('divideOne');
+
+  it('doesn\t exist', () => {
+		expect(divideOne).to.not.be.undefined;
+	});
 
   it('should take a parameter', () => {
     expect(divideOne).to.have.length(1);

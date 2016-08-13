@@ -2,6 +2,10 @@ describe('02 subtractOne', () => {
 
   const subtractOne = page.__get__('subtractOne');
 
+  it('doesn\t exist', () => {
+		expect(subtractOne).to.not.be.undefined;
+	});
+
   it('should take a parameter', () => {
     expect(subtractOne).to.have.length(1);
   });
