@@ -18,7 +18,7 @@ function parseAndBuild(dir: string, lines: string[]): CR.Output {
     page: -1,
     task: -1,
   };
-  return info(dir, result, lines, index);
+  return info({ dir, result, lines, index });
 }
 
 export default function build(dir: string, filePath: string, output = './coderoad.json'): boolean {
