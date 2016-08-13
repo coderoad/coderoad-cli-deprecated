@@ -1,8 +1,8 @@
 import * as Match from './match';
-import {page} from './page';
-import {addToTasks} from './actions';
-import {trimLeadingSpaces, bracketTracker, trimValue} from './cleanup';
-import {loadImport} from './import';
+import { page } from './page';
+import { addToTasks } from './actions';
+import { trimLeadingSpaces, bracketTracker, trimValue } from './cleanup';
+import { loadImport } from './import';
 
 export function task({
   dir, result, lines, index
@@ -52,7 +52,7 @@ export function task({
         } else {
           // multi-line action finished
           currentAction += line;
-          result = addToTasks(result, currentAction, index);
+          result = addToTasks({ result, line: currentAction, index });
           currentAction = null;
           bracketCount = 0;
         }
@@ -78,7 +78,7 @@ export function task({
         // TODO: bracket has completed bracket
         if (bracketCount === 0) {
           // if action complete, call addToTasks with merged lines
-          result = addToTasks(result, currentAction, index);
+          result = addToTasks({ result, line: currentAction, index });
           currentAction = null;
         }
         continue;

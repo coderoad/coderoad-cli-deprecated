@@ -1,35 +1,30 @@
 import {trimQuotes, trimCommandValue, trimArray} from './cleanup';
 import {isAction, isArray} from './match';
 
-// TODO: change to use new Set ()
-
-function doAction(
-  type: CR.OutputAction, isArray, actionValue, result, line,
-  {page, task}
-): CR.Output {
+function doAction({
+  type, isArray, actionValue, result,
+  index: {page, task}
+}): CR.Output {
   // set to array
   if (result.pages[page].tasks[task][type] === undefined) {
     result.pages[page].tasks[task][type] = [];
   }
-  let current = result.pages[page].tasks[task][type];
+  let current = new Set(result.pages[page].tasks[task][type]);
   if (!!isArray) {
     // array
     let values = trimArray(actionValue);
-    values.forEach((value) => {
-      if (current.indexOf(value) === -1 && values.indexOf(value) === -1) {
-        result.pages[page].tasks[task][type].push(value);
-      }
+    values.forEach((v) => {
+      current.add(v);
     });
   } else {
     // string
-    if (current.indexOf(actionValue) === -1) {
-      result.pages[page].tasks[task][type].push(actionValue);
-    }
+    current.add(actionValue);
   }
+  result.pages[page].tasks[task][type] = Array.from(current);
   return result;
 }
 
-export function addToTasks(result, line, index) {
+export function addToTasks({ result, line, index }) {
   let action: CR.TaskAction | string = isAction(line);  // 'action'|'test'|'hint'|'openConsole'
   const {page, task} = index;
   let currentTask: CR.Task = result.pages[page].tasks[task];
@@ -38,10 +33,22 @@ export function addToTasks(result, line, index) {
   let isActionArray = isArray(trimQuotes(actionValue));
   switch (action) {
     case 'test':
-      result = doAction('tests', isActionArray, actionValue, result, line, index);
+      result = doAction({
+        type: 'tests',
+        isArray: isActionArray,
+        actionValue,
+        result,
+        index
+      });
       break;
     case 'hint':
-      result = doAction('hints', isActionArray, actionValue, result, line, index);
+      result = doAction({
+        type: 'hints',
+        isArray: isActionArray,
+        actionValue,
+        result,
+        index
+      });
       break;
     case 'continue':
       break;
@@ -51,8 +58,8 @@ export function addToTasks(result, line, index) {
       }
       if (!!isActionArray) {
         var arrayOfActions: string[] = JSON.parse(isActionArray);
-        arrayOfActions.forEach(function(value) {
-          value = trimCommandValue(trimQuotes(value.trim()));
+        arrayOfActions.forEach((v) => {
+          let value = trimCommandValue(trimQuotes(v.trim()));
           result.pages[page].tasks[task].actions.push(value);
         });
       } else {
