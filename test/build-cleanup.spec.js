@@ -1,8 +1,5 @@
-var expect = require('chai').expect;
-var cleanup = require('../lib/build/parser/cleanup');
-var trimQuotes = cleanup.trimQuotes;
-var trimLineBreaks = cleanup.trimLineBreaks;
-var trimArray = cleanup.trimArray;
+const expect = require('chai').expect;
+const { trimQuotes, trimLineBreaks, trimArray } = require('../lib/build/parser/cleanup');
 
 describe('trimArray', function () {
 
