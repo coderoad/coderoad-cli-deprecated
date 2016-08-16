@@ -99,7 +99,7 @@ describe('@hint', () => {
     });
   });
 
-  it('should work with a second opening bracket', () => {
+  xit('should work with a second opening bracket', () => {
     const lines = ['+ Task One', '', "@hint('an example with a bracket ( in the middle')"];
     const next = task({ result: result(), lines, index: index() });
     const nextTask = next.pages[0].tasks[0];
@@ -111,7 +111,7 @@ describe('@hint', () => {
     });
   });
 
-  it('should work with a closing bracket', () => {
+  xit('should work with a closing bracket', () => {
     const lines = ['+ Task One', '', "@hint('an example with a bracket ) in the middle')"];
     const next = task({ result: result(), lines, index: index() });
     const nextTask = next.pages[0].tasks[0];
@@ -123,7 +123,7 @@ describe('@hint', () => {
     });
   });
 
-  it('should work iwth both an opening and closing bracket', () => {
+  xit('should work iwth both an opening and closing bracket', () => {
       const lines = ['+ Task One', '', "@hint('an example with two brackets () in the middle')"];
       const next = task({ result: result(), lines, index: index() });
       const nextTask = next.pages[0].tasks[0];

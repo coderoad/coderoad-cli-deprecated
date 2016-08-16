@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.0] - 2016-08-16
+- add @actions: write, writeFromFile
+
 ## [0.8.0] - 2016-08-13
 - parser fixes and updates
 - sample tutorial updated for mocha-coderoad@0.10

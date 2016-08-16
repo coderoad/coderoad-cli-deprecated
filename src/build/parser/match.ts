@@ -9,7 +9,7 @@ var regex = {
   '##': match('#', 2),
   '+': match('\\+', 1),
   '```': match('`', 3),
-  'action': /^@(action|test|hint|openConsole)/,
+  'action': /^@(action|test|hint|openConsole|write|writeFromFile)/,
   'import': /^@import\((.+)\)$/,
   'onPageComplete': /^(@onPageComplete.+)/
 };
