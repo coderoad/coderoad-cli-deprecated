@@ -28,6 +28,7 @@ function createFolder(pathToFolder: string): void {
 const tutorialFolders = [[], ['01'], ['02']];
 
 const tutorialDemo = [
+  ['..', '.gitignore'],
   ['tutorial.md'],
   ['01', 'index.md'],
   ['01', '01.js'],
@@ -39,7 +40,6 @@ const tutorialDemo = [
 
 export function createTutorialMd(dir: string): Promise<boolean> {
   return new Promise((resolve, reject) => {
-    createFile(dir, '.gitignore');
     const tutorialDir = join(dir, 'tutorial');
     if (!fileExists(join(tutorialDir))) {
       tutorialFolders.forEach(

@@ -1,5 +1,4 @@
 import * as validateNpm from 'validate-npm-package-name';
-import kebabCase from 'lodash.kebabcase';
 
 // TODO: use ../validate/name
 
@@ -27,7 +26,7 @@ export function validatePackageName(name: string): Promise<boolean> {
         throw {
           type: 'error',
           msg: `\nInvalid package name. Try using kebab-case.
-        > coderoad create ${kebabCase(name)}\n`
+        > coderoad create coderoad-your-package-name\n`
         };
       }
     }
