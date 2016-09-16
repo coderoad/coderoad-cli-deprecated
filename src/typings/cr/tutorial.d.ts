@@ -2,7 +2,8 @@ declare namespace Tutorial {
   interface Info {
     name: string;
     version: string;
-    latest?: boolean;
+    latest?: string;
+    isLatest: boolean;
     description?: string;
     keywords?: string[];
   }

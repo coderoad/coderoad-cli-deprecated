@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.9.1] - 2016-09-15
+- find tutorials now returns "isLatest" (bool) & "latest": (string of version)
+
 ## [0.9.0] - 2016-08-16
 - add @actions: write, writeFromFile
 

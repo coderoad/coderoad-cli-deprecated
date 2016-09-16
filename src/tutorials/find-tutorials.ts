@@ -8,12 +8,12 @@ export default function findTutorials(
   dir: string, deps: Object
 ): Tutorial.Info[] {
   if (!!deps && Object.keys(deps).length > 0) {
-    return (Object.keys(deps)
-
+    return (
+      Object.keys(deps)
       // map over possible tutorials
       // filter to only packages with a coderoad.json file
       .filter((name: string) => isTutorial(dir, name))
-      .map(function(name: string) {
+      .map((name: string) => {
         const pathToTutorialPackageJson = join(
           dir, 'node_modules', name, 'package.json'
         );
@@ -24,21 +24,24 @@ export default function findTutorials(
           );
           return {
             name,
-            version: 'NOT INSTALLED'
+            version: 'NOT INSTALLED',
+            latest: 'NOT INSTALLED',
+            isLatest: true,
           };
         }
 
-        let tutorialPackageJson = JSON.parse(
+        let { version } = JSON.parse(
           readFileSync(pathToTutorialPackageJson, 'utf8')
         );
-        const version = tutorialPackageJson.version;
 
         return {
           name,
           version,
-          latest: false // !!canUpdateTutorial(name, version)
+          latest: version,
+          isLatest: true,
         };
-      }));
+      })
+    );
   } else {
     return [];
   }
