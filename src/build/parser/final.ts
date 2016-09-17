@@ -1,11 +1,17 @@
 import * as Match from './match';
-import page from './page';
 import loadImport from './import';
+import {bracketTracker, trimValue} from './cleanup';
 
-export default function info({ dir, result, lines, index }): CR.Output {
+export default function final({ dir, result, lines }) {
   let inCodeBlock = false;
-  let i = -1;
+  let currentPageComplete = null;
+  let bracketCount = 0;
 
+  result.final = {
+    description: '',
+  };
+
+  let i = 0;
   while (i < lines.length - 1) {
     i += 1;
     let line = lines[i];
@@ -20,27 +26,21 @@ export default function info({ dir, result, lines, index }): CR.Output {
       // ``` `
       case !!Match.codeBlock(line):
         if (line.length > 3) {
-          result.info.description += line;
+          result.final.description += '\n' + line;
         } else {
           inCodeBlock = !inCodeBlock;
         }
         continue;
-
-      // #
-      case !!Match.info(line):
-        result.info.title = Match.info(line).trim();
+      case inCodeBlock:
         continue;
-
-      // ##
-      case !!Match.page(line):
-        return page({dir, result, lines: lines.slice(i), index});
 
       // description
       default:
         if (i > 1) {
-          result.info.description += '\n';
+          result.final.description += '\n';
         }
-        result.info.description += line;
+        result.final.description += line;
+        continue;
     }
   }
   return result;

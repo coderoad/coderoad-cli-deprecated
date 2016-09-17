@@ -50,6 +50,16 @@ export function addToTasks({ result, line, index: {page, task} }) {
         task,
       });
       break;
+    case 'resource':
+      result = doAction({
+        type: 'resource',
+        isArray: isActionArray,
+        actionValue,
+        result,
+        page,
+        task
+      });
+      break;
     case 'continue':
       break;
     case 'action':

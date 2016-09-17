@@ -1,6 +1,6 @@
 import {readFileSync, writeFileSync}  from 'fs';
 import * as validate from './validators';
-import {info} from './parser/info';
+import info from './parser/info';
 import {createReadme} from './readme';
 import {cleanup} from './parser/cleanup';
 import {join} from 'path';

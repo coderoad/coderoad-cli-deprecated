@@ -3,7 +3,7 @@ import fileExists from 'node-file-exists';
 import {red} from 'chalk';
 import {join} from 'path';
 
-export function createReadme(dir): boolean {
+export function createReadme(dir: string): boolean {
   // if (!fileExists('./README.md')) {
   // }
   if (!fileExists(join(dir, 'coderoad.json'))) {
@@ -24,7 +24,7 @@ export function createReadme(dir): boolean {
 function generateReadme(data: CR.Output, packageJson: PackageJson): string {
   let readme = [];
 
-  const {info, pages} = data;
+  const {info, pages, final} = data;
   // title
   readme = readme.concat([
     '# ' + info.title,
@@ -65,18 +65,26 @@ function generateReadme(data: CR.Output, packageJson: PackageJson): string {
     '## Outline',
     ''
   ]);
-  let parsedPages: string[][] = pages.map((page) => {
-    return [
+  let parsedPages: string[][] = pages.map((page) => ([
       '##### ' + page.title,
       '',
       page.description,
       ''
-    ];
-  });
+  ]));
 
   parsedPages.forEach((page: string[]) => {
     readme = readme.concat(page);
   });
+
+  if (final && final.description) {
+    readme = readme.concat([
+      '',
+      '## Final',
+      '',
+      final.description,
+      ''
+    ]);
+  }
 
   return readme.join('\n');
 }

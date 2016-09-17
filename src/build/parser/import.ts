@@ -4,7 +4,7 @@ import fileExists from 'node-file-exists';
 import {trimQuotes} from './cleanup';
 import {tutorialDir} from './settings';
 
-export function loadImport({ dir, lines, pathToMd }): string[] {
+export default function loadImport({ dir, lines, pathToMd }): string[] {
   // add .md suffix
   pathToMd = trimQuotes(pathToMd);
   if (!pathToMd.match(/\.md$/)) {

@@ -2,7 +2,7 @@ import {yellow, red} from 'chalk';
 
 const validKeys = {
   info: ['title', 'description'],
-  page: ['title', 'description', 'onPageComplete', 'tasks', 'video', 'link'],
+  page: ['title', 'description', 'onPageComplete', 'tasks', 'video', 'resource'],
   task: ['description', 'tests', 'actions', 'hints']
 };
 

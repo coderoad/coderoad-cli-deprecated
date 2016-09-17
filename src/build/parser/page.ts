@@ -1,13 +1,18 @@
 import * as Match from './match';
-import {task} from './task';
-import {loadImport} from './import';
+import task from './task';
+import loadImport from './import';
+import final from './final';
 import {bracketTracker, trimValue} from './cleanup';
 
-export function page({ dir, result, lines, index }) {
+export default function page({ dir, result, lines, index }) {
   index.page += 1;
   index.task = -1;
+  const title = Match.page(lines[0]);
+  if (title === 'Final') {
+    return final({dir, result, lines});
+  }
   result.pages.push({
-    title: Match.page(lines[0]),
+    title,
     description: ''
   });
   let inCodeBlock = false;

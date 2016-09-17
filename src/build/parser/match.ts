@@ -9,9 +9,9 @@ var regex = {
   '##': match('#', 2),
   '+': match('\\+', 1),
   '```': match('`', 3),
-  'action': /^@(action|test|hint|openConsole|write|writeFromFile)/,
+  'action': /^@(action|test|hint|openConsole|resource)/,
   'import': /^@import\((.+)\)$/,
-  'onPageComplete': /^(@onPageComplete.+)/
+  'onPageComplete': /^(@onPageComplete.+)/,
 };
 
 function parseWithCode(code: string) {

@@ -2,6 +2,11 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.10.0] - 2016-09-16
+- add to parser:
+  - `@resource([link to resource](http://path/to/link))` - collect helpful resource links
+  - `## Final` fill in the content for the final page after tutorial completion. Matches on page title "Final".
+
 ## [0.9.1] - 2016-09-15
 - find tutorials now returns "isLatest" (bool) & "latest": (string of version)
 

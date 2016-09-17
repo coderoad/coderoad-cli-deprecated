@@ -3,6 +3,11 @@ declare namespace CR {
   interface Output {
     info: Info;
     pages: Page[];
+    final?: Final;
+  }
+
+  interface Final {
+    description: string;
   }
 
   type OutputAction = string;
