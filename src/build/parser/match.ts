@@ -9,9 +9,10 @@ var regex = {
   '##': match('#', 2),
   '+': match('\\+', 1),
   '```': match('`', 3),
-  'action': /^@(action|test|hint|openConsole|resource)/,
+  'action': /^@(action|test|hint|openConsole)/,
   'import': /^@import\((.+)\)$/,
   'onPageComplete': /^(@onPageComplete.+)/,
+  'resource': /^(@resource.+)/,
 };
 
 function parseWithCode(code: string) {
@@ -34,6 +35,7 @@ export const codeBlock = parseWithCode('```');
 export const isAction = parseWithCode('action');
 export const isImport = parseWithCode('import');
 export const isPageComplete = parseWithCode('onPageComplete');
+export const isResource = parseWithCode('resource')
 
 export const isArray = function(line: string): string {
   let isMatch = line.match(/^\[.+\]$/);

@@ -44,6 +44,13 @@ export default function page({ dir, result, lines, index }) {
         }
         continue;
 
+      case (!!Match.isResource(line)):
+        if (!result.pages[index.page].resources) {
+          result.pages[index.page].resources = [];
+        }
+        result.pages[index.page].resources.push(trimValue(Match.isResource(line)));
+        continue;
+
       // ``` `
       case !!Match.codeBlock(line):
         if (line.length > 3) {

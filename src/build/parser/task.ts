@@ -39,6 +39,13 @@ export default function task({ dir, result, lines, index }) {
         }
         continue;
 
+      case (!!Match.isResource(line)):
+        if (!result.pages[index.page].resources) {
+          result.pages[index.page].resources = [];
+        }
+        result.pages[index.page].resources.push(trimValue(Match.isResource(line)));
+        continue;
+
       // @action multiline
       case !!currentAction:
         if (line.length === 0) {
